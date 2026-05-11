@@ -1,26 +1,71 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #111318;
+  --surface: #1C1F26;
+  --footer-bg: #0C0E12;
+  
+  --accent: #E8232A;
+  --accent-dark: #C0392B;
+  
+  --text-light: #F5F4F0;
+  --text-muted: #6B7280;
+  
+  --border-custom: #2A2D35;
+  
+  --tag-ev: #00B894;
+  --tag-review: #6C5CE7;
+  --tag-news: #E8232A;
+  --tag-industry: #FDCB6E;
+  --tag-comparison: #0984E3;
 }
 
 @theme inline {
   --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-surface: var(--surface);
+  --color-footer-bg: var(--footer-bg);
+  --color-accent: var(--accent);
+  --color-accent-dark: var(--accent-dark);
+  --color-text-light: var(--text-light);
+  --color-text-muted: var(--text-muted);
+  --color-border-custom: var(--border-custom);
+  
+  --color-tag-ev: var(--tag-ev);
+  --color-tag-review: var(--tag-review);
+  --color-tag-news: var(--tag-news);
+  --color-tag-industry: var(--tag-industry);
+  --color-tag-comparison: var(--tag-comparison);
+
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-heading: var(--font-barlow), Impact, sans-serif;
+
+  --animate-ticker: ticker 30s linear infinite;
+  
+  @keyframes ticker {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
 }
 
 body {
   background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  color: var(--text-light);
+  font-family: var(--font-sans);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* Hide scrollbar for tabs and tickers */
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
