@@ -1,6 +1,6 @@
 @import "tailwindcss";
 
-:root {
+:root, .dark {
   --background: #111318;
   --surface: #1C1F26;
   --footer-bg: #0C0E12;
@@ -12,6 +12,26 @@
   --text-muted: #6B7280;
   
   --border-custom: #2A2D35;
+  
+  --tag-ev: #00B894;
+  --tag-review: #6C5CE7;
+  --tag-news: #E8232A;
+  --tag-industry: #FDCB6E;
+  --tag-comparison: #0984E3;
+}
+
+.light {
+  --background: #FFFFFF;
+  --surface: #F8F9FA;
+  --footer-bg: #F1F3F5;
+  
+  --accent: #E8232A;
+  --accent-dark: #C0392B;
+  
+  --text-light: #111318;
+  --text-muted: #4B5563;
+  
+  --border-custom: #E5E7EB;
   
   --tag-ev: #00B894;
   --tag-review: #6C5CE7;
