@@ -1,56 +1,108 @@
-import { searchArticles, getCategoryTagColor, formatDate } from "@/lib/content";
+import { searchArticles, searchVehicles } from "@/lib/content";
+import ArticleCard from "@/components/ui/ArticleCard";
 import Link from "next/link";
-import type { Metadata } from "next";
+import Price from "@/components/ui/Price";
 
-export const metadata: Metadata = { title: "Search", description: "Search Autovaly articles, reviews, and comparisons." };
+export default async function SearchPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ q?: string; tab?: string }>;
+}) {
+  const query = (await searchParams).q || "";
+  const activeTab = (await searchParams).tab || "vehicles";
+  const articleResults = searchArticles(query);
+  const vehicleResults = searchVehicles(query);
 
-type SearchParams = Promise<{ q?: string }>;
-
-export default async function SearchPage({ searchParams }: { searchParams: SearchParams }) {
-  const { q } = await searchParams;
-  const query = q || "";
-  const results = query ? searchArticles(query) : [];
+  const hasResults = articleResults.length > 0 || vehicleResults.length > 0;
 
   return (
-    <div className="min-h-screen bg-background text-text-light">
-      <header className="sticky top-0 z-40 bg-background/85 backdrop-blur-md border-b border-border-custom">
-        <div className="container mx-auto px-4 md:px-6 h-16 flex items-center justify-between">
-          <Link href="/" className="font-heading font-extrabold text-2xl tracking-wide uppercase">AUTO<span className="text-accent">VALY</span></Link>
-          <Link href="/" className="text-sm text-accent font-bold uppercase tracking-widest">← Home</Link>
+    <div className="container mx-auto px-4 md:px-6 py-12 lg:py-20 min-h-[60vh]">
+      <div className="max-w-4xl mx-auto">
+        <h1 className="text-3xl md:text-5xl font-heading font-bold mb-4">
+          Search Results
+        </h1>
+        <div className="text-muted mb-12">
+          {query ? (
+            <p>
+              Showing results for <span className="text-text-light font-bold">"{query}"</span>
+            </p>
+          ) : (
+            <p>Enter a search term in the navbar to find articles and vehicles.</p>
+          )}
         </div>
-      </header>
-      <main className="container mx-auto px-4 md:px-6 py-12 max-w-5xl">
-        <h1 className="font-heading text-3xl md:text-4xl font-bold mb-2">Search Results</h1>
-        {query && <p className="text-muted mb-10">Showing results for &quot;<span className="text-text-light font-semibold">{query}</span>&quot; — {results.length} found</p>}
-        {!query && <p className="text-muted mb-10">Enter a search term to find articles.</p>}
 
-        <form action="/search" method="GET" className="mb-12">
-          <div className="flex bg-surface border border-border-custom rounded-md p-2 focus-within:border-accent transition-colors">
-            <input type="text" name="q" defaultValue={query} placeholder="Search articles..." className="flex-1 bg-transparent outline-none px-4 py-3 text-text-light placeholder:text-muted" />
-            <button type="submit" className="bg-accent text-white font-bold uppercase text-sm px-6 py-3 rounded hover:brightness-110 transition-all">Search</button>
-          </div>
-        </form>
-
-        <div className="flex flex-col gap-6">
-          {results.map((a) => (
-            <Link key={a.id} href={`/articles/${a.slug}`} className="group flex flex-col sm:flex-row bg-surface border border-border-custom rounded-md overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-black/20">
-              <div className="sm:w-48 h-40 sm:h-auto relative overflow-hidden flex-shrink-0"><div className="absolute inset-0 transition-transform duration-500 group-hover:scale-105" style={{ backgroundImage: `linear-gradient(135deg, ${a.coverGradient.from}, ${a.coverGradient.to})` }} /></div>
-              <div className="p-5 flex flex-col flex-1">
-                <span className={`inline-block self-start text-[10px] font-bold uppercase tracking-widest rounded-sm mb-2 text-white px-2 py-0.5 ${getCategoryTagColor(a.category)}`}>{a.category}</span>
-                <h2 className="font-heading text-xl font-bold leading-tight group-hover:text-accent transition-colors mb-2">{a.title}</h2>
-                <p className="text-sm text-muted mb-3 flex-1">{a.excerpt}</p>
-                <div className="text-xs text-muted">{a.author.name} · {formatDate(a.publishedAt)} · {a.readTime}</div>
-              </div>
+        {query && hasResults && (
+          <div className="mb-8 flex gap-4 border-b border-border-custom">
+            <Link 
+              href={`/search?q=${encodeURIComponent(query)}&tab=vehicles`}
+              className={`pb-3 font-bold text-sm uppercase tracking-widest transition-colors ${activeTab === 'vehicles' ? 'text-accent border-b-2 border-accent' : 'text-text-muted hover:text-text-light'}`}
+            >
+              Vehicles ({vehicleResults.length})
             </Link>
-          ))}
-        </div>
-        {query && results.length === 0 && (
-          <div className="text-center py-20">
-            <p className="font-heading text-5xl mb-4">🔍</p>
-            <p className="text-muted text-lg">No articles match &quot;{query}&quot;. Try a different search term.</p>
+            <Link 
+              href={`/search?q=${encodeURIComponent(query)}&tab=articles`}
+              className={`pb-3 font-bold text-sm uppercase tracking-widest transition-colors ${activeTab === 'articles' ? 'text-accent border-b-2 border-accent' : 'text-text-muted hover:text-text-light'}`}
+            >
+              Articles ({articleResults.length})
+            </Link>
           </div>
         )}
-      </main>
+
+        {query && !hasResults && (
+          <div className="p-12 border border-border-custom rounded-xl text-center bg-surface">
+            <h3 className="text-xl font-bold mb-2">No results found</h3>
+            <p className="text-muted">We couldn't find anything matching "{query}". Try adjusting your search.</p>
+          </div>
+        )}
+
+        {query && hasResults && activeTab === "vehicles" && (
+          <div className="grid grid-cols-1 gap-4">
+            {vehicleResults.length === 0 ? (
+              <p className="text-muted py-8">No vehicle matches found.</p>
+            ) : (
+              vehicleResults.map((vehicle) => (
+                <Link
+                  key={vehicle.id}
+                  href={`/vehicles/${vehicle.slug}`}
+                  className="flex flex-col sm:flex-row gap-6 p-4 rounded-xl border border-border-custom bg-surface hover:border-accent transition-colors group"
+                >
+                  <div 
+                    className="w-full sm:w-48 h-32 rounded-lg bg-border-custom overflow-hidden flex-shrink-0"
+                    style={{ background: `linear-gradient(to right, ${vehicle.coverGradient.from}, ${vehicle.coverGradient.to})` }}
+                  >
+                    {vehicle.coverImage && (
+                      <img src={vehicle.coverImage} alt={vehicle.model} className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity" />
+                    )}
+                  </div>
+                  <div className="flex-1 flex flex-col justify-center">
+                    <div className="flex items-center gap-2 mb-2">
+                      <span className="bg-border-custom px-2 py-1 rounded text-xs uppercase font-bold">{vehicle.fuelType}</span>
+                      <span className="text-xs text-muted font-medium">{vehicle.year} {vehicle.bodyStyle}</span>
+                    </div>
+                    <h2 className="text-2xl font-bold font-heading mb-1 group-hover:text-accent transition-colors">{vehicle.make} {vehicle.model}</h2>
+                    <p className="text-text-muted text-sm mb-3">{vehicle.trim}</p>
+                    <div className="mt-auto">
+                      <Price eurAmount={vehicle.priceEur} usdAmount={vehicle.priceUsd} className="font-bold text-lg" />
+                    </div>
+                  </div>
+                </Link>
+              ))
+            )}
+          </div>
+        )}
+
+        {query && hasResults && activeTab === "articles" && (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {articleResults.length === 0 ? (
+              <p className="text-muted py-8 col-span-2">No article matches found.</p>
+            ) : (
+              articleResults.map((article) => (
+                <ArticleCard key={article.id} article={article} />
+              ))
+            )}
+          </div>
+        )}
+      </div>
     </div>
   );
 }
