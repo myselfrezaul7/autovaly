@@ -38,13 +38,11 @@ export function CurrencyProvider({ children }: { children: React.ReactNode }) {
     }
   };
 
-  if (!mounted) {
-    return <div className="invisible">{children}</div>; // Prevent hydration mismatch
-  }
-
   return (
     <CurrencyContext.Provider value={{ currency, toggleCurrency, formatPrice }}>
-      {children}
+      <div className={!mounted ? "invisible" : ""}>
+        {children}
+      </div>
     </CurrencyContext.Provider>
   );
 }

@@ -161,7 +161,7 @@ export const vehicles: Vehicle[] = [
     prosAndCons: { pros: ["Most fun EV on sale", "N Grin Boost", "Incredible fast charging"], cons: ["High price", "Reduced range over standard model", "Heavy"] },
     coverGradient: { from: "#0abde3", to: "#222f3e" },
     coverImage: "/vehicles/hyundai-ioniq-5-n.png",
-    segments: ["EVs", "Sports Cars", "Hatchback"],
+    segments: ["EVs", "Sports Cars"],
     featured: true,
     new2025: false,
   },

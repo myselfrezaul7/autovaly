@@ -1,4 +1,4 @@
-import { searchArticles, searchVehicles } from "@/lib/content";
+import { searchArticles, searchVehicles, getCategoryTagColor, formatDate } from "@/lib/content";
 import ArticleCard from "@/components/ui/ArticleCard";
 import Link from "next/link";
 import Price from "@/components/ui/Price";
@@ -97,7 +97,20 @@ export default async function SearchPage({
               <p className="text-muted py-8 col-span-2">No article matches found.</p>
             ) : (
               articleResults.map((article) => (
-                <ArticleCard key={article.id} article={article} />
+                <ArticleCard 
+                  key={article.id} 
+                  variant="large"
+                  slug={article.slug}
+                  tag={article.category}
+                  tagColorClass={getCategoryTagColor(article.category)}
+                  headline={article.title}
+                  excerpt={article.excerpt}
+                  author={article.author.name}
+                  date={formatDate(article.publishedAt)}
+                  readTime={article.readTime}
+                  gradientFrom={article.coverGradient.from}
+                  gradientTo={article.coverGradient.to}
+                />
               ))
             )}
           </div>

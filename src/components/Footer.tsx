@@ -42,11 +42,11 @@ export default function Footer() {
           <div>
             <h3 className="text-text-light font-bold uppercase tracking-widest text-sm mb-6">Company</h3>
             <ul className="flex flex-col gap-3 text-sm">
-              <li><a href="#" className="hover:text-accent transition-colors">About Us</a></li>
-              <li><a href="#" className="hover:text-accent transition-colors">Contact</a></li>
-              <li><a href="#" className="hover:text-accent transition-colors">Advertise</a></li>
-              <li><a href="#" className="hover:text-accent transition-colors">Privacy Policy</a></li>
-              <li><a href="#" className="hover:text-accent transition-colors">Terms of Service</a></li>
+              <li><Link href="/about" className="hover:text-accent transition-colors">About Us</Link></li>
+              <li><Link href="/contact" className="hover:text-accent transition-colors">Contact</Link></li>
+              <li><Link href="/contact" className="hover:text-accent transition-colors">Advertise</Link></li>
+              <li><Link href="/privacy" className="hover:text-accent transition-colors">Privacy Policy</Link></li>
+              <li><Link href="/terms" className="hover:text-accent transition-colors">Terms of Service</Link></li>
             </ul>
           </div>
         </div>

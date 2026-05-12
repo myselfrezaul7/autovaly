@@ -1,6 +1,7 @@
 import { getArticleBySlug, getRelatedArticles, getCategoryTagColor, formatDate, getAllArticles } from "@/lib/content";
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import SocialShare from "@/components/ui/SocialShare";
 import type { Metadata } from "next";
 
 type Params = Promise<{ slug: string }>;
@@ -70,6 +71,7 @@ export default async function ArticlePage({ params }: { params: Params }) {
               <p key={i} className="mb-6">{paragraph}</p>
             ))}
           </div>
+          <SocialShare url={`/articles/${article.slug}`} title={article.title} />
         </article>
 
         {/* Related Articles */}

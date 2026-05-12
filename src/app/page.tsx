@@ -3,6 +3,7 @@ import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import BreakingTicker from "@/components/BreakingTicker";
 import TopStories from "@/components/TopStories";
+import PopularVehicles from "@/components/PopularVehicles";
 import BySegment from "@/components/BySegment";
 import ComparisonBanner from "@/components/ComparisonBanner";
 import EVSpotlight from "@/components/EVSpotlight";
@@ -20,6 +21,7 @@ export default function Home() {
         <Hero />
         <BreakingTicker />
         <TopStories />
+        <PopularVehicles />
         <BySegment />
         <ComparisonBanner />
         <EVSpotlight />

@@ -41,13 +41,11 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     document.documentElement.classList.add(newTheme);
   };
 
-  if (!mounted) {
-    return <div className="invisible">{children}</div>; // Prevent hydration mismatch
-  }
-
   return (
     <ThemeContext.Provider value={{ theme, toggleTheme }}>
-      {children}
+      <div className={!mounted ? "invisible" : ""}>
+        {children}
+      </div>
     </ThemeContext.Provider>
   );
 }

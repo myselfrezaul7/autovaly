@@ -3,6 +3,7 @@ import { Barlow_Condensed, Inter } from "next/font/google";
 import "./globals.css";
 import Providers from "@/components/Providers";
 import JsonLd from "@/components/JsonLd";
+import ScrollEnhancements from "@/components/ui/ScrollEnhancements";
 
 const barlow = Barlow_Condensed({
   variable: "--font-barlow",
@@ -60,6 +61,7 @@ export default function RootLayout({
       <body className="antialiased font-sans bg-background text-text-light selection:bg-accent selection:text-white">
         <JsonLd />
         <Providers>
+          <ScrollEnhancements />
           {children}
         </Providers>
       </body>
