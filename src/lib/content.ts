@@ -1,5 +1,6 @@
 import { articles } from "./data/articles";
-import { Article, ArticleCategory, VehicleSegment } from "./types";
+import { vehicles } from "./data/vehicles";
+import { Article, ArticleCategory, VehicleSegment, Vehicle, FuelType, BodyStyle } from "./types";
 
 const TAG_COLORS: Record<ArticleCategory, string> = {
   EV: "bg-tag-ev",
@@ -10,7 +11,7 @@ const TAG_COLORS: Record<ArticleCategory, string> = {
 };
 
 export function getAllArticles(): Article[] {
-  return articles.sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime());
+  return [...articles].sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime());
 }
 
 export function getHeroArticle(): Article {
@@ -63,5 +64,41 @@ export function searchArticles(query: string): Article[] {
       a.excerpt.toLowerCase().includes(q) ||
       a.category.toLowerCase().includes(q) ||
       a.author.name.toLowerCase().includes(q)
+  );
+}
+
+// Vehicle utilities
+export function getAllVehicles(): Vehicle[] {
+  return [...vehicles].sort((a, b) => a.make.localeCompare(b.make));
+}
+
+export function getVehicleBySlug(slug: string): Vehicle | undefined {
+  return vehicles.find((v) => v.slug === slug);
+}
+
+export function getVehiclesByFuelType(fuelType: FuelType): Vehicle[] {
+  return vehicles.filter((v) => v.fuelType === fuelType);
+}
+
+export function getVehiclesByBodyStyle(bodyStyle: BodyStyle): Vehicle[] {
+  return vehicles.filter((v) => v.bodyStyle === bodyStyle);
+}
+
+export function getFeaturedVehicles(): Vehicle[] {
+  return vehicles.filter((v) => v.featured);
+}
+
+export function getNew2025Vehicles(): Vehicle[] {
+  return vehicles.filter((v) => v.new2025);
+}
+
+export function searchVehicles(query: string): Vehicle[] {
+  const q = query.toLowerCase().trim();
+  if (!q) return [];
+  return vehicles.filter(
+    (v) =>
+      v.make.toLowerCase().includes(q) ||
+      v.model.toLowerCase().includes(q) ||
+      v.trim.toLowerCase().includes(q)
   );
 }
