@@ -52,7 +52,16 @@ export default function Footer() {
         </div>
         <div className="pt-8 border-t border-border-custom flex flex-col md:flex-row items-center justify-between gap-4 text-xs font-medium">
           <p>© 2025 Autovaly. All rights reserved.</p>
-          <p className="flex items-center gap-1">Built for car people <span className="text-accent">♥</span></p>
+          <p className="flex items-center gap-1.5">
+            Built for car people 
+            <svg width="16" height="16" viewBox="0 0 32 32" fill="none" className="text-accent inline-block">
+              <path d="M4 20l3-8h18l3 8" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+              <path d="M2 20h28v4a2 2 0 01-2 2H4a2 2 0 01-2-2v-4z" fill="currentColor" opacity="0.15" stroke="currentColor" strokeWidth="2"/>
+              <circle cx="9" cy="26" r="2.5" fill="currentColor"/>
+              <circle cx="23" cy="26" r="2.5" fill="currentColor"/>
+              <path d="M7 12l2-4h14l2 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" opacity="0.6"/>
+            </svg>
+          </p>
         </div>
       </div>
     </footer>
