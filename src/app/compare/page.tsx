@@ -1,7 +1,8 @@
-import { comparisons } from "@/lib/data/comparisons";
 import Link from "next/link";
+import CompareBuilder from "@/components/CompareBuilder";
 import { Metadata } from "next";
 import { getAllVehicles } from "@/lib/content";
+import { comparisons } from "@/lib/data/comparisons";
 
 export const metadata: Metadata = {
   title: "Compare Vehicles",
@@ -22,31 +23,7 @@ export default function CompareIndexPage() {
         </p>
       </div>
 
-      <div className="max-w-4xl mx-auto mb-16 p-8 bg-surface border border-border-custom rounded-xl shadow-xl">
-        <h2 className="text-2xl font-bold font-heading mb-6 text-center">Build Your Own Comparison</h2>
-        <div className="flex flex-col md:flex-row items-center gap-4">
-          <div className="w-full flex-1">
-            <select className="w-full bg-background border border-border-custom rounded-md px-4 py-3 text-text-light outline-none focus:border-accent">
-              <option value="">Select Car 1</option>
-              {vehicles.map(v => <option key={v.id} value={v.slug}>{v.make} {v.model}</option>)}
-            </select>
-          </div>
-          <div className="w-12 h-12 flex-shrink-0 flex items-center justify-center bg-accent/10 text-accent rounded-full font-bold">
-            VS
-          </div>
-          <div className="w-full flex-1">
-            <select className="w-full bg-background border border-border-custom rounded-md px-4 py-3 text-text-light outline-none focus:border-accent">
-              <option value="">Select Car 2</option>
-              {vehicles.map(v => <option key={v.id} value={v.slug}>{v.make} {v.model}</option>)}
-            </select>
-          </div>
-        </div>
-        <div className="mt-6 text-center">
-          <button className="bg-accent text-white font-bold uppercase tracking-wide text-sm px-8 py-3 rounded hover:bg-accent-dark transition-colors">
-            Compare Now
-          </button>
-        </div>
-      </div>
+      <CompareBuilder vehicles={vehicles} />
 
       <div className="max-w-5xl mx-auto">
         <h2 className="text-3xl font-heading font-bold mb-8">Popular Matchups</h2>

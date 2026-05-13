@@ -51,6 +51,10 @@ export const metadata: Metadata = {
   },
 };
 
+import TopBar from "@/components/TopBar";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -62,7 +66,14 @@ export default function RootLayout({
         <JsonLd />
         <Providers>
           <ScrollEnhancements />
-          {children}
+          <div className="flex flex-col min-h-screen">
+            <TopBar />
+            <Navbar />
+            <main className="flex-1 flex flex-col w-full">
+              {children}
+            </main>
+            <Footer />
+          </div>
         </Providers>
       </body>
     </html>

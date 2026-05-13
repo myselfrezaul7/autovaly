@@ -13,14 +13,14 @@ export default function Hero() {
       </div>
       <div className="flex-shrink-0 lg:w-[40%] bg-text-light text-background flex flex-col justify-center p-6 md:p-8 lg:p-14">
         <span className={`inline-block self-start px-3 py-1 text-white text-[10px] font-bold uppercase tracking-widest rounded-sm mb-4 ${tagColor}`}>{article.category} News</span>
-        <h1 className="font-heading text-4xl md:text-5xl lg:text-[52px] font-bold leading-[1.08] text-[#111318] mb-6">{article.title}</h1>
-        <p className="text-base lg:text-[18px] text-gray-500 leading-relaxed mb-8">{article.excerpt}</p>
-        <div className="flex items-center gap-3 text-sm text-gray-600 mb-10 flex-wrap">
+        <h1 className="font-heading text-4xl md:text-5xl lg:text-[52px] font-bold leading-[1.08] text-background mb-6">{article.title}</h1>
+        <p className="text-base lg:text-[18px] text-text-muted leading-relaxed mb-8">{article.excerpt}</p>
+        <div className="flex items-center gap-3 text-sm text-text-muted mb-10 flex-wrap">
           <div className="w-7 h-7 rounded-full bg-gradient-to-br from-accent to-red-400 flex-shrink-0" />
           <span className="font-medium">{article.author.name}</span>
-          <span className="text-gray-400 font-bold">·</span>
+          <span className="text-text-muted/60 font-bold">·</span>
           <span>{formatDate(article.publishedAt)}</span>
-          <span className="text-gray-400 font-bold">·</span>
+          <span className="text-text-muted/60 font-bold">·</span>
           <span>{article.readTime}</span>
         </div>
         <Link href={`/articles/${article.slug}`} className="inline-flex items-center gap-2 self-start px-7 py-3 bg-accent text-white rounded-md font-semibold text-sm uppercase tracking-wide transition-all duration-300 hover:scale-[1.03] hover:brightness-110">

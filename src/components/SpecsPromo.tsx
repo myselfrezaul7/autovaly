@@ -50,9 +50,9 @@ export default function SpecsPromo() {
           className="max-w-4xl mx-auto bg-surface border border-border-custom rounded-xl p-8 md:p-12 lg:p-16 text-center relative overflow-hidden">
           <div className="absolute inset-0 opacity-30 pointer-events-none" style={{ backgroundImage: "radial-gradient(#6B7280 1px, transparent 1px)", backgroundSize: "20px 20px" }} />
           <div className="relative z-10 flex flex-col items-center">
-            <span className="inline-block px-3 py-1 bg-white text-background text-[10px] font-bold uppercase tracking-widest rounded-sm mb-6">Database</span>
-            <h2 className="font-heading text-4xl md:text-5xl font-extrabold leading-tight mb-4">Compare Any Car. Instantly.</h2>
-            <p className="text-muted text-base md:text-lg max-w-2xl mx-auto mb-10">Search our massive database of 12,000+ vehicles across 80+ specifications. From battery capacity to headroom, we&apos;ve got the numbers.</p>
+            <span className="inline-block px-3 py-1 bg-text-light text-background text-[10px] font-bold uppercase tracking-widest rounded-sm mb-6">Database</span>
+            <h2 className="font-heading text-4xl md:text-5xl font-extrabold leading-tight mb-4 text-text-primary">Compare Any Car. Instantly.</h2>
+            <p className="text-text-muted text-base md:text-lg max-w-2xl mx-auto mb-10">Search our massive database of 20+ vehicles and growing. From battery capacity to headroom, we&apos;ve got the numbers.</p>
             
             <div className="w-full max-w-2xl relative">
               <form onSubmit={handleSearch} className="bg-background border border-border-custom rounded-md flex flex-col sm:flex-row p-2 focus-within:border-accent transition-colors shadow-2xl shadow-black/40 relative z-20">

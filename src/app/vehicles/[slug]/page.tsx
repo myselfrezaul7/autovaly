@@ -23,6 +23,8 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   };
 }
 
+import TrackView from "@/components/TrackView";
+
 export default async function VehicleDetailPage({ params }: { params: Promise<{ slug: string }> }) {
   const slug = (await params).slug;
   const vehicle = getVehicleBySlug(slug);
@@ -33,6 +35,7 @@ export default async function VehicleDetailPage({ params }: { params: Promise<{ 
 
   return (
     <article className="min-h-screen">
+      <TrackView vehicle={vehicle} />
       {/* Hero Section */}
       <div 
         className="relative pt-32 pb-20 lg:pt-48 lg:pb-32 px-4 md:px-6 flex items-end border-b border-border-custom"

@@ -38,17 +38,6 @@ export default async function ArticlePage({ params }: { params: Params }) {
 
   return (
     <div className="min-h-screen bg-background text-text-light">
-      {/* Header */}
-      <header className="sticky top-0 z-40 bg-background/85 backdrop-blur-md border-b border-border-custom">
-        <div className="container mx-auto px-4 md:px-6 h-16 flex items-center justify-between">
-          <Link href="/" className="font-heading font-extrabold text-2xl tracking-wide uppercase flex items-center gap-2">
-            <svg width="28" height="28" viewBox="0 0 32 32" fill="none" className="text-accent"><path d="M4 20l3-8h18l3 8" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/><path d="M2 20h28v4a2 2 0 01-2 2H4a2 2 0 01-2-2v-4z" fill="currentColor" opacity="0.15" stroke="currentColor" strokeWidth="2"/><circle cx="9" cy="26" r="2.5" fill="currentColor"/><circle cx="23" cy="26" r="2.5" fill="currentColor"/></svg>
-            AUTO<span className="text-accent">VALY</span>
-          </Link>
-          <Link href="/" className="text-sm text-accent font-bold uppercase tracking-widest hover:brightness-125 transition-all">← Back to Home</Link>
-        </div>
-      </header>
-
       {/* Hero Banner */}
       <div className="w-full h-64 md:h-96 relative overflow-hidden" style={{ backgroundImage: `linear-gradient(135deg, ${article.coverGradient.from}, ${article.coverGradient.to})` }}>
         <div className="absolute inset-0 bg-gradient-to-t from-background via-background/30 to-transparent" />
@@ -66,7 +55,7 @@ export default async function ArticlePage({ params }: { params: Params }) {
               <p className="text-xs">{formatDate(article.publishedAt)} · {article.readTime}</p>
             </div>
           </div>
-          <div className="prose prose-invert prose-lg max-w-none leading-relaxed text-gray-300">
+          <div className="prose dark:prose-invert prose-lg max-w-none leading-relaxed text-text-secondary">
             {article.body.split("\n\n").map((paragraph, i) => (
               <p key={i} className="mb-6">{paragraph}</p>
             ))}
