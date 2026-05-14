@@ -8,6 +8,7 @@ import { useCurrency } from "@/lib/currency-context";
 import { searchArticles, searchVehicles } from "@/lib/content";
 import { Article, Vehicle } from "@/lib/types";
 import SearchResults from "./ui/SearchResults";
+import { useGarage } from "@/lib/useGarage";
 
 const navLinks = [
   { name: "News", href: "/news" },
@@ -29,6 +30,7 @@ export default function Navbar() {
   
   const { theme, toggleTheme } = useTheme();
   const { currency, toggleCurrency } = useCurrency();
+  const { garageCount } = useGarage();
   const searchTimeout = useRef<NodeJS.Timeout>(null);
 
   useEffect(() => {
@@ -124,6 +126,16 @@ export default function Navbar() {
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
             </button>
             
+            {/* Garage icon */}
+            <Link href="/garage" className="relative p-2 rounded-md hover:bg-accent/10 hover:text-accent transition-colors" aria-label="My Garage">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg>
+              {garageCount > 0 && (
+                <span className="absolute -top-1 -right-1 w-4 h-4 bg-accent text-white text-[10px] rounded-full flex items-center justify-center font-bold">
+                  {garageCount}
+                </span>
+              )}
+            </Link>
+
             {/* Theme toggle */}
             <button onClick={toggleTheme} aria-label="Toggle Theme" className="p-2 rounded-md hover:bg-accent/10 hover:text-accent transition-colors">
               {theme === "dark" ? (

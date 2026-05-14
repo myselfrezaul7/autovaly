@@ -19,6 +19,7 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://autovaly.com"),
+  alternates: { canonical: "/" },
   title: {
     default: "Autovaly — Drive the Story | Car News, EV Reviews & Comparisons",
     template: "%s | Autovaly",
@@ -54,6 +55,7 @@ export const metadata: Metadata = {
 import TopBar from "@/components/TopBar";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import KeyboardShortcuts from "@/components/ui/KeyboardShortcuts";
 
 export default function RootLayout({
   children,
@@ -65,6 +67,7 @@ export default function RootLayout({
       <body className="antialiased font-sans bg-background text-text-light selection:bg-accent selection:text-white">
         <JsonLd />
         <Providers>
+          <KeyboardShortcuts />
           <ScrollEnhancements />
           <div className="flex flex-col min-h-screen">
             <TopBar />

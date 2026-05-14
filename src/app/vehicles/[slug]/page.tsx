@@ -1,8 +1,13 @@
-import { getVehicleBySlug, getAllVehicles } from "@/lib/content";
+import { getVehicleBySlug, getAllVehicles, getArticlesByCategory, getCategoryTagColor } from "@/lib/content";
 import { notFound } from "next/navigation";
 import Price from "@/components/ui/Price";
 import Link from "next/link";
 import { Metadata } from "next";
+import Breadcrumbs from "@/components/ui/Breadcrumbs";
+import BreadcrumbJsonLd from "@/components/BreadcrumbJsonLd";
+import VehicleJsonLd from "@/components/VehicleJsonLd";
+import TrackView from "@/components/TrackView";
+import VehiclePerformance from "@/components/VehiclePerformance";
 
 export async function generateStaticParams() {
   const vehicles = getAllVehicles();
@@ -18,12 +23,12 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   if (!vehicle) return { title: "Not Found" };
 
   return {
-    title: `${vehicle.make} ${vehicle.model} Specs & Review`,
-    description: `Detailed specifications, pricing, and pros/cons for the ${vehicle.year} ${vehicle.make} ${vehicle.model} ${vehicle.trim}.`,
+    title: `${vehicle.year} ${vehicle.make} ${vehicle.model} ${vehicle.trim} — Specs, Price & Review`,
+    description: `Full specs and expert review of the ${vehicle.year} ${vehicle.make} ${vehicle.model}. ${vehicle.specs.powerHp}hp, ${vehicle.evSpecs?.rangeKm ? vehicle.evSpecs.rangeKm + 'km range, ' : ''}starting from €${vehicle.priceEur.toLocaleString()}. Autovaly verdict inside.`,
+    openGraph: { type: "article", url: `https://autovaly.com/vehicles/${vehicle.slug}` },
+    alternates: { canonical: `/vehicles/${vehicle.slug}` },
   };
 }
-
-import TrackView from "@/components/TrackView";
 
 export default async function VehicleDetailPage({ params }: { params: Promise<{ slug: string }> }) {
   const slug = (await params).slug;
@@ -33,9 +38,24 @@ export default async function VehicleDetailPage({ params }: { params: Promise<{ 
     notFound();
   }
 
+  const allArticles = getArticlesByCategory("Review").concat(getArticlesByCategory("News"), getArticlesByCategory("EV"), getArticlesByCategory("Comparison"), getArticlesByCategory("Industry"));
+  const relatedArticles = allArticles.filter(a => a.segments.some(s => vehicle.segments.includes(s))).slice(0, 3);
+
+  const crumbs = [
+    { name: "Home", url: "/" },
+    { name: "Vehicles", url: "/vehicles" },
+    { name: `${vehicle.make} ${vehicle.model}`, url: `/vehicles/${vehicle.slug}` }
+  ];
+
   return (
     <article className="min-h-screen">
+      <BreadcrumbJsonLd crumbs={crumbs} />
+      <VehicleJsonLd vehicle={vehicle} />
       <TrackView vehicle={vehicle} />
+      
+      <div className="container mx-auto px-4 md:px-6 pt-6">
+        <Breadcrumbs crumbs={crumbs} />
+      </div>
       {/* Hero Section */}
       <div 
         className="relative pt-32 pb-20 lg:pt-48 lg:pb-32 px-4 md:px-6 flex items-end border-b border-border-custom"
@@ -107,79 +127,8 @@ export default async function VehicleDetailPage({ params }: { params: Promise<{ 
               </ul>
             </section>
 
-            {/* Performance Specs */}
-            <section>
-              <h2 className="text-2xl font-bold mb-6 flex items-center gap-3">
-                <span className="w-8 h-1 bg-accent rounded-full inline-block"></span>
-                Performance
-              </h2>
-              <div className="bg-surface rounded-xl border border-border-custom overflow-hidden">
-                <table className="w-full text-sm">
-                  <tbody>
-                    <tr className="border-b border-border-custom">
-                      <td className="py-4 px-6 text-muted font-medium w-1/3">Horsepower</td>
-                      <td className="py-4 px-6 font-bold">{vehicle.specs.powerHp} hp</td>
-                    </tr>
-                    <tr className="border-b border-border-custom">
-                      <td className="py-4 px-6 text-muted font-medium">Torque</td>
-                      <td className="py-4 px-6 font-bold">{vehicle.specs.torqueNm} Nm</td>
-                    </tr>
-                    <tr className="border-b border-border-custom">
-                      <td className="py-4 px-6 text-muted font-medium">0-100 km/h</td>
-                      <td className="py-4 px-6 font-bold">{vehicle.specs.acceleration060} s</td>
-                    </tr>
-                    <tr className="border-b border-border-custom">
-                      <td className="py-4 px-6 text-muted font-medium">Top Speed</td>
-                      <td className="py-4 px-6 font-bold">{vehicle.specs.topSpeedKmh} km/h</td>
-                    </tr>
-                    <tr>
-                      <td className="py-4 px-6 text-muted font-medium">Drivetrain</td>
-                      <td className="py-4 px-6 font-bold">{vehicle.specs.drivetrain}</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </section>
-
-            {/* EV Specs (if applicable) */}
-            {vehicle.evSpecs && (
-              <section>
-                <h2 className="text-2xl font-bold mb-6 flex items-center gap-3">
-                  <span className="w-8 h-1 bg-accent rounded-full inline-block"></span>
-                  Battery & Charging
-                </h2>
-                <div className="bg-surface rounded-xl border border-border-custom overflow-hidden">
-                  <table className="w-full text-sm">
-                    <tbody>
-                      <tr className="border-b border-border-custom">
-                        <td className="py-4 px-6 text-muted font-medium w-1/3">Range (WLTP)</td>
-                        <td className="py-4 px-6 font-bold">{vehicle.evSpecs.rangeKm} km</td>
-                      </tr>
-                      <tr className="border-b border-border-custom">
-                        <td className="py-4 px-6 text-muted font-medium">Range (EPA)</td>
-                        <td className="py-4 px-6 font-bold">{vehicle.evSpecs.rangeMiles} mi</td>
-                      </tr>
-                      <tr className="border-b border-border-custom">
-                        <td className="py-4 px-6 text-muted font-medium">Battery Capacity</td>
-                        <td className="py-4 px-6 font-bold">{vehicle.evSpecs.batteryKwh} kWh</td>
-                      </tr>
-                      <tr className="border-b border-border-custom">
-                        <td className="py-4 px-6 text-muted font-medium">Max DC Charging</td>
-                        <td className="py-4 px-6 font-bold">{vehicle.evSpecs.chargingSpeedKw} kW</td>
-                      </tr>
-                      <tr className="border-b border-border-custom">
-                        <td className="py-4 px-6 text-muted font-medium">Fast Charge (10-80%)</td>
-                        <td className="py-4 px-6 font-bold">{vehicle.evSpecs.chargingTime1080}</td>
-                      </tr>
-                      <tr>
-                        <td className="py-4 px-6 text-muted font-medium">Efficiency</td>
-                        <td className="py-4 px-6 font-bold">{vehicle.evSpecs.efficiency}</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </section>
-            )}
+            {/* Performance and EV Specs */}
+            <VehiclePerformance vehicle={vehicle} />
 
             {/* Dimensions */}
             <section>
@@ -252,6 +201,25 @@ export default async function VehicleDetailPage({ params }: { params: Promise<{ 
           </aside>
         </div>
       </div>
+
+      {relatedArticles.length > 0 && (
+        <section className="container mx-auto px-4 md:px-6 py-16 border-t border-border-custom">
+          <h2 className="font-heading text-2xl uppercase tracking-wider pl-4 border-l-4 border-accent mb-8">Read More About This Segment</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {relatedArticles.map((a) => (
+              <Link key={a.id} href={`/articles/${a.slug}`} className="group bg-surface border border-border-custom rounded-md overflow-hidden transition-all duration-300 hover:-translate-y-1">
+                <div className="h-40 relative overflow-hidden">
+                  <div className="absolute inset-0 transition-transform duration-500 group-hover:scale-105" style={{ backgroundImage: `linear-gradient(135deg, ${a.coverGradient.from}, ${a.coverGradient.to})` }} />
+                </div>
+                <div className="p-5">
+                  <span className={`inline-block text-[10px] font-bold uppercase tracking-widest rounded-sm mb-2 text-white px-2 py-0.5 ${getCategoryTagColor(a.category)}`}>{a.category}</span>
+                  <h3 className="font-heading text-lg font-bold leading-tight group-hover:text-accent transition-colors">{a.title}</h3>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </section>
+      )}
     </article>
   );
 }

@@ -1,20 +1,33 @@
 import { getArticlesByCategory, getCategoryTagColor, formatDate } from "@/lib/content";
 import Link from "next/link";
 import type { Metadata } from "next";
+import Breadcrumbs from "@/components/ui/Breadcrumbs";
+import BreadcrumbJsonLd from "@/components/BreadcrumbJsonLd";
 
-export const metadata: Metadata = { title: "Car Reviews", description: "In-depth car reviews from the Autovaly editorial team." };
+export const metadata: Metadata = { 
+  title: "Expert Car Reviews 2025 — In-Depth Tests & Ratings", 
+  description: "Honest, in-depth car reviews from professional automotive journalists. Performance tests, interior analysis, and final verdicts for every major model.",
+  openGraph: {
+    title: "Expert Car Reviews 2025 — In-Depth Tests & Ratings",
+    description: "Honest, in-depth car reviews from professional automotive journalists. Performance tests, interior analysis, and final verdicts for every major model.",
+    url: "https://autovaly.com/reviews",
+  },
+  alternates: { canonical: "/reviews" }
+};
 
 export default function ReviewsPage() {
   const articles = getArticlesByCategory("Review");
+
+  const crumbs = [
+    { name: "Home", url: "/" },
+    { name: "Reviews", url: "/reviews" }
+  ];
+
   return (
     <div className="min-h-screen bg-background text-text-light">
-      <header className="sticky top-0 z-40 bg-background/85 backdrop-blur-md border-b border-border-custom">
-        <div className="container mx-auto px-4 md:px-6 h-16 flex items-center justify-between">
-          <Link href="/" className="font-heading font-extrabold text-2xl tracking-wide uppercase">AUTO<span className="text-accent">VALY</span></Link>
-          <Link href="/" className="text-sm text-accent font-bold uppercase tracking-widest">← Home</Link>
-        </div>
-      </header>
+      <BreadcrumbJsonLd crumbs={crumbs} />
       <main className="container mx-auto px-4 md:px-6 py-12">
+        <Breadcrumbs crumbs={crumbs} />
         <h1 className="font-heading text-4xl md:text-5xl font-bold uppercase tracking-wider pl-4 border-l-4 border-accent mb-10">Reviews</h1>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {articles.map((a) => (

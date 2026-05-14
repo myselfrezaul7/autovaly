@@ -4,6 +4,9 @@ import { notFound } from "next/navigation";
 import Price from "@/components/ui/Price";
 import Link from "next/link";
 import { Metadata } from "next";
+import Breadcrumbs from "@/components/ui/Breadcrumbs";
+import BreadcrumbJsonLd from "@/components/BreadcrumbJsonLd";
+import CompareSpecs from "@/components/CompareSpecs";
 
 export async function generateStaticParams() {
   return comparisons.map((c) => ({
@@ -20,6 +23,10 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   return {
     title: `${comparison.carA.name} vs ${comparison.carB.name} | Comparison`,
     description: `Detailed comparison between ${comparison.carA.name} and ${comparison.carB.name}. ${comparison.tagline}`,
+    openGraph: {
+      url: `https://autovaly.com/compare/${comparison.slug}`
+    },
+    alternates: { canonical: `/compare/${comparison.slug}` }
   };
 }
 
@@ -34,8 +41,18 @@ export default async function ComparisonDetailPage({ params }: { params: Promise
   const carA = comparison.carA.slug ? getVehicleBySlug(comparison.carA.slug) : null;
   const carB = comparison.carB.slug ? getVehicleBySlug(comparison.carB.slug) : null;
 
+  const crumbs = [
+    { name: "Home", url: "/" },
+    { name: "Compare", url: "/compare" },
+    { name: `${comparison.carA.name} vs ${comparison.carB.name}`, url: `/compare/${comparison.slug}` }
+  ];
+
   return (
     <article className="min-h-screen pb-20">
+      <BreadcrumbJsonLd crumbs={crumbs} />
+      <div className="container mx-auto px-4 md:px-6 pt-6">
+        <Breadcrumbs crumbs={crumbs} />
+      </div>
       {/* Split Hero */}
       <div className="flex flex-col md:flex-row min-h-[40vh] border-b border-border-custom relative">
         {/* VS Badge */}
@@ -84,73 +101,7 @@ export default async function ComparisonDetailPage({ params }: { params: Promise
 
       {carA && carB && (
         <div className="container mx-auto px-4 md:px-6 py-16">
-          <div className="max-w-5xl mx-auto bg-surface border border-border-custom rounded-xl overflow-hidden shadow-2xl">
-            
-            {/* Header Row */}
-            <div className="grid grid-cols-3 border-b-2 border-border-custom bg-background">
-              <div className="p-4 md:p-6 text-center font-bold text-muted uppercase tracking-widest text-xs">Spec</div>
-              <div className="p-4 md:p-6 text-center font-heading font-bold text-xl border-l border-border-custom">{carA.model}</div>
-              <div className="p-4 md:p-6 text-center font-heading font-bold text-xl border-l border-border-custom">{carB.model}</div>
-            </div>
-
-            <div className="divide-y divide-border-custom">
-              {/* Price */}
-              <div className="grid grid-cols-3 hover:bg-background/50 transition-colors">
-                <div className="p-4 md:p-6 font-medium text-sm text-text-muted flex items-center justify-center bg-background/50 border-r border-border-custom">Starting Price</div>
-                <div className="p-4 md:p-6 text-center font-bold text-lg"><Price eurAmount={carA.priceEur} usdAmount={carA.priceUsd} /></div>
-                <div className="p-4 md:p-6 text-center font-bold text-lg border-l border-border-custom"><Price eurAmount={carB.priceEur} usdAmount={carB.priceUsd} /></div>
-              </div>
-
-              {/* Power */}
-              <div className="grid grid-cols-3 hover:bg-background/50 transition-colors">
-                <div className="p-4 md:p-6 font-medium text-sm text-text-muted flex items-center justify-center bg-background/50 border-r border-border-custom">Horsepower</div>
-                <div className="p-4 md:p-6 text-center font-bold text-lg">{carA.specs.powerHp} hp</div>
-                <div className="p-4 md:p-6 text-center font-bold text-lg border-l border-border-custom">{carB.specs.powerHp} hp</div>
-              </div>
-
-              {/* 0-60 */}
-              <div className="grid grid-cols-3 hover:bg-background/50 transition-colors">
-                <div className="p-4 md:p-6 font-medium text-sm text-text-muted flex items-center justify-center bg-background/50 border-r border-border-custom">0-100 km/h</div>
-                <div className="p-4 md:p-6 text-center font-bold text-lg">{carA.specs.acceleration060}s</div>
-                <div className="p-4 md:p-6 text-center font-bold text-lg border-l border-border-custom">{carB.specs.acceleration060}s</div>
-              </div>
-
-              {/* Drivetrain */}
-              <div className="grid grid-cols-3 hover:bg-background/50 transition-colors">
-                <div className="p-4 md:p-6 font-medium text-sm text-text-muted flex items-center justify-center bg-background/50 border-r border-border-custom">Drivetrain</div>
-                <div className="p-4 md:p-6 text-center font-bold text-lg">{carA.specs.drivetrain}</div>
-                <div className="p-4 md:p-6 text-center font-bold text-lg border-l border-border-custom">{carB.specs.drivetrain}</div>
-              </div>
-
-              {/* EV specific */}
-              {carA.evSpecs && carB.evSpecs && (
-                <>
-                  <div className="grid grid-cols-3 hover:bg-background/50 transition-colors">
-                    <div className="p-4 md:p-6 font-medium text-sm text-text-muted flex items-center justify-center bg-background/50 border-r border-border-custom">Range (WLTP)</div>
-                    <div className="p-4 md:p-6 text-center font-bold text-lg">{carA.evSpecs.rangeKm} km</div>
-                    <div className="p-4 md:p-6 text-center font-bold text-lg border-l border-border-custom">{carB.evSpecs.rangeKm} km</div>
-                  </div>
-                  <div className="grid grid-cols-3 hover:bg-background/50 transition-colors">
-                    <div className="p-4 md:p-6 font-medium text-sm text-text-muted flex items-center justify-center bg-background/50 border-r border-border-custom">Battery</div>
-                    <div className="p-4 md:p-6 text-center font-bold text-lg">{carA.evSpecs.batteryKwh} kWh</div>
-                    <div className="p-4 md:p-6 text-center font-bold text-lg border-l border-border-custom">{carB.evSpecs.batteryKwh} kWh</div>
-                  </div>
-                </>
-              )}
-
-              {/* Links */}
-              <div className="grid grid-cols-3 bg-background">
-                <div className="p-4 md:p-6 border-r border-border-custom"></div>
-                <div className="p-4 md:p-6 text-center">
-                  <Link href={`/vehicles/${carA.slug}`} className="text-accent font-bold hover:underline">View {carA.make} →</Link>
-                </div>
-                <div className="p-4 md:p-6 text-center border-l border-border-custom">
-                  <Link href={`/vehicles/${carB.slug}`} className="text-accent font-bold hover:underline">View {carB.make} →</Link>
-                </div>
-              </div>
-
-            </div>
-          </div>
+          <CompareSpecs comparison={comparison} />
         </div>
       )}
 

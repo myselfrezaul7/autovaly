@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { m, useScroll, useSpring } from "framer-motion";
+import { m, AnimatePresence, useScroll, useSpring } from "framer-motion";
 
 export default function ScrollEnhancements() {
   const [showTopBtn, setShowTopBtn] = useState(false);
@@ -34,15 +34,21 @@ export default function ScrollEnhancements() {
         style={{ scaleX }} 
       />
       
-      {showTopBtn && (
-        <button
-          onClick={goToTop}
-          className="fixed bottom-6 right-6 z-50 p-3 rounded-full bg-accent text-white shadow-lg shadow-accent/20 hover:bg-accent-dark transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent"
-          aria-label="Back to top"
-        >
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m18 15-6-6-6 6"/></svg>
-        </button>
-      )}
+      <AnimatePresence>
+        {showTopBtn && (
+          <m.button
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.8 }}
+            transition={{ duration: 0.2 }}
+            onClick={goToTop}
+            className="fixed bottom-6 right-6 z-50 p-3 rounded-full bg-accent text-white shadow-lg shadow-accent/20 hover:bg-accent-dark transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent"
+            aria-label="Back to top"
+          >
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m18 15-6-6-6 6"/></svg>
+          </m.button>
+        )}
+      </AnimatePresence>
     </>
   );
 }

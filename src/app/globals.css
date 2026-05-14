@@ -111,3 +111,29 @@ body {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+
+/* Custom scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--background); }
+::-webkit-scrollbar-thumb { background: var(--border-custom); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+/* Gradient mesh utility */
+.gradient-mesh {
+  background:
+    radial-gradient(at 40% 20%, hsla(0, 80%, 50%, 0.06) 0px, transparent 50%),
+    radial-gradient(at 80% 0%, hsla(210, 100%, 50%, 0.04) 0px, transparent 50%),
+    radial-gradient(at 0% 50%, hsla(280, 100%, 50%, 0.03) 0px, transparent 50%);
+}
+
+/* Animated grid background */
+.animated-grid {
+  background-image: radial-gradient(circle, rgba(232,35,42,0.12) 1px, transparent 1px);
+  background-size: 28px 28px;
+  animation: grid-pulse 4s ease-in-out infinite alternate;
+}
+
+@keyframes grid-pulse {
+  from { opacity: 0.3; }
+  to { opacity: 0.6; }
+}

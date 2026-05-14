@@ -1,20 +1,33 @@
 import { getArticlesByCategory, getCategoryTagColor, formatDate } from "@/lib/content";
 import Link from "next/link";
 import type { Metadata } from "next";
+import Breadcrumbs from "@/components/ui/Breadcrumbs";
+import BreadcrumbJsonLd from "@/components/BreadcrumbJsonLd";
 
-export const metadata: Metadata = { title: "Latest Car News", description: "Breaking car news, EV announcements, and automotive industry updates from Autovaly." };
+export const metadata: Metadata = { 
+  title: "Latest Car News 2025 — Breaking Automotive Updates", 
+  description: "Breaking car news and automotive industry updates. Coverage of Tesla, BMW, BYD, Porsche, and every major brand. Updated daily by Autovaly.",
+  openGraph: {
+    title: "Latest Car News 2025 — Breaking Automotive Updates",
+    description: "Breaking car news and automotive industry updates. Coverage of Tesla, BMW, BYD, Porsche, and every major brand. Updated daily by Autovaly.",
+    url: "https://autovaly.com/news",
+  },
+  alternates: { canonical: "/news" }
+};
 
 export default function NewsPage() {
   const articles = getArticlesByCategory("News");
+
+  const crumbs = [
+    { name: "Home", url: "/" },
+    { name: "News", url: "/news" }
+  ];
+
   return (
     <div className="min-h-screen bg-background text-text-light">
-      <header className="sticky top-0 z-40 bg-background/85 backdrop-blur-md border-b border-border-custom">
-        <div className="container mx-auto px-4 md:px-6 h-16 flex items-center justify-between">
-          <Link href="/" className="font-heading font-extrabold text-2xl tracking-wide uppercase">AUTO<span className="text-accent">VALY</span></Link>
-          <Link href="/" className="text-sm text-accent font-bold uppercase tracking-widest">← Home</Link>
-        </div>
-      </header>
+      <BreadcrumbJsonLd crumbs={crumbs} />
       <main className="container mx-auto px-4 md:px-6 py-12">
+        <Breadcrumbs crumbs={crumbs} />
         <h1 className="font-heading text-4xl md:text-5xl font-bold uppercase tracking-wider pl-4 border-l-4 border-accent mb-10">News</h1>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {articles.map((a) => (

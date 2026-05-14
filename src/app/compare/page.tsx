@@ -3,17 +3,33 @@ import CompareBuilder from "@/components/CompareBuilder";
 import { Metadata } from "next";
 import { getAllVehicles } from "@/lib/content";
 import { comparisons } from "@/lib/data/comparisons";
+import Breadcrumbs from "@/components/ui/Breadcrumbs";
+import BreadcrumbJsonLd from "@/components/BreadcrumbJsonLd";
 
 export const metadata: Metadata = {
-  title: "Compare Vehicles",
-  description: "Compare electric, hybrid, and gas vehicles side-by-side to find your perfect match.",
+  title: "Car Comparison Tool — Compare EVs, SUVs & Sedans Side-by-Side",
+  description: "Compare cars head-to-head with detailed spec breakdowns. Range, performance, price — find the perfect vehicle with Autovaly's comparison engine.",
+  openGraph: {
+    title: "Car Comparison Tool — Compare EVs, SUVs & Sedans Side-by-Side",
+    description: "Compare cars head-to-head with detailed spec breakdowns. Range, performance, price — find the perfect vehicle with Autovaly's comparison engine.",
+    url: "https://autovaly.com/compare",
+  },
+  alternates: { canonical: "/compare" }
 };
 
 export default function CompareIndexPage() {
   const vehicles = getAllVehicles();
   
+  const crumbs = [
+    { name: "Home", url: "/" },
+    { name: "Compare", url: "/compare" }
+  ];
+
   return (
     <div className="container mx-auto px-4 md:px-6 py-12 lg:py-20 min-h-[70vh]">
+      <BreadcrumbJsonLd crumbs={crumbs} />
+      <Breadcrumbs crumbs={crumbs} />
+
       <div className="max-w-5xl mx-auto text-center mb-16">
         <h1 className="text-4xl md:text-5xl lg:text-6xl font-heading font-extrabold tracking-tight mb-6">
           Head-to-Head Comparisons
