@@ -75,10 +75,10 @@ export default async function CustomComparisonPage({ searchParams }: { searchPar
         <div className="max-w-5xl mx-auto bg-surface border border-border-custom rounded-xl overflow-hidden shadow-2xl">
           
           {/* Header Row */}
-          <div className="grid grid-cols-3 border-b-2 border-border-custom bg-background">
+          <div className="grid grid-cols-3 border-b-2 border-border-custom bg-background/90 backdrop-blur-md sticky top-[60px] md:top-[72px] z-30 shadow-sm">
             <div className="p-4 md:p-6 text-center font-bold text-muted uppercase tracking-widest text-xs">Spec</div>
-            <div className="p-4 md:p-6 text-center font-heading font-bold text-xl border-l border-border-custom">{carA.model}</div>
-            <div className="p-4 md:p-6 text-center font-heading font-bold text-xl border-l border-border-custom">{carB.model}</div>
+            <div className="p-4 md:p-6 text-center font-heading font-bold text-xl border-l border-border-custom text-text-light drop-shadow-md">{carA.model}</div>
+            <div className="p-4 md:p-6 text-center font-heading font-bold text-xl border-l border-border-custom text-text-light drop-shadow-md">{carB.model}</div>
           </div>
 
           <div className="divide-y divide-border-custom">

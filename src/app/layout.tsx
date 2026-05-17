@@ -56,6 +56,7 @@ import TopBar from "@/components/TopBar";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import KeyboardShortcuts from "@/components/ui/KeyboardShortcuts";
+import MobileNav from "@/components/ui/MobileNav";
 
 export default function RootLayout({
   children,
@@ -72,10 +73,11 @@ export default function RootLayout({
           <div className="flex flex-col min-h-screen">
             <TopBar />
             <Navbar />
-            <main className="flex-1 flex flex-col w-full">
+            <main className="flex-1 flex flex-col w-full pb-[80px] lg:pb-0">
               {children}
             </main>
             <Footer />
+            <MobileNav />
           </div>
         </Providers>
       </body>

@@ -32,9 +32,13 @@ export default function CompareBuilder({ vehicles }: { vehicles: Vehicle[] }) {
             {vehicles.map(v => <option key={v.id} value={v.slug}>{v.make} {v.model}</option>)}
           </select>
         </div>
-        <div className="w-12 h-12 flex-shrink-0 flex items-center justify-center bg-accent/10 text-accent rounded-full font-bold">
-          VS
-        </div>
+        <button 
+          onClick={() => { const temp = carA; setCarA(carB); setCarB(temp); }}
+          className="w-12 h-12 flex-shrink-0 flex items-center justify-center bg-accent/10 text-accent rounded-full font-bold touch-press transition-transform hover:rotate-180 duration-500 cursor-pointer"
+          aria-label="Swap vehicles"
+        >
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 3h5v5"/><path d="M4 21h5v-5"/><path d="M21 3l-7 7"/><path d="M3 21l7-7"/></svg>
+        </button>
         <div className="w-full flex-1">
           <select 
             value={carB}
@@ -48,7 +52,7 @@ export default function CompareBuilder({ vehicles }: { vehicles: Vehicle[] }) {
       <div className="mt-6 text-center">
         <button 
           onClick={handleCompare}
-          className="bg-accent text-white font-bold uppercase tracking-wide text-sm px-8 py-3 rounded hover:bg-accent-dark transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          className="bg-accent text-white font-bold uppercase tracking-wide text-sm px-8 py-3 rounded hover:bg-accent-dark transition-all touch-press active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed disabled:active:scale-100"
           disabled={!carA || !carB || carA === carB}
         >
           Compare Now

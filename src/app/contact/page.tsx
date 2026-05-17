@@ -28,7 +28,7 @@ export default function ContactPage() {
               id="name" 
               name="name" 
               required
-              className="w-full bg-background border border-border-custom rounded-md px-4 py-3 text-text-light focus:border-accent outline-none transition-colors" 
+              className="w-full bg-background border border-border-custom rounded-md px-4 py-3 text-text-light focus:border-accent focus-visible:ring-2 focus-visible:ring-accent/50 outline-none transition-colors" 
               placeholder="Jane Doe"
             />
           </div>
@@ -39,7 +39,7 @@ export default function ContactPage() {
               id="email" 
               name="email" 
               required
-              className="w-full bg-background border border-border-custom rounded-md px-4 py-3 text-text-light focus:border-accent outline-none transition-colors" 
+              className="w-full bg-background border border-border-custom rounded-md px-4 py-3 text-text-light focus:border-accent focus-visible:ring-2 focus-visible:ring-accent/50 outline-none transition-colors" 
               placeholder="jane@example.com"
             />
           </div>
@@ -50,7 +50,7 @@ export default function ContactPage() {
           <select 
             id="subject" 
             name="subject"
-            className="w-full bg-background border border-border-custom rounded-md px-4 py-3 text-text-light focus:border-accent outline-none transition-colors"
+            className="w-full bg-background border border-border-custom rounded-md px-4 py-3 text-text-light focus:border-accent focus-visible:ring-2 focus-visible:ring-accent/50 outline-none transition-colors"
           >
             <option value="General Inquiry">General Inquiry</option>
             <option value="Editorial Pitch">Editorial Pitch</option>
@@ -66,14 +66,14 @@ export default function ContactPage() {
             name="message" 
             required
             rows={6}
-            className="w-full bg-background border border-border-custom rounded-md px-4 py-3 text-text-light focus:border-accent outline-none transition-colors resize-y" 
+            className="w-full bg-background border border-border-custom rounded-md px-4 py-3 text-text-light focus:border-accent focus-visible:ring-2 focus-visible:ring-accent/50 outline-none transition-colors resize-y" 
             placeholder="How can we help you?"
           ></textarea>
         </div>
 
         <button 
           type="submit" 
-          className="w-full bg-accent text-white font-bold uppercase tracking-wide text-sm px-8 py-4 rounded hover:bg-accent-dark transition-colors"
+          className="w-full bg-accent text-white font-bold uppercase tracking-wide text-sm px-8 py-4 rounded hover:bg-accent-dark transition-all touch-press active:scale-[0.98]"
         >
           Send Message
         </button>

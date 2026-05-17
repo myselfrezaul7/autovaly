@@ -27,13 +27,13 @@ export default function PopularVehicles() {
           </div>
         </ScrollReveal>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {vehicles.map((vehicle, idx) => (
             <ScrollReveal key={vehicle.id} delay={idx * 0.1}>
-              <Link href={`/vehicles/${vehicle.slug}`} className="block h-full group">
+              <Link href={`/vehicles/${vehicle.slug}`} className="block h-full group touch-press">
                 <TiltCard className="flex flex-col h-full overflow-hidden">
                   <div 
-                    className="h-40 w-full relative"
+                    className="h-44 md:h-40 w-full relative"
                     style={{ background: `linear-gradient(135deg, ${vehicle.coverGradient.from}, ${vehicle.coverGradient.to})` }}
                   >
                     {vehicle.coverImage && (
@@ -49,8 +49,8 @@ export default function PopularVehicles() {
                     <h3 className="text-lg font-bold font-heading mb-2 group-hover:text-accent transition-colors truncate">{vehicle.model}</h3>
                     
                     <div className="flex justify-between items-center mt-auto pt-3 border-t border-border-custom/50">
-                      <div className="text-xs text-text-muted">Starting at</div>
-                      <Price eurAmount={vehicle.priceEur} usdAmount={vehicle.priceUsd} className="font-bold text-sm" />
+                      <div className="text-[11px] text-text-secondary">Starting at</div>
+                      <Price eurAmount={vehicle.priceEur} usdAmount={vehicle.priceUsd} className="font-bold text-sm tabular-nums" />
                     </div>
                   </div>
                 </TiltCard>

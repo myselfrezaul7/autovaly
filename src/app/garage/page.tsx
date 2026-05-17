@@ -10,7 +10,7 @@ export default function GaragePage() {
   return (
     <div className="min-h-screen bg-background pb-20">
       <div className="container mx-auto px-4 md:px-6 pt-12 pb-8 border-b border-border-custom">
-        <h1 className="font-heading text-4xl md:text-5xl font-extrabold uppercase tracking-tight flex items-center gap-3">
+        <h1 className="font-heading text-4xl md:text-5xl font-extrabold uppercase tracking-tight flex items-center gap-3 border-l-[5px] border-accent pl-4">
           <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-accent">
             <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
           </svg>

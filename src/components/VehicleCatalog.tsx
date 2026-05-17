@@ -5,6 +5,7 @@ import Price from "@/components/ui/Price";
 import Link from "next/link";
 import { Vehicle } from "@/lib/types";
 import { useRecentlyViewed } from "@/lib/useRecentlyViewed";
+import ScrollReveal from "./ui/ScrollReveal";
 
 export default function VehicleCatalog({ initialVehicles }: { initialVehicles: Vehicle[] }) {
   const [fuelTypes, setFuelTypes] = useState<string[]>([]);
@@ -61,7 +62,7 @@ export default function VehicleCatalog({ initialVehicles }: { initialVehicles: V
     <div className="flex flex-col lg:flex-row gap-8">
       {/* Sidebar / Filters */}
       <aside className="w-full lg:w-64 flex-shrink-0">
-        <div className="bg-surface border border-border-custom rounded-xl p-6 sticky top-24">
+        <div className="bg-surface/90 backdrop-blur-md border border-border-custom rounded-xl p-6 sticky top-[60px] md:top-[72px] z-30">
           <div className="flex items-center justify-between mb-6 border-b border-border-custom pb-4">
             <h3 className="font-bold uppercase tracking-widest text-sm">Filters</h3>
             {(fuelTypes.length > 0 || bodyStyles.length > 0) && (
@@ -107,7 +108,7 @@ export default function VehicleCatalog({ initialVehicles }: { initialVehicles: V
 
           <button 
             onClick={clearFilters}
-            className="w-full py-2 bg-border-custom hover:bg-border-custom/80 rounded-md text-sm font-bold transition-colors text-text-primary"
+            className="w-full py-2 bg-border-custom hover:bg-border-custom/80 rounded-md text-sm font-bold transition-colors text-text-primary touch-press active:scale-95"
           >
             Clear Filters
           </button>
@@ -138,12 +139,12 @@ export default function VehicleCatalog({ initialVehicles }: { initialVehicles: V
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 mb-16">
-            {filteredVehicles.map((vehicle) => (
-              <Link
-                key={vehicle.id}
-                href={`/vehicles/${vehicle.slug}`}
-                className="flex flex-col bg-surface border border-border-custom rounded-xl overflow-hidden hover:border-accent hover:shadow-card-shadow transition-all group"
-              >
+            {filteredVehicles.map((vehicle, idx) => (
+              <ScrollReveal key={vehicle.id} delay={0.05 * Math.min(idx, 10)}>
+                <Link
+                  href={`/vehicles/${vehicle.slug}`}
+                  className="flex flex-col bg-surface border border-border-custom rounded-xl overflow-hidden hover:border-accent hover:shadow-card-shadow transition-all group touch-press h-full"
+                >
                 <div 
                   className="h-48 w-full bg-border-custom relative"
                   style={{ background: `linear-gradient(135deg, ${vehicle.coverGradient.from}, ${vehicle.coverGradient.to})` }}
@@ -184,6 +185,7 @@ export default function VehicleCatalog({ initialVehicles }: { initialVehicles: V
                   </div>
                 </div>
               </Link>
+            </ScrollReveal>
             ))}
           </div>
         )}

@@ -22,6 +22,13 @@ export default function ArticleBody({ content, readTime }: ArticleBodyProps) {
           if (paragraph.startsWith('##')) {
             return <h2 key={idx} className="font-heading font-bold text-3xl mt-12 mb-6 text-white">{paragraph.replace('##', '').trim()}</h2>;
           }
+          if (paragraph.startsWith('>')) {
+            return (
+              <blockquote key={idx} className="border-l-[5px] border-accent pl-6 py-3 my-10 italic text-xl md:text-2xl text-white/90 bg-surface/50 rounded-r-lg font-heading">
+                "{paragraph.replace('>', '').trim()}"
+              </blockquote>
+            );
+          }
           if (paragraph.startsWith('-')) {
             const items = paragraph.split('\n').map(i => i.replace('-', '').trim());
             return (

@@ -91,12 +91,12 @@ export default async function VehicleDetailPage({ params }: { params: Promise<{ 
               {vehicle.trim}
             </p>
 
-            <div className="flex flex-col sm:flex-row sm:items-center gap-6">
-              <Price eurAmount={vehicle.priceEur} usdAmount={vehicle.priceUsd} className="text-3xl font-bold font-heading" />
+            <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6 fixed sm:static bottom-[60px] lg:bottom-auto left-0 right-0 z-40 bg-surface/90 sm:bg-transparent backdrop-blur-xl sm:backdrop-blur-none p-4 sm:p-0 border-t border-border-custom sm:border-0 pb-[max(1rem,env(safe-area-inset-bottom))] sm:pb-0 shadow-[0_-10px_40px_rgba(0,0,0,0.3)] sm:shadow-none transition-all">
+              <Price eurAmount={vehicle.priceEur} usdAmount={vehicle.priceUsd} className="text-2xl sm:text-3xl font-bold font-heading tabular-nums" />
               
               <Link 
                 href={`/compare?a=${vehicle.slug}`}
-                className="inline-flex items-center justify-center px-6 py-3 bg-surface border border-border-custom rounded-md font-bold text-sm hover:border-accent hover:text-accent transition-colors"
+                className="inline-flex items-center justify-center px-6 py-3 bg-accent text-white sm:bg-surface sm:text-text-primary sm:border border-border-custom rounded-md font-bold text-sm hover:border-accent hover:text-accent transition-colors touch-press flex-1 sm:flex-none shadow-lg shadow-accent/20 sm:shadow-none"
               >
                 Compare with another car
               </Link>
@@ -204,7 +204,7 @@ export default async function VehicleDetailPage({ params }: { params: Promise<{ 
 
       {relatedArticles.length > 0 && (
         <section className="container mx-auto px-4 md:px-6 py-16 border-t border-border-custom">
-          <h2 className="font-heading text-2xl uppercase tracking-wider pl-4 border-l-4 border-accent mb-8">Read More About This Segment</h2>
+          <h2 className="font-heading text-2xl uppercase tracking-wider pl-4 border-l-[5px] border-accent mb-8">Read More About This Segment</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {relatedArticles.map((a) => (
               <Link key={a.id} href={`/articles/${a.slug}`} className="group bg-surface border border-border-custom rounded-md overflow-hidden transition-all duration-300 hover:-translate-y-1">

@@ -2,6 +2,7 @@ import { searchArticles, searchVehicles, getCategoryTagColor, formatDate } from 
 import ArticleCard from "@/components/ui/ArticleCard";
 import Link from "next/link";
 import Price from "@/components/ui/Price";
+import ScrollReveal from "@/components/ui/ScrollReveal";
 
 export default async function SearchPage({
   searchParams,
@@ -35,13 +36,13 @@ export default async function SearchPage({
           <div className="mb-8 flex gap-4 border-b border-border-custom">
             <Link 
               href={`/search?q=${encodeURIComponent(query)}&tab=vehicles`}
-              className={`pb-3 font-bold text-sm uppercase tracking-widest transition-colors ${activeTab === 'vehicles' ? 'text-accent border-b-2 border-accent' : 'text-text-muted hover:text-text-light'}`}
+              className={`pb-3 font-bold text-sm uppercase tracking-widest transition-all touch-press active:scale-95 ${activeTab === 'vehicles' ? 'text-accent border-b-2 border-accent' : 'text-text-muted hover:text-text-light'}`}
             >
               Vehicles ({vehicleResults.length})
             </Link>
             <Link 
               href={`/search?q=${encodeURIComponent(query)}&tab=articles`}
-              className={`pb-3 font-bold text-sm uppercase tracking-widest transition-colors ${activeTab === 'articles' ? 'text-accent border-b-2 border-accent' : 'text-text-muted hover:text-text-light'}`}
+              className={`pb-3 font-bold text-sm uppercase tracking-widest transition-all touch-press active:scale-95 ${activeTab === 'articles' ? 'text-accent border-b-2 border-accent' : 'text-text-muted hover:text-text-light'}`}
             >
               Articles ({articleResults.length})
             </Link>
@@ -49,7 +50,8 @@ export default async function SearchPage({
         )}
 
         {query && !hasResults && (
-          <div className="p-12 border border-border-custom rounded-xl text-center bg-surface">
+          <div className="p-12 border border-border-custom rounded-xl text-center bg-surface flex flex-col items-center">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="text-muted mb-4 live-pulse"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
             <h3 className="text-xl font-bold mb-2">No results found</h3>
             <p className="text-muted">We couldn't find anything matching "{query}". Try adjusting your search.</p>
           </div>
@@ -60,32 +62,33 @@ export default async function SearchPage({
             {vehicleResults.length === 0 ? (
               <p className="text-muted py-8">No vehicle matches found.</p>
             ) : (
-              vehicleResults.map((vehicle) => (
-                <Link
-                  key={vehicle.id}
-                  href={`/vehicles/${vehicle.slug}`}
-                  className="flex flex-col sm:flex-row gap-6 p-4 rounded-xl border border-border-custom bg-surface hover:border-accent transition-colors group"
-                >
-                  <div 
-                    className="w-full sm:w-48 h-32 rounded-lg bg-border-custom overflow-hidden flex-shrink-0"
-                    style={{ background: `linear-gradient(to right, ${vehicle.coverGradient.from}, ${vehicle.coverGradient.to})` }}
+              vehicleResults.map((vehicle, idx) => (
+                <ScrollReveal key={vehicle.id} delay={0.05 * Math.min(idx, 10)}>
+                  <Link
+                    href={`/vehicles/${vehicle.slug}`}
+                    className="flex flex-col sm:flex-row gap-6 p-4 rounded-xl border border-border-custom bg-surface hover:border-accent transition-colors group touch-press"
                   >
-                    {vehicle.coverImage && (
-                      <img src={vehicle.coverImage} alt={vehicle.model} className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity" />
-                    )}
-                  </div>
-                  <div className="flex-1 flex flex-col justify-center">
-                    <div className="flex items-center gap-2 mb-2">
-                      <span className="bg-border-custom px-2 py-1 rounded text-xs uppercase font-bold">{vehicle.fuelType}</span>
-                      <span className="text-xs text-muted font-medium">{vehicle.year} {vehicle.bodyStyle}</span>
+                    <div 
+                      className="w-full sm:w-48 h-32 rounded-lg bg-border-custom overflow-hidden flex-shrink-0"
+                      style={{ background: `linear-gradient(to right, ${vehicle.coverGradient.from}, ${vehicle.coverGradient.to})` }}
+                    >
+                      {vehicle.coverImage && (
+                        <img src={vehicle.coverImage} alt={vehicle.model} className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity" />
+                      )}
                     </div>
-                    <h2 className="text-2xl font-bold font-heading mb-1 group-hover:text-accent transition-colors">{vehicle.make} {vehicle.model}</h2>
-                    <p className="text-text-muted text-sm mb-3">{vehicle.trim}</p>
-                    <div className="mt-auto">
-                      <Price eurAmount={vehicle.priceEur} usdAmount={vehicle.priceUsd} className="font-bold text-lg" />
+                    <div className="flex-1 flex flex-col justify-center">
+                      <div className="flex items-center gap-2 mb-2">
+                        <span className="bg-border-custom px-2 py-1 rounded text-xs uppercase font-bold">{vehicle.fuelType}</span>
+                        <span className="text-xs text-muted font-medium">{vehicle.year} {vehicle.bodyStyle}</span>
+                      </div>
+                      <h2 className="text-2xl font-bold font-heading mb-1 group-hover:text-accent transition-colors">{vehicle.make} {vehicle.model}</h2>
+                      <p className="text-text-muted text-sm mb-3">{vehicle.trim}</p>
+                      <div className="mt-auto">
+                        <Price eurAmount={vehicle.priceEur} usdAmount={vehicle.priceUsd} className="font-bold text-lg tabular-nums" />
+                      </div>
                     </div>
-                  </div>
-                </Link>
+                  </Link>
+                </ScrollReveal>
               ))
             )}
           </div>
@@ -96,21 +99,22 @@ export default async function SearchPage({
             {articleResults.length === 0 ? (
               <p className="text-muted py-8 col-span-2">No article matches found.</p>
             ) : (
-              articleResults.map((article) => (
-                <ArticleCard 
-                  key={article.id} 
-                  variant="large"
-                  slug={article.slug}
-                  tag={article.category}
-                  tagColorClass={getCategoryTagColor(article.category)}
-                  headline={article.title}
-                  excerpt={article.excerpt}
-                  author={article.author.name}
-                  date={formatDate(article.publishedAt)}
-                  readTime={article.readTime}
-                  gradientFrom={article.coverGradient.from}
-                  gradientTo={article.coverGradient.to}
-                />
+              articleResults.map((article, idx) => (
+                <ScrollReveal key={article.id} delay={0.05 * Math.min(idx, 10)}>
+                  <ArticleCard 
+                    variant="large"
+                    slug={article.slug}
+                    tag={article.category}
+                    tagColorClass={getCategoryTagColor(article.category)}
+                    headline={article.title}
+                    excerpt={article.excerpt}
+                    author={article.author.name}
+                    date={formatDate(article.publishedAt)}
+                    readTime={article.readTime}
+                    gradientFrom={article.coverGradient.from}
+                    gradientTo={article.coverGradient.to}
+                  />
+                </ScrollReveal>
               ))
             )}
           </div>
