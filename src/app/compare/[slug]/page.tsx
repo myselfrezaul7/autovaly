@@ -3,6 +3,7 @@ import { getVehicleBySlug } from "@/lib/content";
 import { notFound } from "next/navigation";
 import Price from "@/components/ui/Price";
 import Link from "next/link";
+import Image from "next/image";
 import { Metadata } from "next";
 import Breadcrumbs from "@/components/ui/Breadcrumbs";
 import BreadcrumbJsonLd from "@/components/BreadcrumbJsonLd";
@@ -20,11 +21,22 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
   if (!comparison) return { title: "Not Found" };
 
+  const title = `${comparison.carA.name} vs ${comparison.carB.name} | Comparison`;
+  const description = `Detailed comparison between ${comparison.carA.name} and ${comparison.carB.name}. ${comparison.tagline}`;
+
   return {
-    title: `${comparison.carA.name} vs ${comparison.carB.name} | Comparison`,
-    description: `Detailed comparison between ${comparison.carA.name} and ${comparison.carB.name}. ${comparison.tagline}`,
+    title,
+    description,
     openGraph: {
+      type: "article",
+      title,
+      description,
       url: `https://autovaly.com/compare/${comparison.slug}`
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
     },
     alternates: { canonical: `/compare/${comparison.slug}` }
   };
@@ -67,7 +79,7 @@ export default async function ComparisonDetailPage({ params }: { params: Promise
         >
           {carA?.coverImage && (
             <div className="absolute inset-0 z-0 overflow-hidden mix-blend-overlay opacity-40">
-              <img src={carA.coverImage} alt={carA.model} className="w-full h-full object-cover" />
+              <Image src={carA.coverImage} alt={carA.model} fill priority sizes="50vw" className="object-cover" />
             </div>
           )}
           <div className="absolute inset-0 bg-gradient-to-t from-background via-background/60 to-transparent z-0" />
@@ -84,13 +96,13 @@ export default async function ComparisonDetailPage({ params }: { params: Promise
         >
           {carB?.coverImage && (
             <div className="absolute inset-0 z-0 overflow-hidden mix-blend-overlay opacity-40">
-              <img src={carB.coverImage} alt={carB.model} className="w-full h-full object-cover" />
+              <Image src={carB.coverImage} alt={carB.model} fill priority sizes="50vw" className="object-cover" />
             </div>
           )}
           <div className="absolute inset-0 bg-gradient-to-t from-background via-background/60 to-transparent z-0" />
           <div className="relative z-10">
             <span className="text-accent font-bold uppercase tracking-widest text-sm mb-2 block">{carB ? carB.make : ''}</span>
-            <h1 className="text-3xl md:text-5xl font-heading font-extrabold text-white drop-shadow-lg">{comparison.carB.name}</h1>
+            <h2 className="text-3xl md:text-5xl font-heading font-extrabold text-white drop-shadow-lg">{comparison.carB.name}</h2>
           </div>
         </div>
       </div>

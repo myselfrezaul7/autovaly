@@ -2,10 +2,12 @@ import { getVehicleBySlug, getAllVehicles, getArticlesByCategory, getCategoryTag
 import { notFound } from "next/navigation";
 import Price from "@/components/ui/Price";
 import Link from "next/link";
+import Image from "next/image";
 import { Metadata } from "next";
 import Breadcrumbs from "@/components/ui/Breadcrumbs";
 import BreadcrumbJsonLd from "@/components/BreadcrumbJsonLd";
 import VehicleJsonLd from "@/components/VehicleJsonLd";
+import FAQJsonLd from "@/components/FAQJsonLd";
 import TrackView from "@/components/TrackView";
 import VehiclePerformance from "@/components/VehiclePerformance";
 
@@ -22,10 +24,23 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
   if (!vehicle) return { title: "Not Found" };
 
+  const title = `${vehicle.year} ${vehicle.make} ${vehicle.model} ${vehicle.trim} — Specs, Price & Review`;
+  const description = `Full specs and expert review of the ${vehicle.year} ${vehicle.make} ${vehicle.model}. ${vehicle.specs.powerHp}hp, ${vehicle.evSpecs?.rangeKm ? vehicle.evSpecs.rangeKm + 'km range, ' : ''}starting from €${vehicle.priceEur.toLocaleString()}. Autovaly verdict inside.`;
+
   return {
-    title: `${vehicle.year} ${vehicle.make} ${vehicle.model} ${vehicle.trim} — Specs, Price & Review`,
-    description: `Full specs and expert review of the ${vehicle.year} ${vehicle.make} ${vehicle.model}. ${vehicle.specs.powerHp}hp, ${vehicle.evSpecs?.rangeKm ? vehicle.evSpecs.rangeKm + 'km range, ' : ''}starting from €${vehicle.priceEur.toLocaleString()}. Autovaly verdict inside.`,
-    openGraph: { type: "article", url: `https://autovaly.com/vehicles/${vehicle.slug}` },
+    title,
+    description,
+    openGraph: { 
+      type: "article", 
+      url: `https://autovaly.com/vehicles/${vehicle.slug}`,
+      title,
+      description,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+    },
     alternates: { canonical: `/vehicles/${vehicle.slug}` },
   };
 }
@@ -47,10 +62,30 @@ export default async function VehicleDetailPage({ params }: { params: Promise<{ 
     { name: `${vehicle.make} ${vehicle.model}`, url: `/vehicles/${vehicle.slug}` }
   ];
 
+  const faqs = [
+    {
+      question: `What is the price of the ${vehicle.year} ${vehicle.make} ${vehicle.model}?`,
+      answer: `The ${vehicle.year} ${vehicle.make} ${vehicle.model} starts at €${vehicle.priceEur.toLocaleString()} (or $${vehicle.priceUsd.toLocaleString()}).`
+    },
+    {
+      question: `What is the horsepower of the ${vehicle.year} ${vehicle.make} ${vehicle.model}?`,
+      answer: `It has ${vehicle.specs.powerHp} horsepower and can go from 0-100 km/h in ${vehicle.specs.acceleration060} seconds.`
+    },
+    ...(vehicle.evSpecs ? [{
+      question: `What is the range of the ${vehicle.make} ${vehicle.model}?`,
+      answer: `The ${vehicle.make} ${vehicle.model} has a WLTP range of ${vehicle.evSpecs.rangeKm} km and a battery capacity of ${vehicle.evSpecs.batteryKwh} kWh.`
+    }] : []),
+    {
+      question: `What are the pros and cons of the ${vehicle.make} ${vehicle.model}?`,
+      answer: `Pros: ${vehicle.prosAndCons.pros.join(', ')}. Cons: ${vehicle.prosAndCons.cons.join(', ')}.`
+    }
+  ];
+
   return (
     <article className="min-h-screen">
       <BreadcrumbJsonLd crumbs={crumbs} />
       <VehicleJsonLd vehicle={vehicle} />
+      <FAQJsonLd faqs={faqs} />
       <TrackView vehicle={vehicle} />
       
       <div className="container mx-auto px-4 md:px-6 pt-6">
@@ -63,7 +98,7 @@ export default async function VehicleDetailPage({ params }: { params: Promise<{ 
       >
         {vehicle.coverImage && (
           <div className="absolute inset-0 z-0 overflow-hidden mix-blend-overlay opacity-30">
-            <img src={vehicle.coverImage} alt={vehicle.model} className="w-full h-full object-cover" />
+            <Image src={vehicle.coverImage} alt={vehicle.model} fill priority sizes="100vw" className="object-cover" />
           </div>
         )}
         <div className="absolute inset-0 bg-gradient-to-t from-background via-background/80 to-transparent z-0" />

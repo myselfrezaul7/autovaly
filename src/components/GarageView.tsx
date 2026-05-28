@@ -2,6 +2,7 @@
 
 import { useGarage } from "@/lib/useGarage";
 import Link from "next/link";
+import Image from "next/image";
 import TiltCard from "./ui/TiltCard";
 import Price from "./ui/Price";
 import { m, AnimatePresence } from "framer-motion";
@@ -55,7 +56,7 @@ export default function GarageView() {
               <TiltCard className="flex flex-col h-full overflow-hidden group hover:scale-[1.02] transition-transform duration-300">
                 <Link href={`/vehicles/${vehicle.slug}`} className="block h-40 w-full relative touch-press" style={{ background: `linear-gradient(135deg, ${vehicle.coverGradient.from}, ${vehicle.coverGradient.to})` }}>
                   {vehicle.coverImage && (
-                    <img src={vehicle.coverImage} alt={vehicle.model} className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity" />
+                    <Image src={vehicle.coverImage} alt={vehicle.model} fill sizes="(max-width: 768px) 50vw, 25vw" className="object-cover opacity-80 group-hover:opacity-100 transition-opacity" />
                   )}
                   <div className="absolute top-3 left-3 flex gap-1">
                     <span className="bg-background/80 backdrop-blur px-2 py-0.5 rounded text-[10px] font-bold uppercase">{vehicle.fuelType}</span>

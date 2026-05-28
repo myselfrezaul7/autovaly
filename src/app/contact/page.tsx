@@ -1,8 +1,14 @@
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Contact Us",
-  description: "Get in touch with the Autovaly editorial and business teams.",
+  title: "Contact Us | Autovaly",
+  description: "Get in touch with the Autovaly editorial team.",
+  openGraph: {
+    title: "Contact Us | Autovaly",
+    description: "Get in touch with the Autovaly editorial team.",
+    url: "https://autovaly.com/contact",
+  },
+  alternates: { canonical: "/contact" },
 };
 
 export default function ContactPage() {

@@ -1,8 +1,16 @@
 import { searchArticles, searchVehicles, getCategoryTagColor, formatDate } from "@/lib/content";
 import ArticleCard from "@/components/ui/ArticleCard";
 import Link from "next/link";
+import Image from "next/image";
 import Price from "@/components/ui/Price";
 import ScrollReveal from "@/components/ui/ScrollReveal";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Search | Autovaly",
+  description: "Search Autovaly for vehicles, news, and reviews.",
+  robots: { index: false, follow: true },
+};
 
 export default async function SearchPage({
   searchParams,
@@ -73,7 +81,7 @@ export default async function SearchPage({
                       style={{ background: `linear-gradient(to right, ${vehicle.coverGradient.from}, ${vehicle.coverGradient.to})` }}
                     >
                       {vehicle.coverImage && (
-                        <img src={vehicle.coverImage} alt={vehicle.model} className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity" />
+                        <Image src={vehicle.coverImage} alt={vehicle.model} fill sizes="(max-width: 640px) 100vw, 192px" className="object-cover opacity-80 group-hover:opacity-100 transition-opacity" />
                       )}
                     </div>
                     <div className="flex-1 flex flex-col justify-center">

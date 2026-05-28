@@ -2,8 +2,10 @@ import { Metadata } from "next";
 import GarageView from "@/components/GarageView";
 
 export const metadata: Metadata = {
-  title: "My Garage",
-  description: "Your saved vehicles and dream cars.",
+  title: "My Garage | Autovaly",
+  description: "View and compare your saved vehicles.",
+  robots: { index: false },
+  alternates: { canonical: "/garage" },
 };
 
 export default function GaragePage() {

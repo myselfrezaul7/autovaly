@@ -1,7 +1,14 @@
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Privacy Policy",
+  title: "Privacy Policy | Autovaly",
+  description: "Read the Autovaly privacy policy to understand how we protect your data.",
+  openGraph: {
+    title: "Privacy Policy | Autovaly",
+    description: "Read the Autovaly privacy policy to understand how we protect your data.",
+    url: "https://autovaly.com/privacy",
+  },
+  alternates: { canonical: "/privacy" },
 };
 
 export default function PrivacyPage() {

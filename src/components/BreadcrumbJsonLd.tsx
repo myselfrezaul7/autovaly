@@ -11,7 +11,7 @@ export default function BreadcrumbJsonLd({ crumbs }: { crumbs: BreadcrumbItem[] 
       "@type": "ListItem",
       position: index + 1,
       name: crumb.name,
-      item: crumb.url,
+      item: crumb.url.startsWith("/") ? `https://autovaly.com${crumb.url}` : crumb.url,
     })),
   };
 

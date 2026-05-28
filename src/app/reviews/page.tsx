@@ -3,6 +3,7 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import Breadcrumbs from "@/components/ui/Breadcrumbs";
 import BreadcrumbJsonLd from "@/components/BreadcrumbJsonLd";
+import ItemListJsonLd from "@/components/ItemListJsonLd";
 
 export const metadata: Metadata = { 
   title: "Expert Car Reviews 2025 — In-Depth Tests & Ratings", 
@@ -23,9 +24,16 @@ export default function ReviewsPage() {
     { name: "Reviews", url: "/reviews" }
   ];
 
+  const itemList = articles.map((a, i) => ({
+    position: i + 1,
+    name: a.title,
+    url: `https://autovaly.com/articles/${a.slug}`,
+  }));
+
   return (
     <div className="min-h-screen bg-background text-text-light">
       <BreadcrumbJsonLd crumbs={crumbs} />
+      <ItemListJsonLd items={itemList} />
       <main className="container mx-auto px-4 md:px-6 py-12">
         <Breadcrumbs crumbs={crumbs} />
         <h1 className="font-heading text-4xl md:text-5xl font-bold uppercase tracking-wider pl-4 border-l-4 border-accent mb-10">Reviews</h1>

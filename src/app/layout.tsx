@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Barlow_Condensed, Inter } from "next/font/google";
 import "./globals.css";
 import Providers from "@/components/Providers";
@@ -16,6 +16,11 @@ const inter = Inter({
   subsets: ["latin"],
   weight: ["400", "500", "600"],
 });
+
+export const viewport: Viewport = {
+  themeColor: "#E82B2B",
+  colorScheme: "dark",
+};
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://autovaly.com"),

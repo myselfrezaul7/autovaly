@@ -6,6 +6,9 @@ export default function ArticleJsonLd({ article }: { article: Article }) {
     "@type": "Article",
     headline: article.title,
     description: article.excerpt,
+    image: article.coverImage ? [
+      article.coverImage.startsWith("/") ? `https://autovaly.com${article.coverImage}` : article.coverImage
+    ] : [],
     datePublished: new Date(article.publishedAt).toISOString(),
     dateModified: new Date(article.publishedAt).toISOString(), // Assume modified = published for now
     author: {

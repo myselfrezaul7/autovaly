@@ -1,6 +1,10 @@
 import { Vehicle } from "@/lib/types";
 
 export default function VehicleJsonLd({ vehicle }: { vehicle: Vehicle }) {
+  const prosCount = vehicle.prosAndCons.pros.length;
+  const consCount = vehicle.prosAndCons.cons.length;
+  const calculatedRating = Math.min(5, Math.max(3, 3.5 + (prosCount * 0.5) - (consCount * 0.3))).toFixed(1);
+
   const schema = {
     "@context": "https://schema.org",
     "@type": "Car", // Valid subtype of Product and Vehicle
@@ -38,7 +42,7 @@ export default function VehicleJsonLd({ vehicle }: { vehicle: Vehicle }) {
       "@type": "Review",
       reviewRating: {
         "@type": "Rating",
-        ratingValue: "4.5", // Arbitrary good rating for editorial reviews
+        ratingValue: calculatedRating,
         bestRating: "5",
       },
       author: {

@@ -15,7 +15,7 @@ export default function EVSpotlight() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
           {evSpotlightItems.map((ev, index) => (
             <m.div key={ev.id} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: index * 0.1 }} className="h-full">
-              <Link href="/evs" className="group bg-background border border-border-custom rounded-xl overflow-hidden flex flex-col h-full touch-press block">
+              <Link href={`/articles/${ev.slug}`} className="group bg-background border border-border-custom rounded-xl overflow-hidden flex flex-col h-full touch-press block">
                 <div className="relative w-full h-48 md:h-56 lg:h-64 overflow-hidden">
                   <div className="absolute inset-0 transition-transform duration-500 ease-out group-hover:scale-105" style={{ backgroundImage: `linear-gradient(135deg, ${ev.gradient.from}, ${ev.gradient.to})` }} />
                 <div className="absolute top-4 left-4 flex flex-col gap-2">

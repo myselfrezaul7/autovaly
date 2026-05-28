@@ -2,12 +2,40 @@ import { getVehicleBySlug } from "@/lib/content";
 import { notFound } from "next/navigation";
 import Price from "@/components/ui/Price";
 import Link from "next/link";
+import Image from "next/image";
 import { Metadata } from "next";
+import Breadcrumbs from "@/components/ui/Breadcrumbs";
+import BreadcrumbJsonLd from "@/components/BreadcrumbJsonLd";
 
-export const metadata: Metadata = {
-  title: "Custom Comparison | Autovaly",
-  description: "Head-to-head custom vehicle comparison.",
-};
+export async function generateMetadata({ searchParams }: { searchParams: Promise<{ a?: string, b?: string }> }): Promise<Metadata> {
+  const { a, b } = await searchParams;
+  if (!a || !b) return { title: "Custom Comparison | Autovaly" };
+
+  const carA = getVehicleBySlug(a);
+  const carB = getVehicleBySlug(b);
+
+  if (!carA || !carB) return { title: "Custom Comparison | Autovaly" };
+
+  const title = `${carA.make} ${carA.model} vs ${carB.make} ${carB.model} | Autovaly`;
+  const description = `Compare the ${carA.make} ${carA.model} against the ${carB.make} ${carB.model}. Detailed head-to-head specs, performance, and features.`;
+
+  return {
+    title,
+    description,
+    openGraph: {
+      type: "article",
+      title,
+      description,
+      url: `https://autovaly.com/compare/custom?a=${a}&b=${b}`,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+    },
+    alternates: { canonical: `/compare/custom?a=${a}&b=${b}` },
+  };
+}
 
 export default async function CustomComparisonPage({ searchParams }: { searchParams: Promise<{ a?: string, b?: string }> }) {
   const { a, b } = await searchParams;
@@ -23,8 +51,18 @@ export default async function CustomComparisonPage({ searchParams }: { searchPar
     notFound();
   }
 
+  const crumbs = [
+    { name: "Home", url: "/" },
+    { name: "Compare", url: "/compare" },
+    { name: `${carA.model} vs ${carB.model}`, url: `/compare/custom?a=${a}&b=${b}` }
+  ];
+
   return (
     <article className="min-h-screen pb-20">
+      <BreadcrumbJsonLd crumbs={crumbs} />
+      <div className="container mx-auto px-4 md:px-6 pt-6">
+        <Breadcrumbs crumbs={crumbs} />
+      </div>
       {/* Split Hero */}
       <div className="flex flex-col md:flex-row min-h-[40vh] border-b border-border-custom relative">
         {/* VS Badge */}
@@ -39,7 +77,7 @@ export default async function CustomComparisonPage({ searchParams }: { searchPar
         >
           {carA?.coverImage && (
             <div className="absolute inset-0 z-0 overflow-hidden mix-blend-overlay opacity-40">
-              <img src={carA.coverImage} alt={carA.model} className="w-full h-full object-cover" />
+              <Image src={carA.coverImage} alt={carA.model} fill priority sizes="50vw" className="object-cover" />
             </div>
           )}
           <div className="absolute inset-0 bg-gradient-to-t from-background via-background/60 to-transparent z-0" />
@@ -56,7 +94,7 @@ export default async function CustomComparisonPage({ searchParams }: { searchPar
         >
           {carB?.coverImage && (
             <div className="absolute inset-0 z-0 overflow-hidden mix-blend-overlay opacity-40">
-              <img src={carB.coverImage} alt={carB.model} className="w-full h-full object-cover" />
+              <Image src={carB.coverImage} alt={carB.model} fill priority sizes="50vw" className="object-cover" />
             </div>
           )}
           <div className="absolute inset-0 bg-gradient-to-t from-background via-background/60 to-transparent z-0" />

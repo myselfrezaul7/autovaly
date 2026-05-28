@@ -1,8 +1,14 @@
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "About Autovaly",
-  description: "Learn about Autovaly, the ultimate automotive discovery and comparison engine.",
+  title: "About Us | Autovaly",
+  description: "Learn more about the Autovaly team and our mission.",
+  openGraph: {
+    title: "About Us | Autovaly",
+    description: "Learn more about the Autovaly team and our mission.",
+    url: "https://autovaly.com/about",
+  },
+  alternates: { canonical: "/about" },
 };
 
 export default function AboutPage() {

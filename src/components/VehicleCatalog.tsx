@@ -3,6 +3,7 @@
 import { useState, useMemo } from "react";
 import Price from "@/components/ui/Price";
 import Link from "next/link";
+import Image from "next/image";
 import { Vehicle } from "@/lib/types";
 import { useRecentlyViewed } from "@/lib/useRecentlyViewed";
 import ScrollReveal from "./ui/ScrollReveal";
@@ -150,7 +151,7 @@ export default function VehicleCatalog({ initialVehicles }: { initialVehicles: V
                   style={{ background: `linear-gradient(135deg, ${vehicle.coverGradient.from}, ${vehicle.coverGradient.to})` }}
                 >
                   {vehicle.coverImage && (
-                    <img src={vehicle.coverImage} alt={vehicle.model} className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity" />
+                    <Image src={vehicle.coverImage} alt={vehicle.model} fill sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" className="object-cover opacity-80 group-hover:opacity-100 transition-opacity" />
                   )}
                   <div className="absolute top-4 left-4 flex gap-2">
                     <span className="bg-background/80 backdrop-blur px-2 py-1 rounded text-xs font-bold uppercase text-text-primary">{vehicle.fuelType}</span>
@@ -204,7 +205,7 @@ export default function VehicleCatalog({ initialVehicles }: { initialVehicles: V
                   className="flex flex-col bg-surface border border-border-custom rounded-lg overflow-hidden hover:border-accent hover:shadow-card-shadow transition-all group"
                 >
                   <div className="h-32 w-full bg-border-custom relative" style={{ background: `linear-gradient(135deg, ${vehicle.coverGradient.from}, ${vehicle.coverGradient.to})` }}>
-                    {vehicle.coverImage && <img src={vehicle.coverImage} alt={vehicle.model} className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity" />}
+                    {vehicle.coverImage && <Image src={vehicle.coverImage} alt={vehicle.model} fill sizes="(max-width: 768px) 50vw, 25vw" className="object-cover opacity-80 group-hover:opacity-100 transition-opacity" />}
                   </div>
                   <div className="p-3">
                     <div className="text-[10px] text-text-muted font-medium uppercase tracking-wider">{vehicle.make}</div>

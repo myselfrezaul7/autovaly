@@ -5,6 +5,7 @@ import VehicleCatalog from "@/components/VehicleCatalog";
 import { Metadata } from "next";
 import Breadcrumbs from "@/components/ui/Breadcrumbs";
 import BreadcrumbJsonLd from "@/components/BreadcrumbJsonLd";
+import ItemListJsonLd from "@/components/ItemListJsonLd";
 
 export const metadata: Metadata = {
   title: "Vehicle Database 2025 — Specs, Prices & Expert Reviews for Every Car",
@@ -25,9 +26,16 @@ export default function VehiclesPage() {
     { name: "Vehicles", url: "/vehicles" }
   ];
 
+  const itemList = vehicles.map((v, i) => ({
+    position: i + 1,
+    name: `${v.make} ${v.model}`,
+    url: `/vehicles/${v.slug}`,
+  }));
+
   return (
     <div className="container mx-auto px-4 md:px-6 py-12 lg:py-20">
       <BreadcrumbJsonLd crumbs={crumbs} />
+      <ItemListJsonLd items={itemList} />
       <Breadcrumbs crumbs={crumbs} />
       <div className="max-w-7xl mx-auto">
         <header className="mb-12">
