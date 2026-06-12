@@ -17,6 +17,7 @@ export const articles: Article[] = [
     editorsPick: false,
     heroArticle: true,
     coverGradient: { from: "#00B894", to: "#16213e" },
+    coverImage: "/images/articles/tesla-model-y-refresh.jpg",
   },
   {
     id: "a2",
@@ -33,6 +34,7 @@ export const articles: Article[] = [
     editorsPick: false,
     heroArticle: false,
     coverGradient: { from: "#6C5CE7", to: "#a29bfe" },
+    coverImage: "/images/articles/bmw-m5-touring-review.jpg",
   },
   {
     id: "a3",
@@ -49,6 +51,7 @@ export const articles: Article[] = [
     editorsPick: false,
     heroArticle: false,
     coverGradient: { from: "#FDCB6E", to: "#f39c12" },
+    coverImage: "/images/articles/byd-europe-ev-market.jpg",
   },
   {
     id: "a4",
@@ -65,6 +68,7 @@ export const articles: Article[] = [
     editorsPick: true,
     heroArticle: false,
     coverGradient: { from: "#0984E3", to: "#74b9ff" },
+    coverImage: "/images/articles/porsche-taycan-vs-audi-etron-gt.jpg",
   },
   {
     id: "a5",
@@ -81,6 +85,7 @@ export const articles: Article[] = [
     editorsPick: true,
     heroArticle: false,
     coverGradient: { from: "#e74c3c", to: "#2c3e50" },
+    coverImage: "/images/articles/xiaomi-su7-ultra-review.jpg",
   },
   {
     id: "a6",
@@ -97,6 +102,7 @@ export const articles: Article[] = [
     editorsPick: true,
     heroArticle: false,
     coverGradient: { from: "#2ecc71", to: "#1a5276" },
+    coverImage: "/images/articles/ford-maverick-hybrid-review.jpg",
   },
   {
     id: "a7",
@@ -113,6 +119,7 @@ export const articles: Article[] = [
     editorsPick: false,
     heroArticle: false,
     coverGradient: { from: "#3498db", to: "#1a1a2e" },
+    coverImage: "/images/articles/hyundai-ioniq-9-review.jpg",
   },
   {
     id: "a8",
@@ -129,6 +136,7 @@ export const articles: Article[] = [
     editorsPick: false,
     heroArticle: false,
     coverGradient: { from: "#9b59b6", to: "#2c3e50" },
+    coverImage: "/images/articles/rivian-r2-pre-orders.jpg",
   },
   {
     id: "a9",
@@ -145,6 +153,7 @@ export const articles: Article[] = [
     editorsPick: false,
     heroArticle: false,
     coverGradient: { from: "#e67e22", to: "#d35400" },
+    coverImage: "/images/articles/solid-state-batteries-explained.jpg",
   },
   {
     id: "a10",
@@ -161,6 +170,7 @@ export const articles: Article[] = [
     editorsPick: true,
     heroArticle: false,
     coverGradient: { from: "#27ae60", to: "#2c3e50" },
+    coverImage: "/images/articles/best-evs-under-40k.jpg",
   },
   {
     id: "a11",
@@ -177,6 +187,7 @@ export const articles: Article[] = [
     editorsPick: false,
     heroArticle: false,
     coverGradient: { from: "#c0392b", to: "#8e44ad" },
+    coverImage: "/images/articles/porsche-911-hybrid-deep-dive.jpg",
   },
   {
     id: "a12",
@@ -193,6 +204,7 @@ export const articles: Article[] = [
     editorsPick: false,
     heroArticle: false,
     coverGradient: { from: "#2980b9", to: "#8e44ad" },
+    coverImage: "/images/articles/lucid-gravity-first-look.jpg",
   },
   {
     id: "a13",
@@ -209,6 +221,7 @@ export const articles: Article[] = [
     editorsPick: false,
     heroArticle: false,
     coverGradient: { from: "#7f8c8d", to: "#2c3e50" },
+    coverImage: "/images/articles/manual-transmission-sales-rebound.jpg",
   },
   {
     id: "a14",
@@ -225,6 +238,7 @@ export const articles: Article[] = [
     editorsPick: false,
     heroArticle: false,
     coverGradient: { from: "#c0392b", to: "#2c3e50" },
+    coverImage: "/images/articles/tesla-fsd-v13-review.jpg",
   },
   {
     id: "a15",
@@ -241,5 +255,6 @@ export const articles: Article[] = [
     editorsPick: false,
     heroArticle: false,
     coverGradient: { from: "#34495e", to: "#f1c40f" },
+    coverImage: "/images/articles/europe-tariffs-chinese-evs.jpg",
   }
 ];
