@@ -35,11 +35,13 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
       url: `https://autovaly.com/vehicles/${vehicle.slug}`,
       title,
       description,
+      images: vehicle.coverImage ? [{ url: vehicle.coverImage, width: 1200, height: 630, alt: title }] : [],
     },
     twitter: {
       card: "summary_large_image",
       title,
       description,
+      images: vehicle.coverImage ? [vehicle.coverImage] : [],
     },
     alternates: { canonical: `/vehicles/${vehicle.slug}` },
   };

@@ -1,6 +1,7 @@
 import { getArticleBySlug, getRelatedArticles, getCategoryTagColor, formatDate, getAllArticles } from "@/lib/content";
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 import SocialShare from "@/components/ui/SocialShare";
 import type { Metadata } from "next";
 import ArticleBody from "@/components/ArticleBody";
@@ -27,8 +28,14 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
       url: `https://autovaly.com/articles/${article.slug}`,
       section: article.category,
       tags: article.segments,
+      images: article.coverImage ? [{ url: article.coverImage, width: 1200, height: 630, alt: article.title }] : [],
     },
-    twitter: { card: "summary_large_image", title: article.title, description: article.excerpt },
+    twitter: { 
+      card: "summary_large_image", 
+      title: article.title, 
+      description: article.excerpt,
+      images: article.coverImage ? [article.coverImage] : [],
+    },
     alternates: { canonical: `/articles/${article.slug}` },
   };
 }
@@ -62,7 +69,10 @@ export default async function ArticlePage({ params }: { params: Params }) {
 
       {/* Hero Banner */}
       <div className="w-full h-64 md:h-96 relative overflow-hidden" style={{ backgroundImage: `linear-gradient(135deg, ${article.coverGradient.from}, ${article.coverGradient.to})` }}>
-        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/30 to-transparent" />
+        {article.coverImage && (
+          <Image src={article.coverImage} alt={article.title} fill className="object-cover opacity-80" priority sizes="100vw" />
+        )}
+        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/30 to-transparent" aria-hidden="true" />
       </div>
 
       {/* Article Content */}
@@ -94,6 +104,9 @@ export default async function ArticlePage({ params }: { params: Params }) {
                 <Link key={r.id} href={`/articles/${r.slug}`} className="group bg-surface border border-border-custom rounded-md overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-black/20">
                   <div className="h-40 relative overflow-hidden">
                     <div className="absolute inset-0 transition-transform duration-500 group-hover:scale-105" style={{ backgroundImage: `linear-gradient(135deg, ${r.coverGradient.from}, ${r.coverGradient.to})` }} />
+                    {r.coverImage && (
+                      <Image src={r.coverImage} alt={r.title} fill className="object-cover opacity-90 group-hover:opacity-100 transition-all duration-500 group-hover:scale-105" sizes="(max-width: 768px) 100vw, 33vw" />
+                    )}
                   </div>
                   <div className="p-4">
                     <span className={`inline-block text-[10px] font-bold uppercase tracking-widest rounded-sm mb-2 text-white px-2 py-0.5 ${getCategoryTagColor(r.category)}`}>{r.category}</span>

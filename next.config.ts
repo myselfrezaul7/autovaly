@@ -10,6 +10,9 @@ const withSerwist = withSerwistInit({
 const nextConfig: NextConfig = {
   trailingSlash: false,
   poweredByHeader: false,
+  images: {
+    formats: ['image/avif', 'image/webp'],
+  },
 };
 
 export default withSerwist(nextConfig);

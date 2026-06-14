@@ -21,13 +21,13 @@ export default function TopStories() {
         <div className="grid grid-cols-1 lg:grid-cols-[1.5fr_1fr] gap-6 lg:gap-8">
           {main && (
             <ScrollReveal delay={0.07} className="h-full flex">
-              <ArticleCard variant="large" slug={main.slug} tag={main.category} tagColorClass={getCategoryTagColor(main.category)} headline={main.title} excerpt={main.excerpt} author={main.author.name} date={formatDate(main.publishedAt)} readTime={main.readTime} gradientFrom={main.coverGradient.from} gradientTo={main.coverGradient.to} />
+              <ArticleCard variant="large" slug={main.slug} tag={main.category} tagColorClass={getCategoryTagColor(main.category)} headline={main.title} excerpt={main.excerpt} author={main.author.name} date={formatDate(main.publishedAt)} readTime={main.readTime} gradientFrom={main.coverGradient.from} gradientTo={main.coverGradient.to} coverImage={main.coverImage} />
             </ScrollReveal>
           )}
           <div className="flex flex-col gap-6 lg:gap-8">
             {side.map((a, idx) => (
               <ScrollReveal key={a.id} delay={0.14 + idx * 0.07}>
-                <ArticleCard variant="compact" slug={a.slug} tag={a.category} tagColorClass={getCategoryTagColor(a.category)} headline={a.title} author={a.author.name} date={formatDate(a.publishedAt)} readTime={a.readTime} gradientFrom={a.coverGradient.from} gradientTo={a.coverGradient.to} />
+                <ArticleCard variant="compact" slug={a.slug} tag={a.category} tagColorClass={getCategoryTagColor(a.category)} headline={a.title} author={a.author.name} date={formatDate(a.publishedAt)} readTime={a.readTime} gradientFrom={a.coverGradient.from} gradientTo={a.coverGradient.to} coverImage={a.coverImage} />
               </ScrollReveal>
             ))}
           </div>

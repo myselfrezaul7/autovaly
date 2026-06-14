@@ -71,6 +71,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${barlow.variable} ${inter.variable}`}>
       <body className="antialiased font-sans bg-background text-text-light selection:bg-accent selection:text-white">
+        <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:p-4 focus:bg-background focus:text-accent">Skip to content</a>
         <JsonLd />
         <Providers>
           <KeyboardShortcuts />
@@ -78,7 +79,7 @@ export default function RootLayout({
           <div className="flex flex-col min-h-screen">
             <TopBar />
             <Navbar />
-            <main className="flex-1 flex flex-col w-full pb-[80px] lg:pb-0">
+            <main id="main-content" className="flex-1 flex flex-col w-full pb-[80px] lg:pb-0">
               {children}
             </main>
             <Footer />

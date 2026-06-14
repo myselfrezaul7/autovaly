@@ -37,7 +37,7 @@ export default function EditorsPicks() {
           <div key={pick.id} className="relative group snap-center flex-shrink-0 min-w-[280px] sm:min-w-[320px] lg:min-w-[340px] w-[280px] sm:w-[320px] lg:w-[340px]">
             <ScrollReveal delay={index * 0.08}>
               <div className="absolute top-4 right-4 z-20 w-8 h-8 bg-accent text-white font-heading font-bold text-sm flex items-center justify-center rounded-sm shadow-lg pointer-events-none">EP</div>
-              <ArticleCard variant="portrait" slug={pick.slug} tag={pick.category} tagColorClass={getCategoryTagColor(pick.category)} headline={pick.title} author={pick.author.name} date={formatDate(pick.publishedAt)} gradientFrom={pick.coverGradient.from} gradientTo={pick.coverGradient.to} />
+              <ArticleCard variant="portrait" slug={pick.slug} tag={pick.category} tagColorClass={getCategoryTagColor(pick.category)} headline={pick.title} author={pick.author.name} date={formatDate(pick.publishedAt)} gradientFrom={pick.coverGradient.from} gradientTo={pick.coverGradient.to} coverImage={pick.coverImage} />
             </ScrollReveal>
           </div>
         ))}
