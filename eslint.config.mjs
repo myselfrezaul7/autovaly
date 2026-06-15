@@ -8,9 +8,7 @@ const eslintConfig = defineConfig([
   {
     files: [
       "src/app/about/page.tsx",
-      "src/app/compare/*/page.tsx",
-      "src/app/compare/custom/page.tsx",
-      "src/app/compare/page.tsx",
+      "src/app/compare{,/**}/page.tsx",
       "src/app/contact/page.tsx",
       "src/app/search/page.tsx",
       "src/components/ArticleBody.tsx",
