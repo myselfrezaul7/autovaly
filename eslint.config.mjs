@@ -33,7 +33,7 @@ const eslintConfig = defineConfig([
     },
   },
   {
-    files: ["src/app/sw.ts", "src/sanity/schemas/vehicle.ts"],
+    files: ["src/sanity/schemas/vehicle.ts"],
     rules: {
       "@typescript-eslint/no-explicit-any": "warn",
     },
