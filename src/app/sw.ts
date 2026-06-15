@@ -8,7 +8,9 @@ declare global {
   }
 }
 
-declare const self: any;
+declare const self: WorkerGlobalScope & {
+  __SW_MANIFEST: (PrecacheEntry | string)[] | undefined;
+};
 
 const serwist = new Serwist({
   precacheEntries: self.__SW_MANIFEST,
