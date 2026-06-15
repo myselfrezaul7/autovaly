@@ -9,12 +9,14 @@ const barlow = Barlow_Condensed({
   variable: "--font-barlow",
   subsets: ["latin"],
   weight: ["600", "700", "800"],
+  display: "swap",
 });
 
 const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin"],
   weight: ["400", "500", "600"],
+  display: "swap",
 });
 
 export const viewport: Viewport = {
@@ -61,6 +63,7 @@ import TopBar from "@/components/TopBar";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import KeyboardShortcuts from "@/components/ui/KeyboardShortcuts";
+import { ThemeScript } from "@/components/ThemeScript";
 import MobileNav from "@/components/ui/MobileNav";
 
 export default function RootLayout({
@@ -69,7 +72,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${barlow.variable} ${inter.variable}`}>
+    <html lang="en" className={`${barlow.variable} ${inter.variable}`} suppressHydrationWarning>
+      <head>
+        <ThemeScript />
+      </head>
       <body className="antialiased font-sans bg-background text-text-light selection:bg-accent selection:text-white">
         <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:p-4 focus:bg-background focus:text-accent">Skip to content</a>
         <JsonLd />

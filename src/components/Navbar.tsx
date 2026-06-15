@@ -219,7 +219,7 @@ export default function Navbar() {
         {isMobileMenuOpen && (
           <>
             <m.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.3 }} className="fixed inset-0 bg-black/60 z-50 lg:hidden" onClick={() => setIsMobileMenuOpen(false)} />
-            <m.div initial={{ x: "100%" }} animate={{ x: 0 }} exit={{ x: "100%" }} transition={{ type: "spring", damping: 25, stiffness: 200 }} className="fixed top-0 right-0 h-full w-[280px] bg-surface z-50 border-l border-border-custom p-8 pb-[calc(2rem+env(safe-area-inset-bottom))] lg:hidden flex flex-col" role="dialog" aria-modal="true" aria-label="Mobile menu">
+            <m.div initial={{ x: "100%" }} animate={{ x: 0 }} exit={{ x: "100%" }} transition={{ type: "spring", damping: 25, stiffness: 200 }} className="fixed top-0 right-0 h-full w-[280px] bg-surface/90 backdrop-blur-2xl z-50 border-l border-border-custom p-8 pb-[calc(2rem+env(safe-area-inset-bottom))] lg:hidden flex flex-col" role="dialog" aria-modal="true" aria-label="Mobile menu">
               <button aria-label="Close Menu" className="absolute top-4 right-4 p-2 text-text-light hover:text-accent" onClick={() => setIsMobileMenuOpen(false)}>
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
               </button>

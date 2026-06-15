@@ -1,8 +1,12 @@
-import { MetadataRoute } from "next";
+import { MetadataRoute } from 'next'
 
 export default function robots(): MetadataRoute.Robots {
   return {
-    rules: { userAgent: "*", allow: "/", disallow: ["/api/", "/search", "/garage"] },
-    sitemap: "https://autovaly.com/sitemap.xml",
-  };
+    rules: {
+      userAgent: '*',
+      allow: '/',
+      disallow: ['/studio/'],
+    },
+    sitemap: 'https://autovaly.com/sitemap.xml',
+  }
 }
