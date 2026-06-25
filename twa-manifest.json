@@ -10,8 +10,8 @@
   "backgroundColor": "#0a0a0f",
   "enableNotifications": true,
   "startUrl": "/",
-  "iconUrl": "https://autovaly.com/icon.png",
-  "maskableIconUrl": "https://autovaly.com/icon.png",
+  "iconUrl": "https://autovaly.com/icon-512x512.png",
+  "maskableIconUrl": "https://autovaly.com/icon-512x512.png",
   "splashScreenFadeOutDuration": 300,
   "signingKey": {
     "path": "./android.keystore",

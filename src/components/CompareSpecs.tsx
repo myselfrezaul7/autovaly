@@ -46,6 +46,7 @@ function SpecBar({ valueA, valueB, winner, suffix = "" }: { valueA: number; valu
             whileInView={{ width: `${percentA}%` }}
             transition={{ duration: 1.2, ease: "easeOut" }}
             viewport={{ once: true }}
+            style={{ width: "0%" }}
             className={clsx("h-full relative", winner === "A" ? "bg-accent shadow-[0_0_12px_var(--color-accent)]" : "bg-text-muted/50")}
           >
             {winner === "A" && <div className="absolute inset-0 bg-white/20 animate-pulse mix-blend-overlay" />}
@@ -57,6 +58,7 @@ function SpecBar({ valueA, valueB, winner, suffix = "" }: { valueA: number; valu
             whileInView={{ width: `${percentB}%` }}
             transition={{ duration: 1.2, ease: "easeOut" }}
             viewport={{ once: true }}
+            style={{ width: "0%" }}
             className={clsx("h-full relative", winner === "B" ? "bg-accent shadow-[0_0_12px_var(--color-accent)]" : "bg-text-muted/50")}
           >
             {winner === "B" && <div className="absolute inset-0 bg-white/20 animate-pulse mix-blend-overlay" />}
@@ -90,6 +92,7 @@ function SpecBarReverse({ valueA, valueB, winner, suffix = "" }: { valueA: numbe
             whileInView={{ width: `${percentA}%` }}
             transition={{ duration: 1.2, ease: "easeOut" }}
             viewport={{ once: true }}
+            style={{ width: "0%" }}
             className={clsx("h-full relative", winner === "A" ? "bg-accent shadow-[0_0_12px_var(--color-accent)]" : "bg-text-muted/50")}
           >
             {winner === "A" && <div className="absolute inset-0 bg-white/20 animate-pulse mix-blend-overlay" />}
@@ -101,6 +104,7 @@ function SpecBarReverse({ valueA, valueB, winner, suffix = "" }: { valueA: numbe
             whileInView={{ width: `${percentB}%` }}
             transition={{ duration: 1.2, ease: "easeOut" }}
             viewport={{ once: true }}
+            style={{ width: "0%" }}
             className={clsx("h-full relative", winner === "B" ? "bg-accent shadow-[0_0_12px_var(--color-accent)]" : "bg-text-muted/50")}
           >
             {winner === "B" && <div className="absolute inset-0 bg-white/20 animate-pulse mix-blend-overlay" />}
@@ -158,8 +162,8 @@ export default function CompareSpecs({ comparison }: CompareSpecsProps) {
       {/* Sticky Header Row */}
       <div className="grid grid-cols-3 border-b-2 border-accent/30 bg-surface/90 backdrop-blur-lg sticky top-0 z-20 shadow-md">
         <div className="p-4 md:p-6 flex items-center justify-center font-bold text-accent uppercase tracking-widest text-xs">Spec Matrix</div>
-        <div className="p-4 md:p-6 text-center font-heading font-black text-2xl border-l border-border-custom">{carA.model}</div>
-        <div className="p-4 md:p-6 text-center font-heading font-black text-2xl border-l border-border-custom">{carB.model}</div>
+        <div className="p-4 md:p-6 text-center font-heading font-black text-base md:text-2xl border-l border-border-custom">{carA.model}</div>
+        <div className="p-4 md:p-6 text-center font-heading font-black text-base md:text-2xl border-l border-border-custom">{carB.model}</div>
       </div>
 
       <div className="flex flex-col">

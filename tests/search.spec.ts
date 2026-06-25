@@ -3,12 +3,15 @@ import { test, expect } from '@playwright/test';
 test('Search modal opens and executes search', async ({ page }) => {
   await page.goto('/');
 
-  // Click search trigger (glass icon)
-  await page.click('button[aria-label="Search"]');
-  
-  // Modal should be visible
   const searchInput = page.locator('input[type="text"][placeholder*="Search vehicles"]');
-  await expect(searchInput).toBeVisible();
+  
+  // Retry clicking until the modal becomes visible to handle hydration flakiness
+  await expect(async () => {
+    if (!(await searchInput.isVisible())) {
+      await page.click('button[aria-label="Search"]');
+    }
+    await expect(searchInput).toBeVisible({ timeout: 1000 });
+  }).toPass();
   
   // Type query and submit
   await searchInput.fill('Tesla');

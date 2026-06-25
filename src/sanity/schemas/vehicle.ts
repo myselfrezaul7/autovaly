@@ -46,17 +46,23 @@ export const vehicleType = defineType({
       type: 'number',
     }),
     defineField({
-      name: 'type',
-      title: 'Type',
+      name: 'fuelType',
+      title: 'Fuel Type',
       type: 'string',
       options: {
         list: ['EV', 'PHEV', 'Hybrid', 'ICE'],
       },
     }),
-    defineField({
-      name: 'segment',
-      title: 'Segment',
+        defineField({
+      name: 'bodyStyle',
+      title: 'Body Style',
       type: 'string',
+    }),
+    defineField({
+      name: 'segments',
+      title: 'Segments',
+      type: 'array',
+      of: [{ type: 'string' }],
       options: {
         list: ['Sedan', 'SUV', 'Crossover', 'Sports', 'Hatchback', 'Truck', 'Wagon'],
       },
@@ -84,6 +90,12 @@ export const vehicleType = defineType({
         { name: 'chargingSpeedKw', type: 'number', title: 'Charging Speed (kW)' },
         { name: 'architectureV', type: 'number', title: 'Architecture (V)' },
       ]
+    }),
+        defineField({
+      name: 'highlights',
+      title: 'Highlights',
+      type: 'array',
+      of: [{ type: 'string' }],
     }),
     defineField({
       name: 'rating',

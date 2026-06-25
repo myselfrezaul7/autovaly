@@ -3,7 +3,7 @@ import withSerwistInit from "@serwist/next";
 
 const withSerwist = withSerwistInit({
   swSrc: "src/app/sw.ts",
-  swDest: "public/sw.js",
+  swDest: "public/sw.js", maximumFileSizeToCacheInBytes: 5000000,
   disable: process.env.NODE_ENV === "development",
 });
 
