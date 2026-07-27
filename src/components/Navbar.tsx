@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import { m, AnimatePresence } from "framer-motion";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useTheme } from "@/lib/theme-context";
 import { useCurrency } from "@/lib/currency-context";
 import { searchArticles, searchVehicles } from "@/lib/content";
@@ -29,10 +29,11 @@ export default function Navbar() {
   const [vehicleResults, setVehicleResults] = useState<Vehicle[]>([]);
   const [isTyping, setIsTyping] = useState(false);
   
-  const { theme, toggleTheme } = useTheme();
+  const { theme, toggleTheme, mounted } = useTheme();
   const { currency, toggleCurrency } = useCurrency();
   const { garageCount } = useGarage();
   const pathname = usePathname();
+  const router = useRouter();
   const searchTimeout = useRef<NodeJS.Timeout>(null);
 
   useEffect(() => {
@@ -71,11 +72,11 @@ export default function Navbar() {
   const handleSearchSubmit = useCallback((e: React.FormEvent) => {
     e.preventDefault();
     if (searchQuery.trim()) {
-      window.location.href = `/search?q=${encodeURIComponent(searchQuery.trim())}`;
+      router.push(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
       setIsSearchOpen(false);
       setSearchQuery("");
     }
-  }, [searchQuery]);
+  }, [searchQuery, router]);
 
   return (
     <>
@@ -253,7 +254,7 @@ export default function Navbar() {
                 <div className="mt-2 flex items-center justify-between py-4 border-b border-border-custom">
                   <span className="text-sm font-medium uppercase tracking-wider">Theme</span>
                   <button onClick={() => { toggleTheme(); setIsMobileMenuOpen(false); }} className="p-2 bg-background rounded-md text-text-light hover:text-accent touch-press active:scale-95">
-                    {theme === "dark" ? "Light Mode" : "Dark Mode"}
+                    {mounted ? (theme === "dark" ? "Light Mode" : "Dark Mode") : "Theme"}
                   </button>
                 </div>
               </div>

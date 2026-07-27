@@ -7,12 +7,15 @@ import { Metadata } from "next";
 import Breadcrumbs from "@/components/ui/Breadcrumbs";
 import BreadcrumbJsonLd from "@/components/BreadcrumbJsonLd";
 
-export async function generateMetadata({ searchParams }: { searchParams: Promise<{ a?: string, b?: string }> }): Promise<Metadata> {
-  const { a, b } = await searchParams;
-  if (!a || !b) return { title: "Custom Comparison | Autovaly" };
+export async function generateMetadata({ searchParams }: { searchParams: Promise<{ a?: string, b?: string, vehicles?: string }> }): Promise<Metadata> {
+  const { a, b, vehicles } = await searchParams;
+  const slugA = a || (vehicles ? vehicles.split(',')[0] : null);
+  const slugB = b || (vehicles ? vehicles.split(',')[1] : null);
 
-  const carA = getVehicleBySlug(a);
-  const carB = getVehicleBySlug(b);
+  if (!slugA || !slugB) return { title: "Custom Comparison | Autovaly" };
+
+  const carA = getVehicleBySlug(slugA);
+  const carB = getVehicleBySlug(slugB);
 
   if (!carA || !carB) return { title: "Custom Comparison | Autovaly" };
 
@@ -26,26 +29,28 @@ export async function generateMetadata({ searchParams }: { searchParams: Promise
       type: "article",
       title,
       description,
-      url: `https://autovaly.com/compare/custom?a=${a}&b=${b}`,
+      url: `https://autovaly.com/compare/custom?a=${slugA}&b=${slugB}`,
     },
     twitter: {
       card: "summary_large_image",
       title,
       description,
     },
-    alternates: { canonical: `/compare/custom?a=${a}&b=${b}` },
+    alternates: { canonical: `/compare/custom?a=${slugA}&b=${slugB}` },
   };
 }
 
-export default async function CustomComparisonPage({ searchParams }: { searchParams: Promise<{ a?: string, b?: string }> }) {
-  const { a, b } = await searchParams;
+export default async function CustomComparisonPage({ searchParams }: { searchParams: Promise<{ a?: string, b?: string, vehicles?: string }> }) {
+  const { a, b, vehicles } = await searchParams;
+  const slugA = a || (vehicles ? vehicles.split(',')[0] : null);
+  const slugB = b || (vehicles ? vehicles.split(',')[1] : null);
 
-  if (!a || !b) {
+  if (!slugA || !slugB) {
     notFound();
   }
 
-  const carA = getVehicleBySlug(a);
-  const carB = getVehicleBySlug(b);
+  const carA = getVehicleBySlug(slugA);
+  const carB = getVehicleBySlug(slugB);
 
   if (!carA || !carB) {
     notFound();
@@ -54,7 +59,7 @@ export default async function CustomComparisonPage({ searchParams }: { searchPar
   const crumbs = [
     { name: "Home", url: "/" },
     { name: "Compare", url: "/compare" },
-    { name: `${carA.model} vs ${carB.model}`, url: `/compare/custom?a=${a}&b=${b}` }
+    { name: `${carA.model} vs ${carB.model}`, url: `/compare/custom?a=${slugA}&b=${slugB}` }
   ];
 
   return (

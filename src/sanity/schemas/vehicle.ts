@@ -50,7 +50,7 @@ export const vehicleType = defineType({
       title: 'Fuel Type',
       type: 'string',
       options: {
-        list: ['EV', 'PHEV', 'Hybrid', 'ICE'],
+        list: ['BEV', 'PHEV', 'Hybrid', 'Gasoline', 'Diesel'],
       },
     }),
         defineField({
@@ -74,10 +74,16 @@ export const vehicleType = defineType({
       fields: [
         { name: 'powerHp', type: 'number', title: 'Power (HP)' },
         { name: 'torqueNm', type: 'number', title: 'Torque (Nm)' },
-        { name: 'zeroToHundred', type: 'number', title: '0-100 km/h (s)' },
+        { name: 'acceleration060', type: 'number', title: '0-100 km/h or 0-60 mph (s)' },
         { name: 'topSpeedKmh', type: 'number', title: 'Top Speed (km/h)' },
-        { name: 'drivetrain', type: 'string', title: 'Drivetrain' },
         { name: 'weightKg', type: 'number', title: 'Weight (kg)' },
+        { name: 'lengthMm', type: 'number', title: 'Length (mm)' },
+        { name: 'widthMm', type: 'number', title: 'Width (mm)' },
+        { name: 'heightMm', type: 'number', title: 'Height (mm)' },
+        { name: 'wheelbaseMm', type: 'number', title: 'Wheelbase (mm)' },
+        { name: 'cargoLiters', type: 'number', title: 'Cargo Volume (Liters)' },
+        { name: 'seatingCapacity', type: 'number', title: 'Seating Capacity' },
+        { name: 'drivetrain', type: 'string', title: 'Drivetrain', options: { list: ['FWD', 'RWD', 'AWD'] } },
       ]
     }),
     defineField({
@@ -85,10 +91,12 @@ export const vehicleType = defineType({
       title: 'EV Specs',
       type: 'object',
       fields: [
-        { name: 'batteryCapacityKwh', type: 'number', title: 'Battery Capacity (kWh)' },
+        { name: 'batteryKwh', type: 'number', title: 'Battery Capacity (kWh)' },
         { name: 'rangeKm', type: 'number', title: 'Range (km)' },
+        { name: 'rangeMiles', type: 'number', title: 'Range (miles)' },
         { name: 'chargingSpeedKw', type: 'number', title: 'Charging Speed (kW)' },
-        { name: 'architectureV', type: 'number', title: 'Architecture (V)' },
+        { name: 'chargingTime1080', type: 'string', title: 'Charging Time 10-80%' },
+        { name: 'efficiency', type: 'string', title: 'Efficiency' },
       ]
     }),
         defineField({

@@ -35,7 +35,7 @@ export default function ArticleCard({ variant = "large", slug, tag, tagColorClas
         )}
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/60 pointer-events-none" aria-hidden="true" />
       </div>
-      <div className={clsx("flex flex-col flex-1", { "p-5": variant === "large" || isSegment, "p-4": isCompact, "absolute bottom-0 left-0 w-full p-5 z-10 bg-gradient-to-t from-background to-transparent": isPortrait })}>
+      <div className={clsx("flex flex-col flex-1", { "p-5": variant === "large" || isSegment, "p-4": isCompact, "absolute bottom-0 left-0 w-full p-5 z-10 bg-gradient-to-t from-black/90 via-black/50 to-transparent": isPortrait })}>
         <span className={clsx("inline-block self-start text-[10px] font-bold uppercase tracking-widest rounded-sm mb-2 text-white px-2 py-0.5", tagColorClass)}>{tag}</span>
         <h3 className={clsx("font-heading font-bold leading-[1.2] transition-colors duration-300 group-hover:text-accent", { "text-xl mb-3 relative after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-0 after:h-0.5 after:bg-accent after:transition-all after:duration-300 group-hover:after:w-10": variant === "large", "text-base mb-2": isCompact, "text-lg": isSegment, "text-xl text-white": isPortrait })}>{headline}</h3>
         {excerpt && !isCompact && !isPortrait && <p className="text-sm text-muted leading-relaxed mb-4 flex-1">{excerpt}</p>}

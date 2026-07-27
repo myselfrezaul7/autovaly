@@ -28,7 +28,7 @@ export default function GarageView() {
   }
 
   const compareUrl = garage.length >= 2 
-    ? `/compare/custom?vehicles=${garage.slice(0, 4).map(v => v.slug).join(',')}` 
+    ? `/compare/custom?a=${garage[0].slug}&b=${garage[1].slug}` 
     : '';
 
   return (

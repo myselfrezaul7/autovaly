@@ -1,5 +1,5 @@
 import { MetadataRoute } from 'next'
-import { getAllArticles } from '@/lib/content'
+import { getAllArticles, getAllVehicles } from '@/lib/content'
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const articles = getAllArticles()
@@ -11,6 +11,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
     changeFrequency: 'weekly' as const,
     priority: 0.8,
   }))
+  const vehicleUrls = getAllVehicles().map((vehicle) => ({
+    url: `${baseUrl}/vehicles/${vehicle.slug}`,
+    lastModified: new Date(),
+    changeFrequency: 'weekly' as const,
+    priority: 0.8,
+  }))
+
 
   return [
     {
@@ -26,5 +33,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.9,
     },
     ...articleUrls,
+    ...vehicleUrls,
   ]
 }

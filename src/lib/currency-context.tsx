@@ -8,6 +8,7 @@ interface CurrencyContextType {
   currency: Currency;
   toggleCurrency: () => void;
   formatPrice: (eurAmount: number, usdAmount: number) => string;
+  mounted: boolean;
 }
 
 const CurrencyContext = createContext<CurrencyContextType | undefined>(undefined);
@@ -39,10 +40,8 @@ export function CurrencyProvider({ children }: { children: React.ReactNode }) {
   };
 
   return (
-    <CurrencyContext.Provider value={{ currency, toggleCurrency, formatPrice }}>
-      <div className={!mounted ? "invisible" : ""}>
-        {children}
-      </div>
+    <CurrencyContext.Provider value={{ currency, toggleCurrency, formatPrice, mounted }}>
+      {children}
     </CurrencyContext.Provider>
   );
 }

@@ -23,7 +23,7 @@ export default function Newsletter() {
               <span>You&apos;re in! Welcome to the fast lane.</span>
             </m.div>
           ) : (
-            <form action="https://formspree.io/f/YOUR_FORM_ID" method="POST" onSubmit={() => setTimeout(() => setStatus("success"), 500)} className="w-full flex flex-col sm:flex-row gap-3 max-w-lg mb-6">
+            <form action="https://formspree.io/f/YOUR_FORM_ID" method="POST" onSubmit={(e) => { e.preventDefault(); setTimeout(() => setStatus("success"), 500); }} className="w-full flex flex-col sm:flex-row gap-3 max-w-lg mb-6">
               <input type="email" name="email" placeholder="Enter your email address" className="flex-1 bg-white/10 backdrop-blur-md border border-white/20 text-white placeholder:text-white/50 px-5 py-4 rounded-md outline-none focus:bg-white/20 focus:border-white/40 focus-visible:ring-2 focus-visible:ring-white/50 transition-all" required />
               <button type="submit" className="bg-white text-accent font-bold uppercase tracking-wide px-8 py-4 rounded-md hover:bg-gray-100 transition-colors whitespace-nowrap touch-press">Subscribe</button>
             </form>

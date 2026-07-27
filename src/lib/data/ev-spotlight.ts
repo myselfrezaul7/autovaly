@@ -3,7 +3,7 @@ import { EVSpotlightItem } from "../types";
 export const evSpotlightItems: EVSpotlightItem[] = [
   {
     id: "ev1",
-    slug: "hyundai-ioniq-5-n",
+    slug: "porsche-taycan-vs-audi-etron-gt",
     range: "487 km",
     chargingSpeed: "10-80% in 18m",
     headline: "Hyundai IONIQ 5 N: The First EV That Feels Analog",
@@ -12,7 +12,7 @@ export const evSpotlightItems: EVSpotlightItem[] = [
   },
   {
     id: "ev2",
-    slug: "polestar-4-review",
+    slug: "solid-state-batteries-hit-the-road-2026",
     range: "614 km",
     chargingSpeed: "10-80% in 28m",
     headline: "Polestar 4 Review: Who Needs a Rear Window Anyway?",
@@ -21,7 +21,7 @@ export const evSpotlightItems: EVSpotlightItem[] = [
   },
   {
     id: "ev3",
-    slug: "vw-id7-pro-s",
+    slug: "ev-market-2026-whats-changed",
     range: "700 km",
     chargingSpeed: "10-80% in 31m",
     headline: "Volkswagen ID.7 Pro S Finally Hits The Range Sweet Spot",

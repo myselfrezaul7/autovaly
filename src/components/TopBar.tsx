@@ -1,8 +1,14 @@
+"use client";
+
+import { useState, useEffect } from "react";
 import { tickerHeadlines } from "@/lib/data/ticker";
 import Link from "next/link";
 
 export default function TopBar() {
-  const currentDate = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+
+  const currentDate = mounted ? new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : "";
 
   return (
     <div className="bg-accent h-10 md:h-9 flex items-center overflow-hidden relative z-50">

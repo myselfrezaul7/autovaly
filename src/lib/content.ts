@@ -99,6 +99,10 @@ export function searchVehicles(query: string): Vehicle[] {
     (v) =>
       v.make.toLowerCase().includes(q) ||
       v.model.toLowerCase().includes(q) ||
-      v.trim.toLowerCase().includes(q)
+      v.trim.toLowerCase().includes(q) ||
+      v.fuelType.toLowerCase().includes(q) ||
+      v.bodyStyle.toLowerCase().includes(q) ||
+      v.segments.some((s) => s.toLowerCase().includes(q)) ||
+      v.year.toString().includes(q)
   );
 }

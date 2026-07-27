@@ -35,25 +35,16 @@ export default function VehicleCatalog({ initialVehicles }: { initialVehicles: V
     }
 
     if (bodyStyles.length > 0) {
-      // Map body styles roughly based on segments or just mock it since we don't have explicit bodyStyle.
-      // We will match against segments: "SUVs", "Sedans", "Trucks", "Sports Cars"
-      result = result.filter(v => {
-        return bodyStyles.some(style => {
-          if (style === "SUV" && v.segments.includes("SUVs")) return true;
-          if (style === "Sedan" && v.segments.includes("Sedans")) return true;
-          if (style === "Truck" && v.segments.includes("Trucks")) return true;
-          if (style === "Sports Car" && v.segments.includes("Sports Cars")) return true;
-          return false;
-        });
-      });
+      result = result.filter(v => bodyStyles.includes(v.bodyStyle));
     }
 
     // Sort
     result = [...result].sort((a, b) => {
       if (sortBy === "Price: Low to High") return a.priceUsd - b.priceUsd;
       if (sortBy === "Price: High to Low") return b.priceUsd - a.priceUsd;
-      if (sortBy === "Alphabetical") return a.model.localeCompare(b.model);
-      return 0; // Newest first (default order)
+      if (sortBy === "Alphabetical") return a.make.localeCompare(b.make) || a.model.localeCompare(b.model);
+      if (sortBy === "Newest First") return b.year - a.year;
+      return 0;
     });
 
     return result;

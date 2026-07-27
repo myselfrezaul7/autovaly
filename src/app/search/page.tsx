@@ -77,7 +77,7 @@ export default async function SearchPage({
                     className="flex flex-col sm:flex-row gap-6 p-4 rounded-xl border border-border-custom bg-surface hover:border-accent transition-colors group touch-press"
                   >
                     <div 
-                      className="w-full sm:w-48 h-32 rounded-lg bg-border-custom overflow-hidden flex-shrink-0"
+                      className="relative w-full sm:w-48 h-32 rounded-lg bg-border-custom overflow-hidden flex-shrink-0"
                       style={{ background: `linear-gradient(to right, ${vehicle.coverGradient.from}, ${vehicle.coverGradient.to})` }}
                     >
                       {vehicle.coverImage && (

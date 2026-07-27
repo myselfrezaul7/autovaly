@@ -32,10 +32,10 @@ function SpecBar({ valueA, valueB, winner, suffix = "" }: { valueA: number; valu
   return (
     <div className="flex flex-col gap-3 w-full">
       <div className="flex justify-between items-end">
-        <span className={clsx("font-bold text-lg transition-colors", winner === "A" ? "text-accent drop-shadow-[0_0_8px_rgba(var(--color-accent),0.5)]" : "text-text-light")}>
+        <span className={clsx("font-bold text-lg transition-colors", winner === "A" ? "text-accent drop-shadow-md" : "text-text-light")}>
           <AnimatedCounter value={valueA} />{suffix}
         </span>
-        <span className={clsx("font-bold text-lg transition-colors", winner === "B" ? "text-accent drop-shadow-[0_0_8px_rgba(var(--color-accent),0.5)]" : "text-text-light")}>
+        <span className={clsx("font-bold text-lg transition-colors", winner === "B" ? "text-accent drop-shadow-md" : "text-text-light")}>
           <AnimatedCounter value={valueB} />{suffix}
         </span>
       </div>
@@ -46,7 +46,6 @@ function SpecBar({ valueA, valueB, winner, suffix = "" }: { valueA: number; valu
             whileInView={{ width: `${percentA}%` }}
             transition={{ duration: 1.2, ease: "easeOut" }}
             viewport={{ once: true }}
-            style={{ width: "0%" }}
             className={clsx("h-full relative", winner === "A" ? "bg-accent shadow-[0_0_12px_var(--color-accent)]" : "bg-text-muted/50")}
           >
             {winner === "A" && <div className="absolute inset-0 bg-white/20 animate-pulse mix-blend-overlay" />}
@@ -58,7 +57,6 @@ function SpecBar({ valueA, valueB, winner, suffix = "" }: { valueA: number; valu
             whileInView={{ width: `${percentB}%` }}
             transition={{ duration: 1.2, ease: "easeOut" }}
             viewport={{ once: true }}
-            style={{ width: "0%" }}
             className={clsx("h-full relative", winner === "B" ? "bg-accent shadow-[0_0_12px_var(--color-accent)]" : "bg-text-muted/50")}
           >
             {winner === "B" && <div className="absolute inset-0 bg-white/20 animate-pulse mix-blend-overlay" />}
@@ -78,10 +76,10 @@ function SpecBarReverse({ valueA, valueB, winner, suffix = "" }: { valueA: numbe
   return (
     <div className="flex flex-col gap-3 w-full">
       <div className="flex justify-between items-end">
-        <span className={clsx("font-bold text-lg transition-colors", winner === "A" ? "text-accent drop-shadow-[0_0_8px_rgba(var(--color-accent),0.5)]" : "text-text-light")}>
+        <span className={clsx("font-bold text-lg transition-colors", winner === "A" ? "text-accent drop-shadow-md" : "text-text-light")}>
           <AnimatedCounter value={valueA} duration={1} />{suffix}
         </span>
-        <span className={clsx("font-bold text-lg transition-colors", winner === "B" ? "text-accent drop-shadow-[0_0_8px_rgba(var(--color-accent),0.5)]" : "text-text-light")}>
+        <span className={clsx("font-bold text-lg transition-colors", winner === "B" ? "text-accent drop-shadow-md" : "text-text-light")}>
           <AnimatedCounter value={valueB} duration={1} />{suffix}
         </span>
       </div>
@@ -92,7 +90,6 @@ function SpecBarReverse({ valueA, valueB, winner, suffix = "" }: { valueA: numbe
             whileInView={{ width: `${percentA}%` }}
             transition={{ duration: 1.2, ease: "easeOut" }}
             viewport={{ once: true }}
-            style={{ width: "0%" }}
             className={clsx("h-full relative", winner === "A" ? "bg-accent shadow-[0_0_12px_var(--color-accent)]" : "bg-text-muted/50")}
           >
             {winner === "A" && <div className="absolute inset-0 bg-white/20 animate-pulse mix-blend-overlay" />}
@@ -104,7 +101,6 @@ function SpecBarReverse({ valueA, valueB, winner, suffix = "" }: { valueA: numbe
             whileInView={{ width: `${percentB}%` }}
             transition={{ duration: 1.2, ease: "easeOut" }}
             viewport={{ once: true }}
-            style={{ width: "0%" }}
             className={clsx("h-full relative", winner === "B" ? "bg-accent shadow-[0_0_12px_var(--color-accent)]" : "bg-text-muted/50")}
           >
             {winner === "B" && <div className="absolute inset-0 bg-white/20 animate-pulse mix-blend-overlay" />}
@@ -154,7 +150,7 @@ export default function CompareSpecs({ comparison }: CompareSpecsProps) {
 
   if (!carA || !carB) return null;
 
-  const isEV = carA.evSpecs && carB.evSpecs;
+  const hasEVSpecs = carA.evSpecs || carB.evSpecs;
 
   return (
     <div className="max-w-5xl mx-auto bg-surface/40 backdrop-blur-sm border border-border-custom rounded-2xl overflow-hidden shadow-[0_8px_32px_rgba(0,0,0,0.2)]">
@@ -265,16 +261,16 @@ export default function CompareSpecs({ comparison }: CompareSpecsProps) {
         />
 
         {/* === BATTERY MATRIX (IF EV) === */}
-        {isEV && (
+        {hasEVSpecs && (
           <>
             <CategoryHeader title="Battery Matrix" />
             
             <SpecRow label="WLTP Range">
               <div className="col-span-2 p-4 md:p-6">
                 <SpecBar 
-                  valueA={carA.evSpecs!.rangeKm || 0} 
-                  valueB={carB.evSpecs!.rangeKm || 0} 
-                  winner={getWinner(carA.evSpecs!.rangeKm, carB.evSpecs!.rangeKm)} 
+                  valueA={carA.evSpecs?.rangeKm || 0} 
+                  valueB={carB.evSpecs?.rangeKm || 0} 
+                  winner={getWinner(carA.evSpecs?.rangeKm || 0, carB.evSpecs?.rangeKm || 0)} 
                   suffix=" km"
                 />
               </div>
@@ -283,9 +279,9 @@ export default function CompareSpecs({ comparison }: CompareSpecsProps) {
             <SpecRow label="Battery Capacity">
               <div className="col-span-2 p-4 md:p-6">
                 <SpecBar 
-                  valueA={carA.evSpecs!.batteryKwh || 0} 
-                  valueB={carB.evSpecs!.batteryKwh || 0} 
-                  winner={getWinner(carA.evSpecs!.batteryKwh, carB.evSpecs!.batteryKwh)} 
+                  valueA={carA.evSpecs?.batteryKwh || 0} 
+                  valueB={carB.evSpecs?.batteryKwh || 0} 
+                  winner={getWinner(carA.evSpecs?.batteryKwh || 0, carB.evSpecs?.batteryKwh || 0)} 
                   suffix=" kWh"
                 />
               </div>
@@ -294,9 +290,9 @@ export default function CompareSpecs({ comparison }: CompareSpecsProps) {
             <SpecRow label="Peak Charging">
               <div className="col-span-2 p-4 md:p-6">
                 <SpecBar 
-                  valueA={carA.evSpecs!.chargingSpeedKw || 0} 
-                  valueB={carB.evSpecs!.chargingSpeedKw || 0} 
-                  winner={getWinner(carA.evSpecs!.chargingSpeedKw, carB.evSpecs!.chargingSpeedKw)} 
+                  valueA={carA.evSpecs?.chargingSpeedKw || 0} 
+                  valueB={carB.evSpecs?.chargingSpeedKw || 0} 
+                  winner={getWinner(carA.evSpecs?.chargingSpeedKw || 0, carB.evSpecs?.chargingSpeedKw || 0)} 
                   suffix=" kW"
                 />
               </div>
@@ -304,14 +300,14 @@ export default function CompareSpecs({ comparison }: CompareSpecsProps) {
 
             <TextSpecRow 
               label="Charge Time (10-80%)" 
-              valA={carA.evSpecs!.chargingTime1080 || "-"} 
-              valB={carB.evSpecs!.chargingTime1080 || "-"} 
+              valA={carA.evSpecs?.chargingTime1080 || "-"} 
+              valB={carB.evSpecs?.chargingTime1080 || "-"} 
             />
 
             <TextSpecRow 
               label="Efficiency" 
-              valA={carA.evSpecs!.efficiency || "-"} 
-              valB={carB.evSpecs!.efficiency || "-"} 
+              valA={carA.evSpecs?.efficiency || "-"} 
+              valB={carB.evSpecs?.efficiency || "-"} 
             />
           </>
         )}

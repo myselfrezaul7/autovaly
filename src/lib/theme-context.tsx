@@ -7,6 +7,7 @@ type Theme = "dark" | "light";
 interface ThemeContextType {
   theme: Theme;
   toggleTheme: () => void;
+  mounted: boolean;
 }
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
@@ -20,13 +21,16 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     const stored = localStorage.getItem("theme") as Theme;
     if (stored) {
       setTheme(stored);
+      document.documentElement.classList.remove("dark", "light");
       document.documentElement.classList.add(stored);
     } else {
       const prefersLight = window.matchMedia("(prefers-color-scheme: light)").matches;
       if (prefersLight) {
         setTheme("light");
+        document.documentElement.classList.remove("dark");
         document.documentElement.classList.add("light");
       } else {
+        document.documentElement.classList.remove("light");
         document.documentElement.classList.add("dark");
       }
     }
@@ -42,7 +46,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   };
 
   return (
-    <ThemeContext.Provider value={{ theme, toggleTheme }}>
+    <ThemeContext.Provider value={{ theme, toggleTheme, mounted }}>
       {children}
     </ThemeContext.Provider>
   );
