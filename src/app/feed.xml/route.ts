@@ -1,10 +1,12 @@
 import { NextResponse } from "next/server";
-import { getAllArticles } from "@/lib/content";
+import { getAllArticles } from "@/services/article.service";
+import { logger } from "@/lib/logger";
 
 export async function GET() {
-  const articles = getAllArticles();
-  
-  const rssFeed = `<?xml version="1.0" encoding="UTF-8" ?>
+  try {
+    const articles = await getAllArticles();
+    
+    const rssFeed = `<?xml version="1.0" encoding="UTF-8" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Autovaly — Drive the Story</title>
@@ -27,10 +29,16 @@ export async function GET() {
   </channel>
 </rss>`;
 
-  return new NextResponse(rssFeed, {
-    headers: {
-      "Content-Type": "text/xml",
-      "Cache-Control": "s-maxage=3600, stale-while-revalidate=86400",
-    },
-  });
+    logger.info("RSS Feed generated successfully", { count: articles.length });
+
+    return new NextResponse(rssFeed, {
+      headers: {
+        "Content-Type": "text/xml",
+        "Cache-Control": "s-maxage=3600, stale-while-revalidate=86400",
+      },
+    });
+  } catch (error) {
+    logger.error("Error generating RSS Feed", { error });
+    return new NextResponse("Error generating RSS feed", { status: 500 });
+  }
 }

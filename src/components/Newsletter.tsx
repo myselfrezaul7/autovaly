@@ -2,9 +2,27 @@
 
 import { m } from "framer-motion";
 import { useState } from "react";
+import { subscribeNewsletter } from "@/app/actions/newsletter";
 
 export default function Newsletter() {
-  const [status, setStatus] = useState<"idle" | "success">("idle");
+  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [errorMessage, setErrorMessage] = useState("");
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setStatus("loading");
+    setErrorMessage("");
+
+    const formData = new FormData(e.currentTarget);
+    const res = await subscribeNewsletter(formData);
+
+    if (res.success) {
+      setStatus("success");
+    } else {
+      setStatus("error");
+      setErrorMessage(res.error || "Failed to subscribe. Please try again.");
+    }
+  };
 
   return (
     <section className="w-full relative overflow-hidden">
@@ -23,10 +41,18 @@ export default function Newsletter() {
               <span>You&apos;re in! Welcome to the fast lane.</span>
             </m.div>
           ) : (
-            <form action="https://formspree.io/f/YOUR_FORM_ID" method="POST" onSubmit={(e) => { e.preventDefault(); setTimeout(() => setStatus("success"), 500); }} className="w-full flex flex-col sm:flex-row gap-3 max-w-lg mb-6">
-              <input type="email" name="email" placeholder="Enter your email address" className="flex-1 bg-white/10 backdrop-blur-md border border-white/20 text-white placeholder:text-white/50 px-5 py-4 rounded-md outline-none focus:bg-white/20 focus:border-white/40 focus-visible:ring-2 focus-visible:ring-white/50 transition-all" required />
-              <button type="submit" className="bg-white text-accent font-bold uppercase tracking-wide px-8 py-4 rounded-md hover:bg-gray-100 transition-colors whitespace-nowrap touch-press">Subscribe</button>
+            <form onSubmit={handleSubmit} className="w-full flex flex-col sm:flex-row gap-3 max-w-lg mb-4">
+              <input type="email" name="email" placeholder="Enter your email address" className="flex-1 bg-white/10 backdrop-blur-md border border-white/20 text-white placeholder:text-white/50 px-5 py-4 rounded-md outline-none focus:bg-white/20 focus:border-white/40 focus-visible:ring-2 focus-visible:ring-white/50 transition-all" required disabled={status === "loading"} />
+              <button type="submit" disabled={status === "loading"} className="bg-white text-accent font-bold uppercase tracking-wide px-8 py-4 rounded-md hover:bg-gray-100 transition-colors whitespace-nowrap touch-press disabled:opacity-50">
+                {status === "loading" ? "Subscribing..." : "Subscribe"}
+              </button>
             </form>
+          )}
+
+          {status === "error" && (
+            <p className="text-sm font-semibold text-red-200 mb-4 bg-red-900/40 px-4 py-2 rounded border border-red-500/30">
+              {errorMessage}
+            </p>
           )}
 
           <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-white/90 mt-4">
