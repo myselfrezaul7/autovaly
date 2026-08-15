@@ -4,6 +4,8 @@ import { getTopStories, getCategoryTagColor, formatDate } from "@/lib/content";
 import ArticleCard from "./ui/ArticleCard";
 import ScrollReveal from "./ui/ScrollReveal";
 
+import Link from "next/link";
+
 export default function TopStories() {
   const stories = getTopStories(4);
   const main = stories[0];
@@ -15,7 +17,7 @@ export default function TopStories() {
         <ScrollReveal>
           <div className="flex items-center justify-between mb-8 md:mb-10 pb-4 border-b border-border-custom">
             <h2 className="font-heading text-2xl md:text-3xl uppercase tracking-wider pl-4 border-l-[5px] border-accent bg-gradient-to-r from-accent/5 to-transparent py-1">Top Stories</h2>
-            <a href="/news" className="text-accent text-sm font-bold uppercase tracking-widest hover:brightness-125 transition-all">View All <span aria-hidden="true">→</span></a>
+            <Link href="/news" className="text-accent text-sm font-bold uppercase tracking-widest hover:brightness-125 transition-all">View All <span aria-hidden="true">→</span></Link>
           </div>
         </ScrollReveal>
         <div className="grid grid-cols-1 lg:grid-cols-[1.5fr_1fr] gap-6 lg:gap-8">

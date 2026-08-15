@@ -3,15 +3,15 @@ import { ComparisonData } from "../types";
 export const comparisons: ComparisonData[] = [
   {
     id: "c1",
-    slug: "tesla-model-3-vs-bmw-i4",
+    slug: "tesla-model-3-vs-bmw-m3",
     carA: { name: "Tesla Model 3", gradient: { from: "#2563eb", to: "#1e3a8a" }, slug: "tesla-model-3-long-range" },
-    carB: { name: "BMW i4", gradient: { from: "#9ca3af", to: "#4b5563" }, slug: "bmw-m3-competition" },
+    carB: { name: "BMW M3 Competition", gradient: { from: "#34495e", to: "#2c3e50" }, slug: "bmw-m3-competition" },
     specs: [
-      { label: "Range (WLTP)", carA: "629 km", carB: "590 km" },
-      { label: "0-100 km/h", carA: "4.4s", carB: "5.6s" },
-      { label: "Base Price", carA: "€50,990", carB: "€57,500" },
+      { label: "Power", carA: "490 hp", carB: "530 hp" },
+      { label: "0-100 km/h", carA: "4.4s", carB: "3.4s" },
+      { label: "Base Price", carA: "€50,990", carB: "€100,000" },
     ],
-    tagline: "The Standard vs The Establishment",
+    tagline: "Electric Precision vs M Division Legacy",
   },
   {
     id: "c2",

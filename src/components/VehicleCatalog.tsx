@@ -84,7 +84,7 @@ export default function VehicleCatalog({ initialVehicles }: { initialVehicles: V
           <div className="mb-6">
             <h4 className="font-bold text-sm mb-3">Body Style</h4>
             <div className="flex flex-col gap-2">
-              {["SUV", "Sedan", "Truck", "Sports Car"].map(type => (
+              {["SUV", "Sedan", "Truck", "Coupe", "Convertible", "Hatchback", "Wagon"].map(type => (
                 <label key={type} className="flex items-center gap-3 cursor-pointer group">
                   <input 
                     type="checkbox" 

@@ -10,7 +10,7 @@ export default function EVSpotlight() {
       <div className="container mx-auto px-4 md:px-6">
         <div className="flex items-center justify-between mb-8 md:mb-10 pb-4 border-b border-border-custom">
           <h2 className="font-heading text-2xl md:text-3xl uppercase tracking-wider pl-4 border-l-[5px] border-accent flex items-center gap-2"><span className="text-accent">⚡</span> EV Spotlight</h2>
-          <a href="/evs" className="text-accent text-sm font-bold uppercase tracking-widest hover:brightness-125 transition-all">More EVs <span aria-hidden="true">→</span></a>
+          <Link href="/evs" className="text-accent text-sm font-bold uppercase tracking-widest hover:brightness-125 transition-all">More EVs <span aria-hidden="true">→</span></Link>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
           {evSpotlightItems.map((ev, index) => (

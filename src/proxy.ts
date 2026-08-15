@@ -13,8 +13,8 @@ export function proxy(request: NextRequest) {
       "script-src 'self' 'unsafe-inline' 'unsafe-eval'; " +
       "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; " +
       "font-src 'self' https://fonts.gstatic.com; " +
-      "img-src 'self' data: https:; " +
-      "connect-src 'self' https://formspree.io; " +
+      "img-src 'self' data: https: https://cdn.sanity.io; " +
+      "connect-src 'self' https://formspree.io https://*.sanity.io https://*.api.sanity.io https://cdn.sanity.io; " +
       "frame-ancestors 'none';"
   );
 
@@ -33,21 +33,30 @@ export function proxy(request: NextRequest) {
   // Force HTTPS
   h.set("Strict-Transport-Security", "max-age=63072000; includeSubDomains; preload");
 
-  // XSS protection
-  h.set("X-XSS-Protection", "1; mode=block");
+  // XSS protection (modern)
+  h.set("X-XSS-Protection", "0");
 
   // DNS prefetch
   h.set("X-DNS-Prefetch-Control", "on");
 
   // Rate Limiting for API routes
   if (request.nextUrl.pathname.startsWith("/api/")) {
-    const ip = request.headers.get("x-forwarded-for") || "127.0.0.1";
+    const forwarded = request.headers.get("x-forwarded-for");
+    const ip = forwarded ? forwarded.split(",")[0].trim() : "127.0.0.1";
     const rl = rateLimit(`api:${ip}`, 30, 60 * 1000);
 
     if (!rl.success) {
       return NextResponse.json(
         { error: "Too many requests. Please try again later." },
-        { status: 429 }
+        {
+          status: 429,
+          headers: {
+            "Retry-After": Math.ceil((rl.resetAt - Date.now()) / 1000).toString(),
+            "X-RateLimit-Limit": rl.limit.toString(),
+            "X-RateLimit-Remaining": "0",
+            "X-RateLimit-Reset": Math.ceil(rl.resetAt / 1000).toString(),
+          },
+        }
       );
     }
   }

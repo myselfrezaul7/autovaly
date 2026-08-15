@@ -17,7 +17,12 @@ export const metadata: Metadata = {
   alternates: { canonical: "/compare" }
 };
 
-export default function CompareIndexPage() {
+export default async function CompareIndexPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ a?: string }>;
+}) {
+  const initialCarA = (await searchParams).a || "";
   const vehicles = getAllVehicles();
   
   const crumbs = [
@@ -39,7 +44,7 @@ export default function CompareIndexPage() {
         </p>
       </div>
 
-      <CompareBuilder vehicles={vehicles} />
+      <CompareBuilder vehicles={vehicles} initialCarA={initialCarA} />
 
       <div className="max-w-5xl mx-auto">
         <h2 className="text-3xl font-heading font-bold mb-8">Popular Matchups</h2>

@@ -7,8 +7,11 @@ export default function VehicleJsonLd({ vehicle }: { vehicle: Vehicle }) {
 
   const schema = {
     "@context": "https://schema.org",
-    "@type": "Car", // Valid subtype of Product and Vehicle
+    "@type": "Car",
     name: `${vehicle.year} ${vehicle.make} ${vehicle.model} ${vehicle.trim}`,
+    image: vehicle.coverImage
+      ? (vehicle.coverImage.startsWith("/") ? `https://autovaly.com${vehicle.coverImage}` : vehicle.coverImage)
+      : "https://autovaly.com/og-image.png",
     brand: {
       "@type": "Brand",
       name: vehicle.make,

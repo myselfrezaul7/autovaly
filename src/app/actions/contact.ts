@@ -4,6 +4,7 @@ import { contactSchema } from "@/lib/validators";
 import { rateLimit } from "@/lib/rate-limit";
 import { logger } from "@/lib/logger";
 import { formatErrorResponse, ValidationError, RateLimitError } from "@/lib/errors";
+import { headers } from "next/headers";
 
 export async function submitContact(formData: FormData) {
   try {
@@ -14,7 +15,11 @@ export async function submitContact(formData: FormData) {
       message: formData.get("message")?.toString() || "",
     };
 
-    const rateCheck = rateLimit(`contact:${rawData.email}`, 3, 60 * 1000);
+    const headerList = await headers();
+    const forwarded = headerList.get("x-forwarded-for");
+    const ip = forwarded ? forwarded.split(",")[0].trim() : "127.0.0.1";
+
+    const rateCheck = rateLimit(`contact:${ip}`, 3, 60 * 1000);
     if (!rateCheck.success) {
       throw new RateLimitError("Too many submissions. Please wait a minute before trying again.");
     }

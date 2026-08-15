@@ -36,6 +36,15 @@ export const vehicleType = defineType({
       options: { hotspot: true },
     }),
     defineField({
+      name: 'coverGradient',
+      title: 'Cover Gradient',
+      type: 'object',
+      fields: [
+        { name: 'from', type: 'string', title: 'From' },
+        { name: 'to', type: 'string', title: 'To' },
+      ],
+    }),
+    defineField({
       name: 'trim',
       title: 'Trim',
       type: 'string',
@@ -46,6 +55,11 @@ export const vehicleType = defineType({
       type: 'number',
     }),
     defineField({
+      name: 'priceUsd',
+      title: 'Price (USD)',
+      type: 'number',
+    }),
+    defineField({
       name: 'fuelType',
       title: 'Fuel Type',
       type: 'string',
@@ -53,7 +67,7 @@ export const vehicleType = defineType({
         list: ['BEV', 'PHEV', 'Hybrid', 'Gasoline', 'Diesel'],
       },
     }),
-        defineField({
+    defineField({
       name: 'bodyStyle',
       title: 'Body Style',
       type: 'string',
@@ -64,7 +78,7 @@ export const vehicleType = defineType({
       type: 'array',
       of: [{ type: 'string' }],
       options: {
-        list: ['Sedan', 'SUV', 'Crossover', 'Sports', 'Hatchback', 'Truck', 'Wagon'],
+        list: ["Sedans", "SUVs", "Trucks", "Sports Cars", "EVs", "Hybrids", "Luxury", "Budget Picks"],
       },
     }),
     defineField({
@@ -99,11 +113,30 @@ export const vehicleType = defineType({
         { name: 'efficiency', type: 'string', title: 'Efficiency' },
       ]
     }),
-        defineField({
+    defineField({
       name: 'highlights',
       title: 'Highlights',
       type: 'array',
       of: [{ type: 'string' }],
+    }),
+    defineField({
+      name: 'prosAndCons',
+      title: 'Pros and Cons',
+      type: 'object',
+      fields: [
+        { name: 'pros', title: 'Pros', type: 'array', of: [{ type: 'string' }] },
+        { name: 'cons', title: 'Cons', type: 'array', of: [{ type: 'string' }] },
+      ],
+    }),
+    defineField({
+      name: 'featured',
+      title: 'Featured',
+      type: 'boolean',
+    }),
+    defineField({
+      name: 'new2025',
+      title: 'New in 2025',
+      type: 'boolean',
     }),
     defineField({
       name: 'rating',

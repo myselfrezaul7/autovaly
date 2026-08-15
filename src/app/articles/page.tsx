@@ -7,7 +7,7 @@ import ArticleCard from "@/components/ui/ArticleCard";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 
 export const metadata: Metadata = { 
-  title: "All Articles | Autovaly", 
+  title: "All Articles", 
   description: "Browse all news, reviews, and features from Autovaly.",
   openGraph: {
     title: "All Articles | Autovaly",
@@ -54,6 +54,7 @@ export default function ArticlesPage() {
                 readTime={article.readTime}
                 gradientFrom={article.coverGradient.from}
                 gradientTo={article.coverGradient.to}
+                coverImage={article.coverImage}
               />
             </ScrollReveal>
           ))}

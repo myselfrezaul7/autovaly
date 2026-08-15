@@ -12,29 +12,32 @@ export async function generateMetadata({ searchParams }: { searchParams: Promise
   const slugA = a || (vehicles ? vehicles.split(',')[0] : null);
   const slugB = b || (vehicles ? vehicles.split(',')[1] : null);
 
-  if (!slugA || !slugB) return { title: "Custom Comparison | Autovaly" };
+  if (!slugA || !slugB) return { title: "Custom Comparison", robots: { index: false, follow: true } };
 
   const carA = getVehicleBySlug(slugA);
   const carB = getVehicleBySlug(slugB);
 
-  if (!carA || !carB) return { title: "Custom Comparison | Autovaly" };
+  if (!carA || !carB) return { title: "Custom Comparison", robots: { index: false, follow: true } };
 
-  const title = `${carA.make} ${carA.model} vs ${carB.make} ${carB.model} | Autovaly`;
+  const title = `${carA.make} ${carA.model} vs ${carB.make} ${carB.model}`;
   const description = `Compare the ${carA.make} ${carA.model} against the ${carB.make} ${carB.model}. Detailed head-to-head specs, performance, and features.`;
 
   return {
     title,
     description,
+    robots: { index: false, follow: true },
     openGraph: {
       type: "article",
-      title,
+      title: `${title} | Autovaly`,
       description,
       url: `https://autovaly.com/compare/custom?a=${slugA}&b=${slugB}`,
+      images: carA.coverImage ? [{ url: carA.coverImage, width: 1200, height: 630, alt: title }] : [],
     },
     twitter: {
       card: "summary_large_image",
-      title,
+      title: `${title} | Autovaly`,
       description,
+      images: carA.coverImage ? [carA.coverImage] : [],
     },
     alternates: { canonical: `/compare/custom?a=${slugA}&b=${slugB}` },
   };

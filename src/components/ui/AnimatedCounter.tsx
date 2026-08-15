@@ -7,19 +7,28 @@ interface AnimatedCounterProps {
   value: number;
   suffix?: string;
   duration?: number;
+  decimals?: number;
 }
 
-export default function AnimatedCounter({ value, suffix = "", duration = 1.5 }: AnimatedCounterProps) {
+export default function AnimatedCounter({
+  value,
+  suffix = "",
+  duration = 1.5,
+  decimals,
+}: AnimatedCounterProps) {
   const ref = useRef<HTMLSpanElement>(null);
   const inView = useInView(ref, { once: true, margin: "-50px" });
-  
+
   const spring = useSpring(0, {
     stiffness: 50,
     damping: 20,
-    duration: duration * 1000
+    duration: duration * 1000,
   });
 
-  const display = useTransform(spring, (current) => Math.round(current) + suffix);
+  const displayDecimals = decimals ?? (Number.isInteger(value) ? 0 : 1);
+  const display = useTransform(spring, (current) => {
+    return (displayDecimals > 0 ? current.toFixed(displayDecimals) : Math.round(current).toString()) + suffix;
+  });
 
   useEffect(() => {
     if (inView) {

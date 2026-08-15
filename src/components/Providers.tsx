@@ -1,17 +1,32 @@
 "use client";
 
-import { LazyMotion, domAnimation } from "framer-motion";
 import { ThemeProvider } from "@/lib/theme-context";
 import { CurrencyProvider } from "@/lib/currency-context";
+import { GarageProvider } from "@/lib/garage-context";
+import { LazyMotion, domAnimation } from "framer-motion";
+import { useEffect } from "react";
 
-export default function Providers({ children }: { children: React.ReactNode }) {
+export function Providers({ children }: { children: React.ReactNode }) {
+  useEffect(() => {
+    if (typeof window !== "undefined" && "serviceWorker" in navigator && process.env.NODE_ENV === "production") {
+      navigator.serviceWorker.register("/sw.js").catch((err) => {
+        console.error("Service worker registration failed:", err);
+      });
+    }
+  }, []);
+
   return (
-    <ThemeProvider>
-      <CurrencyProvider>
-        <LazyMotion features={domAnimation}>
-          {children}
-        </LazyMotion>
-      </CurrencyProvider>
-    </ThemeProvider>
+    <LazyMotion features={domAnimation}>
+      <ThemeProvider>
+        <CurrencyProvider>
+          <GarageProvider>
+            {children}
+          </GarageProvider>
+        </CurrencyProvider>
+      </ThemeProvider>
+    </LazyMotion>
   );
 }
+
+export default Providers;
+

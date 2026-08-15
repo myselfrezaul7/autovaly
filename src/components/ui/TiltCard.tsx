@@ -11,8 +11,8 @@ interface TiltCardProps {
 
 export default function TiltCard({ children, className, glowColor = "var(--accent)" }: TiltCardProps) {
   const cardRef = useRef<HTMLDivElement>(null);
-  const [style, setStyle] = useState({});
-  const [isHovered, setIsHovered] = useState(false);
+  const [style, setStyle] = useState<React.CSSProperties>({});
+  const [, setIsHovered] = useState(false);
   const [supportsHover, setSupportsHover] = useState(true);
 
   useEffect(() => {
@@ -30,12 +30,12 @@ export default function TiltCard({ children, className, glowColor = "var(--accen
     const centerX = rect.width / 2;
     const centerY = rect.height / 2;
 
-    const rotateX = ((y - centerY) / centerY) * -4; // Max 4 degrees
+    const rotateX = ((y - centerY) / centerY) * -4;
     const rotateY = ((x - centerX) / centerX) * 4;
 
     setStyle({
       transform: `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`,
-      boxShadow: `0 20px 40px rgba(0,0,0,0.2), 0 0 20px ${glowColor}20`,
+      boxShadow: `0 20px 40px rgba(0,0,0,0.2), 0 0 20px color-mix(in srgb, ${glowColor} 25%, transparent)`,
       borderColor: glowColor,
     });
   };

@@ -4,12 +4,17 @@ import { newsletterSchema } from "@/lib/validators";
 import { rateLimit } from "@/lib/rate-limit";
 import { logger } from "@/lib/logger";
 import { formatErrorResponse, ValidationError, RateLimitError } from "@/lib/errors";
+import { headers } from "next/headers";
 
 export async function subscribeNewsletter(formData: FormData) {
   try {
     const rawEmail = formData.get("email")?.toString() || "";
 
-    const rateCheck = rateLimit(`newsletter:${rawEmail}`, 5, 60 * 1000);
+    const headerList = await headers();
+    const forwarded = headerList.get("x-forwarded-for");
+    const ip = forwarded ? forwarded.split(",")[0].trim() : "127.0.0.1";
+
+    const rateCheck = rateLimit(`newsletter:${ip}`, 5, 60 * 1000);
     if (!rateCheck.success) {
       throw new RateLimitError("Too many subscription attempts. Please wait a minute.");
     }

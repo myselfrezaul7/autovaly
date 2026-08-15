@@ -7,7 +7,7 @@ import ScrollReveal from "@/components/ui/ScrollReveal";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Search | Autovaly",
+  title: "Search",
   description: "Search Autovaly for vehicles, news, and reviews.",
   robots: { index: false, follow: true },
 };

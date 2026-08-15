@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Privacy Policy | Autovaly",
+  title: "Privacy Policy",
   description: "Read the Autovaly privacy policy to understand how we protect your data.",
   openGraph: {
     title: "Privacy Policy | Autovaly",

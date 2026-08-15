@@ -15,7 +15,7 @@ export const articles: Article[] = [
     readTime: "6 min read",
     featured: true,
     editorsPick: false,
-    heroArticle: true,
+    heroArticle: false,
     coverGradient: { from: "#00B894", to: "#16213e" },
     coverImage: "/images/articles/tesla-model-y-refresh.jpg",
   },

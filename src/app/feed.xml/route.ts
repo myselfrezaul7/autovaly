@@ -7,7 +7,7 @@ export async function GET() {
     const articles = await getAllArticles();
     
     const rssFeed = `<?xml version="1.0" encoding="UTF-8" ?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/">
   <channel>
     <title>Autovaly — Drive the Story</title>
     <link>https://autovaly.com</link>
@@ -22,7 +22,7 @@ export async function GET() {
       <guid isPermaLink="true">https://autovaly.com/articles/${article.slug}</guid>
       <pubDate>${new Date(article.publishedAt).toUTCString()}</pubDate>
       <description><![CDATA[${article.excerpt}]]></description>
-      <author>${article.author.name}</author>
+      <dc:creator><![CDATA[${article.author?.name || 'Autovaly Editorial'}]]></dc:creator>
       <category>${article.category}</category>
     </item>
     `).join('')}
@@ -33,7 +33,7 @@ export async function GET() {
 
     return new NextResponse(rssFeed, {
       headers: {
-        "Content-Type": "text/xml",
+        "Content-Type": "application/rss+xml; charset=utf-8",
         "Cache-Control": "s-maxage=3600, stale-while-revalidate=86400",
       },
     });

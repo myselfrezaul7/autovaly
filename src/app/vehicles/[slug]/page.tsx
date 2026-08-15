@@ -47,6 +47,8 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   };
 }
 
+import GarageButton from "@/components/ui/GarageButton";
+
 export default async function VehicleDetailPage({ params }: { params: Promise<{ slug: string }> }) {
   const slug = (await params).slug;
   const vehicle = getVehicleBySlug(slug);
@@ -131,6 +133,8 @@ export default async function VehicleDetailPage({ params }: { params: Promise<{ 
             <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6 fixed sm:static bottom-[60px] lg:bottom-auto left-0 right-0 z-40 bg-surface/90 sm:bg-transparent backdrop-blur-xl sm:backdrop-blur-none p-4 sm:p-0 border-t border-border-custom sm:border-0 pb-[max(1rem,env(safe-area-inset-bottom))] sm:pb-0 shadow-[0_-10px_40px_rgba(0,0,0,0.3)] sm:shadow-none transition-all">
               <Price eurAmount={vehicle.priceEur} usdAmount={vehicle.priceUsd} className="text-2xl sm:text-3xl font-bold font-heading tabular-nums" />
               
+              <GarageButton vehicle={vehicle} />
+
               <Link 
                 href={`/compare?a=${vehicle.slug}`}
                 className="inline-flex items-center justify-center px-6 py-3 bg-accent text-white sm:bg-surface sm:text-text-primary sm:border border-border-custom rounded-md font-bold text-sm hover:border-accent hover:text-accent transition-colors touch-press flex-1 sm:flex-none shadow-lg shadow-accent/20 sm:shadow-none"

@@ -5,7 +5,7 @@ export default function robots(): MetadataRoute.Robots {
     rules: {
       userAgent: '*',
       allow: '/',
-      disallow: ['/studio/'],
+      disallow: ['/studio', '/studio/', '/api/'],
     },
     sitemap: 'https://autovaly.com/sitemap.xml',
   }

@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "About Us | Autovaly",
+  title: "About Us",
   description: "Learn more about the Autovaly team and our mission.",
   openGraph: {
     title: "About Us | Autovaly",

@@ -8,13 +8,13 @@ export default function ArticleJsonLd({ article }: { article: Article }) {
     description: article.excerpt,
     image: article.coverImage ? [
       article.coverImage.startsWith("/") ? `https://autovaly.com${article.coverImage}` : article.coverImage
-    ] : [],
+    ] : ["https://autovaly.com/og-image.png"],
     datePublished: new Date(article.publishedAt).toISOString(),
-    dateModified: new Date(article.publishedAt).toISOString(), // Assume modified = published for now
+    dateModified: new Date(article.publishedAt).toISOString(),
     author: {
       "@type": "Person",
       name: article.author.name,
-      url: `https://autovaly.com/author/${article.author.slug}`,
+      url: `https://autovaly.com/about`,
     },
     publisher: {
       "@type": "Organization",

@@ -42,7 +42,7 @@ export default function ScrollEnhancements() {
             exit={{ opacity: 0, scale: 0.8 }}
             transition={{ duration: 0.2 }}
             onClick={goToTop}
-            className="fixed bottom-4 right-4 md:bottom-8 md:right-8 z-50 p-3 md:p-4 rounded-full bg-accent text-white shadow-lg shadow-accent/20 hover:bg-accent-dark transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent touch-press"
+            className="fixed bottom-20 right-4 md:bottom-8 md:right-8 z-40 p-3 md:p-4 rounded-full bg-accent text-white shadow-lg shadow-accent/20 hover:bg-accent-dark transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent touch-press"
             aria-label="Back to top"
           >
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m18 15-6-6-6 6"/></svg>

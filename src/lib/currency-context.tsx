@@ -19,16 +19,33 @@ export function CurrencyProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     setMounted(true);
-    const stored = localStorage.getItem("currency") as Currency;
-    if (stored) {
-      setCurrency(stored);
+    try {
+      const stored = localStorage.getItem("currency") as Currency;
+      if (stored) {
+        setCurrency(stored);
+      }
+    } catch (e) {
+      console.error("Failed to access localStorage for currency", e);
     }
+
+    const handleStorage = (e: StorageEvent) => {
+      if (e.key === "currency" && (e.newValue === "EUR" || e.newValue === "USD")) {
+        setCurrency(e.newValue);
+      }
+    };
+
+    window.addEventListener("storage", handleStorage);
+    return () => window.removeEventListener("storage", handleStorage);
   }, []);
 
   const toggleCurrency = () => {
     const newCurrency = currency === "EUR" ? "USD" : "EUR";
     setCurrency(newCurrency);
-    localStorage.setItem("currency", newCurrency);
+    try {
+      localStorage.setItem("currency", newCurrency);
+    } catch (e) {
+      console.error("Failed to save currency to localStorage", e);
+    }
   };
 
   const formatPrice = (eurAmount: number, usdAmount: number) => {

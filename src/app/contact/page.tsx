@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import ContactForm from "@/components/ContactForm";
 
 export const metadata: Metadata = {
-  title: "Contact Us | Autovaly",
+  title: "Contact Us",
   description: "Get in touch with the Autovaly editorial team.",
   openGraph: {
     title: "Contact Us | Autovaly",

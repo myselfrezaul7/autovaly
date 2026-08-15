@@ -18,28 +18,47 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     setMounted(true);
-    const stored = localStorage.getItem("theme") as Theme;
-    if (stored) {
-      setTheme(stored);
-      document.documentElement.classList.remove("dark", "light");
-      document.documentElement.classList.add(stored);
-    } else {
-      const prefersLight = window.matchMedia("(prefers-color-scheme: light)").matches;
-      if (prefersLight) {
-        setTheme("light");
-        document.documentElement.classList.remove("dark");
-        document.documentElement.classList.add("light");
+    try {
+      const stored = localStorage.getItem("theme") as Theme;
+      if (stored) {
+        setTheme(stored);
+        document.documentElement.classList.remove("dark", "light");
+        document.documentElement.classList.add(stored);
       } else {
-        document.documentElement.classList.remove("light");
-        document.documentElement.classList.add("dark");
+        const prefersLight = window.matchMedia("(prefers-color-scheme: light)").matches;
+        if (prefersLight) {
+          setTheme("light");
+          document.documentElement.classList.remove("dark");
+          document.documentElement.classList.add("light");
+        } else {
+          document.documentElement.classList.remove("light");
+          document.documentElement.classList.add("dark");
+        }
       }
+    } catch (e) {
+      console.error("Failed to access localStorage for theme", e);
     }
+
+    const handleStorage = (e: StorageEvent) => {
+      if (e.key === "theme" && (e.newValue === "dark" || e.newValue === "light")) {
+        setTheme(e.newValue);
+        document.documentElement.classList.remove("dark", "light");
+        document.documentElement.classList.add(e.newValue);
+      }
+    };
+
+    window.addEventListener("storage", handleStorage);
+    return () => window.removeEventListener("storage", handleStorage);
   }, []);
 
   const toggleTheme = () => {
     const newTheme = theme === "dark" ? "light" : "dark";
     setTheme(newTheme);
-    localStorage.setItem("theme", newTheme);
+    try {
+      localStorage.setItem("theme", newTheme);
+    } catch (e) {
+      console.error("Failed to save theme in localStorage", e);
+    }
     
     document.documentElement.classList.remove("dark", "light");
     document.documentElement.classList.add(newTheme);

@@ -4,6 +4,7 @@ interface RateLimitRecord {
 }
 
 const memoryStore = new Map<string, RateLimitRecord>();
+const MAX_ENTRIES = 10000;
 
 if (typeof setInterval !== "undefined") {
   setInterval(() => {
@@ -29,6 +30,15 @@ export function rateLimit(
   windowMs = 60 * 1000
 ): RateLimitResult {
   const now = Date.now();
+
+  if (memoryStore.size > MAX_ENTRIES) {
+    for (const [key, record] of memoryStore.entries()) {
+      if (record.resetAt <= now) {
+        memoryStore.delete(key);
+      }
+    }
+  }
+
   const record = memoryStore.get(identifier);
 
   if (!record || record.resetAt <= now) {
