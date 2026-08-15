@@ -51,7 +51,10 @@ export interface ClassicSpotlightItem {
   year: number;
   engine: string;
   power: string;
+  topSpeed?: string;
+  acceleration?: string;
   era: string;
+  eraCategory: "all" | "50s-60s" | "70s" | "80s-90s";
   name: string;
   headline: string;
   excerpt: string;
