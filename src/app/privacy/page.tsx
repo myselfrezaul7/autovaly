@@ -92,7 +92,7 @@ export default function PrivacyPage() {
               4. Contact Our Data Protection Officer
             </h2>
             <p>
-              If you have questions regarding this Privacy Policy or wish to exercise your data rights, please contact our Data Protection Officer at <a href="mailto:privacy@autovaly.com" className="text-accent underline font-bold">privacy@autovaly.com</a> or write to our London Newsroom at 100 Bishopsgate, London EC2N 4AG, UK.
+              If you have questions regarding this Privacy Policy or wish to exercise your data rights, please contact our team directly at <a href="mailto:itsautovaly@gmail.com" className="text-accent underline font-bold">itsautovaly@gmail.com</a>.
             </p>
           </section>
         </div>

@@ -1,113 +1,139 @@
 "use client";
 
 import { useState } from "react";
-import { submitContact } from "@/app/actions/contact";
 
 export default function ContactForm() {
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
-  const [message, setMessage] = useState("");
-  const [fieldErrors, setFieldErrors] = useState<Record<string, string[]>>({});
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setStatus("loading");
-    setMessage("");
-    setFieldErrors({});
+    setErrorMessage("");
 
-    const formData = new FormData(e.currentTarget);
-    const res = await submitContact(formData);
+    const form = e.currentTarget;
+    const formData = new FormData(form);
+    formData.append("access_key", "3281e53d-d6de-433b-ac48-98dc9f829145");
+    formData.append("from_name", "Autovaly Reader Inquiry");
+    formData.append("subject", `New message from ${formData.get("name") || "Autovaly User"} - ${formData.get("subject") || "Contact Form"}`);
 
-    if (res.success) {
-      setStatus("success");
-      setMessage(res.message);
-    } else {
-      setStatus("error");
-      setMessage(res.error);
-      if (res.errors) {
-        setFieldErrors(res.errors);
+    try {
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        body: formData,
+      });
+
+      const data = await response.json();
+
+      if (response.ok && data.success) {
+        setStatus("success");
+        form.reset();
+      } else {
+        setStatus("error");
+        setErrorMessage(data.message || "Failed to deliver message. Please try again.");
       }
+    } catch {
+      setStatus("error");
+      setErrorMessage("Something went wrong. Please check your internet connection or email us directly at itsautovaly@gmail.com.");
     }
   };
 
   if (status === "success") {
     return (
-      <div className="p-8 rounded-xl border border-accent/30 bg-accent/10 text-center flex flex-col items-center">
-        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-accent mb-4"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-        <h3 className="text-2xl font-bold font-heading mb-2">Message Sent!</h3>
-        <p className="text-text-muted mb-6">{message}</p>
-        <button onClick={() => setStatus("idle")} className="px-6 py-2 bg-accent text-white font-bold rounded uppercase text-sm">Send Another Message</button>
+      <div className="p-8 rounded-2xl border border-accent/40 bg-accent/10 text-center flex flex-col items-center">
+        <div className="w-14 h-14 rounded-full bg-accent/20 border border-accent flex items-center justify-center text-accent text-2xl mb-4 font-bold">
+          ✓
+        </div>
+        <h3 className="text-2xl font-bold font-heading mb-2 text-text-light">Message Delivered!</h3>
+        <p className="text-sm text-text-muted mb-6 max-w-md">
+          Thank you for reaching out. Your message has been routed to our team at <strong className="text-text-light">itsautovaly@gmail.com</strong>. We will review your inquiry shortly.
+        </p>
+        <button
+          onClick={() => setStatus("idle")}
+          className="px-6 py-2.5 bg-accent text-white font-heading font-bold rounded-xl uppercase tracking-wider text-xs shadow-lg shadow-accent/25 hover:bg-accent/90 transition-all touch-press active:scale-95 cursor-pointer"
+        >
+          Send Another Message
+        </button>
       </div>
     );
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6 bg-surface p-8 rounded-xl border border-border-custom">
+    <form id="form" onSubmit={handleSubmit} className="space-y-5">
       {status === "error" && (
-        <div className="p-4 rounded border border-red-500/30 bg-red-500/10 text-red-400 text-sm font-medium">
-          {message}
+        <div className="p-4 rounded-xl border border-red-500/40 bg-red-500/10 text-red-400 text-xs font-medium">
+          {errorMessage}
         </div>
       )}
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div className="space-y-2">
-          <label htmlFor="name" className="text-sm font-bold uppercase tracking-widest text-text-muted">Name</label>
-          <input 
-            type="text" 
-            id="name" 
-            name="name" 
+      {/* Anti-bot Honeypot */}
+      <input type="checkbox" name="botcheck" className="hidden" style={{ display: "none" }} />
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+        <div className="space-y-1.5">
+          <label htmlFor="name" className="text-xs font-bold uppercase tracking-wider text-text-muted">
+            Your Name <span className="text-accent">*</span>
+          </label>
+          <input
+            type="text"
+            id="name"
+            name="name"
             required
-            className="w-full bg-background border border-border-custom rounded-md px-4 py-3 text-text-light focus:border-accent focus-visible:ring-2 focus-visible:ring-accent/50 outline-none transition-colors" 
+            className="w-full bg-background border border-border-custom rounded-xl px-4 py-3 text-sm text-text-light placeholder:text-text-muted/50 focus:border-accent focus:outline-none transition-colors"
             placeholder="Jane Doe"
           />
-          {fieldErrors.name && <p className="text-xs text-red-400">{fieldErrors.name[0]}</p>}
         </div>
-        <div className="space-y-2">
-          <label htmlFor="email" className="text-sm font-bold uppercase tracking-widest text-text-muted">Email</label>
-          <input 
-            type="email" 
-            id="email" 
-            name="email" 
+        <div className="space-y-1.5">
+          <label htmlFor="email" className="text-xs font-bold uppercase tracking-wider text-text-muted">
+            Your Email <span className="text-accent">*</span>
+          </label>
+          <input
+            type="email"
+            id="email"
+            name="email"
             required
-            className="w-full bg-background border border-border-custom rounded-md px-4 py-3 text-text-light focus:border-accent focus-visible:ring-2 focus-visible:ring-accent/50 outline-none transition-colors" 
+            className="w-full bg-background border border-border-custom rounded-xl px-4 py-3 text-sm text-text-light placeholder:text-text-muted/50 focus:border-accent focus:outline-none transition-colors"
             placeholder="jane@example.com"
           />
-          {fieldErrors.email && <p className="text-xs text-red-400">{fieldErrors.email[0]}</p>}
         </div>
       </div>
 
-      <div className="space-y-2">
-        <label htmlFor="subject" className="text-sm font-bold uppercase tracking-widest text-text-muted">Subject</label>
-        <select 
-          id="subject" 
+      <div className="space-y-1.5">
+        <label htmlFor="subject" className="text-xs font-bold uppercase tracking-wider text-text-muted">
+          Subject / Topic
+        </label>
+        <select
+          id="subject"
           name="subject"
-          className="w-full bg-background border border-border-custom rounded-md px-4 py-3 text-text-light focus:border-accent focus-visible:ring-2 focus-visible:ring-accent/50 outline-none transition-colors"
+          className="w-full bg-background border border-border-custom rounded-xl px-4 py-3 text-sm text-text-light focus:border-accent focus:outline-none transition-colors"
         >
-          <option value="General Inquiry">General Inquiry</option>
-          <option value="Editorial Pitch">Editorial Pitch</option>
-          <option value="Advertising">Advertising & Partnerships</option>
-          <option value="Bug Report">Report a Bug/Error</option>
+          <option value="General Inquiry">General Inquiry & Feedback</option>
+          <option value="Editorial Tips / Leaks">Confidential News Tip / Spy Shot</option>
+          <option value="Advertising & Partnerships">Advertising & Sponsorships</option>
+          <option value="Vehicle Spec Correction">Vehicle Specification Correction</option>
         </select>
       </div>
 
-      <div className="space-y-2">
-        <label htmlFor="message" className="text-sm font-bold uppercase tracking-widest text-text-muted">Message</label>
-        <textarea 
-          id="message" 
-          name="message" 
+      <div className="space-y-1.5">
+        <label htmlFor="message" className="text-xs font-bold uppercase tracking-wider text-text-muted">
+          Message <span className="text-accent">*</span>
+        </label>
+        <textarea
+          id="message"
+          name="message"
           required
-          rows={6}
-          className="w-full bg-background border border-border-custom rounded-md px-4 py-3 text-text-light focus:border-accent focus-visible:ring-2 focus-visible:ring-accent/50 outline-none transition-colors resize-y" 
-          placeholder="How can we help you?"
+          rows={5}
+          className="w-full bg-background border border-border-custom rounded-xl px-4 py-3 text-sm text-text-light placeholder:text-text-muted/50 focus:border-accent focus:outline-none transition-colors resize-y"
+          placeholder="Type your message or news tip here..."
         ></textarea>
-        {fieldErrors.message && <p className="text-xs text-red-400">{fieldErrors.message[0]}</p>}
       </div>
 
-      <button 
-        type="submit" 
+      <button
+        type="submit"
         disabled={status === "loading"}
-        className="w-full bg-accent text-white font-bold uppercase tracking-wide text-sm px-8 py-4 rounded hover:bg-accent-dark transition-all touch-press active:scale-[0.98] disabled:opacity-50"
+        className="w-full bg-accent hover:bg-accent/90 text-white font-heading font-bold uppercase tracking-wider text-xs py-4 rounded-xl shadow-lg shadow-accent/25 transition-all touch-press active:scale-[0.98] disabled:opacity-50 cursor-pointer"
       >
-        {status === "loading" ? "Sending..." : "Send Message"}
+        {status === "loading" ? "Sending Message..." : "Send Direct Message →"}
       </button>
     </form>
   );
