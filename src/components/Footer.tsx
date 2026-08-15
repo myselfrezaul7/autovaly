@@ -34,6 +34,7 @@ export default function Footer() {
               <li><Link href="/search?q=sedans" className="hover:text-accent transition-colors">Sedans</Link></li>
               <li><Link href="/search?q=SUVs" className="hover:text-accent transition-colors">SUVs</Link></li>
               <li><Link href="/search?q=sports" className="hover:text-accent transition-colors">Sports Cars</Link></li>
+              <li><Link href="/search?q=classic" className="hover:text-[#d4af37] transition-colors">Classic Cars</Link></li>
               <li><Link href="/search?q=trucks" className="hover:text-accent transition-colors">Trucks</Link></li>
               <li><Link href="/search?q=luxury" className="hover:text-accent transition-colors">Luxury</Link></li>
               <li><Link href="/evs" className="hover:text-accent transition-colors">Electric</Link></li>

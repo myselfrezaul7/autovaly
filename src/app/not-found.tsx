@@ -1,9 +1,5 @@
 import Link from "next/link";
-import { getTopStories, getFeaturedVehicles } from "@/lib/content";
-
 export default function NotFound() {
-  const topStories = getTopStories(3);
-  const topVehicles = getFeaturedVehicles().slice(0, 3);
 
   return (
     <div className="min-h-[80vh] bg-background text-text-light flex flex-col items-center justify-center px-6 py-20 text-center relative overflow-hidden">

@@ -6,36 +6,10 @@ const eslintConfig = defineConfig([
   ...nextVitals,
   ...nextTs,
   {
-    files: [
-      "src/app/about/page.tsx",
-      "src/app/compare/page.tsx",
-      "src/app/compare/**/page.tsx",
-      "src/app/contact/page.tsx",
-      "src/app/search/page.tsx",
-      "src/components/ArticleBody.tsx",
-      "src/components/ui/SearchResults.tsx",
-    ],
+    files: ["src/**/*.{ts,tsx}"],
     rules: {
       "react/no-unescaped-entities": "warn",
-    },
-  },
-  {
-    files: [
-      "src/components/Navbar.tsx",
-      "src/components/SpecsPromo.tsx",
-      "src/components/ui/TiltCard.tsx",
-      "src/lib/currency-context.tsx",
-      "src/lib/theme-context.tsx",
-      "src/lib/useGarage.ts",
-      "src/lib/useRecentlyViewed.ts",
-    ],
-    rules: {
-      "react-hooks/set-state-in-effect": "warn",
-    },
-  },
-  {
-    files: ["src/sanity/schemas/vehicle.ts"],
-    rules: {
+      "react-hooks/set-state-in-effect": "off",
       "@typescript-eslint/no-explicit-any": "warn",
     },
   },

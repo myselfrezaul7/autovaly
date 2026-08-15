@@ -1,6 +1,4 @@
 import { getAllVehicles } from "@/lib/content";
-import Price from "@/components/ui/Price";
-import Link from "next/link";
 import VehicleCatalog from "@/components/VehicleCatalog";
 import { Metadata } from "next";
 import Breadcrumbs from "@/components/ui/Breadcrumbs";

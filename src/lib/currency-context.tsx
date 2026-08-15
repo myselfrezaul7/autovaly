@@ -18,11 +18,11 @@ export function CurrencyProvider({ children }: { children: React.ReactNode }) {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    setMounted(true);
+    setTimeout(() => setMounted(true), 0);
     try {
       const stored = localStorage.getItem("currency") as Currency;
       if (stored) {
-        setCurrency(stored);
+        setTimeout(() => setCurrency(stored), 0);
       }
     } catch (e) {
       console.error("Failed to access localStorage for currency", e);

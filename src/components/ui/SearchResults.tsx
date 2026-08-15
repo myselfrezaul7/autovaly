@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Article, Vehicle } from "@/lib/types";
 import Price from "./Price";
 
@@ -14,7 +15,7 @@ export default function SearchResults({ articles, vehicles, onClose, query }: Se
     return (
       <div className="absolute top-full left-0 right-0 mt-2 bg-surface border border-border-custom rounded-lg shadow-xl overflow-hidden z-50">
         <div className="p-8 text-center text-text-muted">
-          No results found for "{query}". Try a different term.
+          No results found for &quot;{query}&quot;. Try a different term.
         </div>
       </div>
     );
@@ -35,11 +36,11 @@ export default function SearchResults({ articles, vehicles, onClose, query }: Se
                 className="flex items-center gap-4 p-2 rounded-md hover:bg-background transition-colors group"
               >
                 <div 
-                  className="w-16 h-12 rounded bg-border-custom overflow-hidden flex-shrink-0"
+                  className="w-16 h-12 rounded bg-border-custom overflow-hidden flex-shrink-0 relative"
                   style={{ background: `linear-gradient(to right, ${vehicle.coverGradient.from}, ${vehicle.coverGradient.to})` }}
                 >
                   {vehicle.coverImage && (
-                    <img src={vehicle.coverImage} alt={vehicle.model} className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity" />
+                    <Image src={vehicle.coverImage} alt={vehicle.model} width={64} height={48} className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity" />
                   )}
                 </div>
                 <div className="flex-1 overflow-hidden">

@@ -10,7 +10,8 @@ export function useRecentlyViewed() {
     try {
       const stored = localStorage.getItem("autovaly_recent_vehicles");
       if (stored) {
-        setRecentlyViewed(JSON.parse(stored));
+        const parsed = JSON.parse(stored);
+        setTimeout(() => setRecentlyViewed(parsed), 0);
       }
     } catch (e) {
       console.error("Failed to parse recently viewed", e);

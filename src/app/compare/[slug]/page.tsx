@@ -1,8 +1,6 @@
 import { comparisons } from "@/lib/data/comparisons";
 import { getVehicleBySlug } from "@/lib/content";
 import { notFound } from "next/navigation";
-import Price from "@/components/ui/Price";
-import Link from "next/link";
 import Image from "next/image";
 import { Metadata } from "next";
 import Breadcrumbs from "@/components/ui/Breadcrumbs";

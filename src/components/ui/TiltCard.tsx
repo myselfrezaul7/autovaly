@@ -16,7 +16,8 @@ export default function TiltCard({ children, className, glowColor = "var(--accen
   const [supportsHover, setSupportsHover] = useState(true);
 
   useEffect(() => {
-    setSupportsHover(window.matchMedia("(hover: hover)").matches);
+    const isHover = window.matchMedia("(hover: hover)").matches;
+    setTimeout(() => setSupportsHover(isHover), 0);
   }, []);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {

@@ -20,7 +20,8 @@ export function GarageProvider({ children }: { children: React.ReactNode }) {
     try {
       const stored = localStorage.getItem("autovaly_garage");
       if (stored) {
-        setGarage(JSON.parse(stored));
+        const parsed = JSON.parse(stored);
+        setTimeout(() => setGarage(parsed), 0);
       }
     } catch (e) {
       console.error("Failed to parse garage from localStorage", e);

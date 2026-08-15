@@ -45,6 +45,20 @@ export interface EVSpotlightItem {
   gradient: { from: string; to: string };
 }
 
+export interface ClassicSpotlightItem {
+  id: string;
+  slug: string;
+  year: number;
+  engine: string;
+  power: string;
+  era: string;
+  name: string;
+  headline: string;
+  excerpt: string;
+  gradient: { from: string; to: string };
+  status: string;
+}
+
 export interface TickerHeadline {
   id: string;
   text: string;

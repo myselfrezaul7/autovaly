@@ -26,7 +26,7 @@ export const vehicleType = defineType({
       name: 'slug',
       title: 'Slug',
       type: 'slug',
-      options: { source: (doc: any) => `${doc.make}-${doc.model}-${doc.year}`, maxLength: 96 },
+      options: { source: (doc: Record<string, unknown>) => `${(doc.make as string) || ''}-${(doc.model as string) || ''}-${(doc.year as number) || ''}`, maxLength: 96 },
       validation: (rule) => rule.required(),
     }),
     defineField({

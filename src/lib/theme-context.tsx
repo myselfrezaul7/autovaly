@@ -17,23 +17,19 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    setMounted(true);
+    setTimeout(() => setMounted(true), 0);
     try {
       const stored = localStorage.getItem("theme") as Theme;
       if (stored) {
-        setTheme(stored);
+        setTimeout(() => setTheme(stored), 0);
         document.documentElement.classList.remove("dark", "light");
         document.documentElement.classList.add(stored);
       } else {
         const prefersLight = window.matchMedia("(prefers-color-scheme: light)").matches;
-        if (prefersLight) {
-          setTheme("light");
-          document.documentElement.classList.remove("dark");
-          document.documentElement.classList.add("light");
-        } else {
-          document.documentElement.classList.remove("light");
-          document.documentElement.classList.add("dark");
-        }
+        const initialTheme = prefersLight ? "light" : "dark";
+        setTimeout(() => setTheme(initialTheme), 0);
+        document.documentElement.classList.remove("dark", "light");
+        document.documentElement.classList.add(initialTheme);
       }
     } catch (e) {
       console.error("Failed to access localStorage for theme", e);

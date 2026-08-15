@@ -16,6 +16,5 @@ export function ThemeScript() {
       } catch (e) {}
     })();
   `;
-  // eslint-disable-next-line react/no-danger
   return <script dangerouslySetInnerHTML={{ __html: codeToRunOnClient }} />;
 }
