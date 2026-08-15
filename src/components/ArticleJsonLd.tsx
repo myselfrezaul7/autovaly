@@ -1,9 +1,12 @@
 import { Article } from "@/lib/types";
 
 export default function ArticleJsonLd({ article }: { article: Article }) {
+  const isNews = article.category === "News";
+  const isReview = article.category === "Review";
+
   const schema = {
     "@context": "https://schema.org",
-    "@type": "Article",
+    "@type": isNews ? "NewsArticle" : isReview ? "Review" : "Article",
     headline: article.title,
     description: article.excerpt,
     image: article.coverImage ? [
@@ -11,6 +14,7 @@ export default function ArticleJsonLd({ article }: { article: Article }) {
     ] : ["https://autovaly.com/og-image.png"],
     datePublished: new Date(article.publishedAt).toISOString(),
     dateModified: new Date(article.publishedAt).toISOString(),
+    inLanguage: "en-US",
     author: {
       "@type": "Person",
       name: article.author.name,
@@ -19,6 +23,8 @@ export default function ArticleJsonLd({ article }: { article: Article }) {
     publisher: {
       "@type": "Organization",
       name: "Autovaly",
+      url: "https://autovaly.com",
+      email: "itsautovaly@gmail.com",
       logo: {
         "@type": "ImageObject",
         url: "https://autovaly.com/og-image.png",

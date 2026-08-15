@@ -75,6 +75,8 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${barlow.variable} ${inter.variable}`} suppressHydrationWarning>
       <head>
+        <link rel="preconnect" href="https://images.unsplash.com" />
+        <link rel="dns-prefetch" href="https://images.unsplash.com" />
         <ThemeScript />
       </head>
       <body className="antialiased font-sans bg-background text-text-light selection:bg-accent selection:text-white">
