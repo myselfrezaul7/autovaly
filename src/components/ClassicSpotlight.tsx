@@ -50,10 +50,10 @@ export default function ClassicSpotlight() {
           
           <div className="flex items-center gap-3">
             <Link 
-              href="/search?q=classic" 
+              href="/classics" 
               className="text-[#d4af37] text-xs md:text-sm font-bold uppercase tracking-widest hover:brightness-125 transition-all flex items-center gap-1.5 flex-shrink-0"
             >
-              Search Heritage Archive <span aria-hidden="true">→</span>
+              Explore Classics Hub <span aria-hidden="true">→</span>
             </Link>
           </div>
         </div>
@@ -164,17 +164,25 @@ export default function ClassicSpotlight() {
           </AnimatePresence>
         </m.div>
 
-        {/* Expand / Collapse Button for 'all' tab */}
-        {activeTab === "all" && (
-          <div className="mt-10 text-center">
+        {/* Bottom Actions */}
+        <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4 text-center">
+          {activeTab === "all" && (
             <button
               onClick={() => setIsExpanded(!isExpanded)}
-              className="inline-flex items-center gap-2 px-8 py-3.5 bg-surface border-2 border-[#d4af37]/40 hover:border-[#d4af37] text-text-light hover:text-[#d4af37] rounded-full text-xs font-bold uppercase tracking-widest transition-all duration-300 cursor-pointer shadow-lg hover:shadow-[#d4af37]/10 active:scale-95"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-surface border border-border-custom hover:border-[#d4af37]/60 text-text-light hover:text-[#d4af37] rounded-full text-xs font-bold uppercase tracking-widest transition-all duration-300 cursor-pointer shadow-md hover:shadow-[#d4af37]/10 active:scale-95"
             >
-              {isExpanded ? "Show Top 4 Classics ↑" : `View All ${classicSpotlightItems.length} Classic Legends (F40, Supra, NSX-R, GT500, E30 M3 & More) ↓`}
+              {isExpanded ? "Show Top 4 Spotlight ↑" : "Quick Preview (+14 Cars) ↓"}
             </button>
-          </div>
-        )}
+          )}
+
+          <Link
+            href="/classics"
+            className="inline-flex items-center gap-2 px-8 py-3 bg-[#d4af37] hover:bg-[#d4af37]/90 text-black rounded-full text-xs font-bold uppercase tracking-widest transition-all duration-300 cursor-pointer shadow-lg shadow-[#d4af37]/25 active:scale-95"
+          >
+            <span>View All {classicSpotlightItems.length} Classic Legends in Heritage Hub</span>
+            <span>→</span>
+          </Link>
+        </div>
       </div>
     </section>
   );

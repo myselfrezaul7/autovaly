@@ -14,6 +14,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/news',
     '/reviews',
     '/evs',
+    '/classics',
     '/compare',
     '/about',
     '/contact',

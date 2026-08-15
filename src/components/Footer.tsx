@@ -42,7 +42,7 @@ export default function Footer() {
                 <li><Link href="/vehicles" className="hover:text-accent transition-colors">Vehicle Specs DB</Link></li>
                 <li><Link href="/compare" className="hover:text-accent transition-colors">Head-to-Head Compare</Link></li>
                 <li><Link href="/evs" className="hover:text-accent transition-colors">EV Spotlight Hub</Link></li>
-                <li><Link href="/search?q=classic" className="hover:text-[#d4af37] transition-colors">Classic Cars</Link></li>
+                <li><Link href="/classics" className="hover:text-[#d4af37] transition-colors">Classic Cars</Link></li>
                 <li><Link href="/garage" className="hover:text-accent transition-colors">My Garage</Link></li>
               </ul>
             </div>
@@ -55,7 +55,7 @@ export default function Footer() {
                 <li><Link href="/search?q=sedans" className="hover:text-accent transition-colors">Sedans</Link></li>
                 <li><Link href="/search?q=SUVs" className="hover:text-accent transition-colors">SUVs & Crossovers</Link></li>
                 <li><Link href="/search?q=sports" className="hover:text-accent transition-colors">Sports Cars & GTs</Link></li>
-                <li><Link href="/search?q=classic" className="hover:text-[#d4af37] transition-colors">Heritage Classics</Link></li>
+                <li><Link href="/classics" className="hover:text-[#d4af37] transition-colors">Heritage Classics</Link></li>
                 <li><Link href="/search?q=trucks" className="hover:text-accent transition-colors">Trucks & Pickups</Link></li>
                 <li><Link href="/search?q=luxury" className="hover:text-accent transition-colors">Luxury Flagships</Link></li>
                 <li><Link href="/evs" className="hover:text-accent transition-colors">100% Electric (BEV)</Link></li>
