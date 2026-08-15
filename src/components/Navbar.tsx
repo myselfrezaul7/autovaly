@@ -16,7 +16,7 @@ const navLinks = [
   { name: "Reviews", href: "/reviews" },
   { name: "Vehicles", href: "/vehicles" },
   { name: "Compare", href: "/compare" },
-  { name: "Industry", href: "/search?q=industry" },
+  { name: "Classics", href: "/search?q=classic" },
   { name: "EVs", href: "/evs" },
 ];
 

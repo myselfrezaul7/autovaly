@@ -8,16 +8,16 @@ import Image from "next/image";
 
 type EraTab = "all" | "50s-60s" | "70s" | "80s-90s";
 
-const tabs: { id: EraTab; label: string; count: number }[] = [
-  { id: "all", label: "All Classics", count: 12 },
-  { id: "50s-60s", label: "1950s–60s Golden Age", count: 6 },
-  { id: "70s", label: "1970s Motorsport", count: 3 },
-  { id: "80s-90s", label: "1980s–90s Supercars & JDM", count: 3 },
-];
-
 export default function ClassicSpotlight() {
   const [activeTab, setActiveTab] = useState<EraTab>("all");
   const [isExpanded, setIsExpanded] = useState(false);
+
+  const tabs: { id: EraTab; label: string; count: number }[] = useMemo(() => [
+    { id: "all", label: "All Classics", count: classicSpotlightItems.length },
+    { id: "50s-60s", label: "1950s–60s Golden Age", count: classicSpotlightItems.filter(i => i.eraCategory === "50s-60s").length },
+    { id: "70s", label: "1970s Motorsport", count: classicSpotlightItems.filter(i => i.eraCategory === "70s").length },
+    { id: "80s-90s", label: "1980s–90s Supercars & JDM", count: classicSpotlightItems.filter(i => i.eraCategory === "80s-90s").length },
+  ], []);
 
   const filteredItems = useMemo(() => {
     if (activeTab === "all") {
@@ -169,9 +169,9 @@ export default function ClassicSpotlight() {
           <div className="mt-10 text-center">
             <button
               onClick={() => setIsExpanded(!isExpanded)}
-              className="inline-flex items-center gap-2 px-8 py-3.5 bg-surface border-2 border-[#d4af37]/40 hover:border-[#d4af37] text-text-light hover:text-[#d4af37] rounded-full text-xs font-bold uppercase tracking-widest transition-all duration-300 cursor-pointer shadow-lg hover:shadow-[#d4af37]/10"
+              className="inline-flex items-center gap-2 px-8 py-3.5 bg-surface border-2 border-[#d4af37]/40 hover:border-[#d4af37] text-text-light hover:text-[#d4af37] rounded-full text-xs font-bold uppercase tracking-widest transition-all duration-300 cursor-pointer shadow-lg hover:shadow-[#d4af37]/10 active:scale-95"
             >
-              {isExpanded ? "Show Top 4 Classics ↑" : "View All 12 Classic Legends (F40, Gullwing, GT40, Miura, McLaren F1 & More) ↓"}
+              {isExpanded ? "Show Top 4 Classics ↑" : `View All ${classicSpotlightItems.length} Classic Legends (F40, Supra, NSX-R, GT500, E30 M3 & More) ↓`}
             </button>
           </div>
         )}

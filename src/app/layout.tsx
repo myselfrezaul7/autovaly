@@ -65,6 +65,7 @@ import Footer from "@/components/Footer";
 import KeyboardShortcuts from "@/components/ui/KeyboardShortcuts";
 import { ThemeScript } from "@/components/ThemeScript";
 import MobileNav from "@/components/ui/MobileNav";
+import CookieConsent from "@/components/ui/CookieConsent";
 
 export default function RootLayout({
   children,
@@ -90,6 +91,7 @@ export default function RootLayout({
             </main>
             <Footer />
             <MobileNav />
+            <CookieConsent />
           </div>
         </Providers>
       </body>
