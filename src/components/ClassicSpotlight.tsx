@@ -98,7 +98,7 @@ export default function ClassicSpotlight() {
                 className="h-full"
               >
                 <Link 
-                  href={`/articles`} 
+                  href={`/articles/${classic.slug}`} 
                   className="group bg-surface border border-border-custom rounded-xl overflow-hidden flex flex-col h-full touch-press block hover:border-[#d4af37]/50 hover:shadow-xl hover:shadow-[#d4af37]/5 transition-all duration-300"
                 >
                   <div className="relative w-full h-48 sm:h-52 overflow-hidden">
