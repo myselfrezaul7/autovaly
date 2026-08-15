@@ -220,7 +220,7 @@ export const classicSpotlightItems: ClassicSpotlightItem[] = [
     headline: "1968 Dodge Charger R/T 440: The Quintessential Villain Car",
     excerpt: "Richard Sias' coke-bottle silhouette, hidden headlights, and 440 cubic inches of pure American asphalt-tearing menace.",
     gradient: { from: "#b71540", to: "#0a3d62" },
-    coverImage: "https://images.unsplash.com/photo-1612825173281-9a193378527e?auto=format&fit=crop&w=1200&q=80",
+    coverImage: "https://images.unsplash.com/photo-1542282088-72c9c27ed0cd?auto=format&fit=crop&w=1200&q=80",
   },
   {
     id: "classic14",
@@ -237,7 +237,7 @@ export const classicSpotlightItems: ClassicSpotlightItem[] = [
     headline: "1994 Toyota Supra A80: The Bulletproof 2JZ-GTE Icon",
     excerpt: "With a sequential twin-turbo inline-six capable of handling 1,000+ hp on stock internals and a massive hoop wing, the Mk4 Supra is a legend.",
     gradient: { from: "#e55039", to: "#1e3799" },
-    coverImage: "https://images.unsplash.com/photo-1605559424843-9e4c228bf1c2?auto=format&fit=crop&w=1200&q=80",
+    coverImage: "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=1200&q=80",
   },
   {
     id: "classic15",
@@ -254,7 +254,7 @@ export const classicSpotlightItems: ClassicSpotlightItem[] = [
     headline: "1992 Honda NSX-R: Ayrton Senna's Lightweight Masterpiece",
     excerpt: "Stripped of 120 kg with carbon-Kevlar Recaro bucket seats, blueprinted VTEC V6, and track-honed chassis dynamics.",
     gradient: { from: "#fa983a", to: "#0c2461" },
-    coverImage: "https://images.unsplash.com/photo-1544829099-b9a0c07fad1a?auto=format&fit=crop&w=1200&q=80",
+    coverImage: "https://images.unsplash.com/photo-1502877338535-766e1452684a?auto=format&fit=crop&w=1200&q=80",
   },
   {
     id: "classic16",
@@ -288,7 +288,7 @@ export const classicSpotlightItems: ClassicSpotlightItem[] = [
     headline: "1981 DeLorean DMC-12: The Brushed Steel Time Machine",
     excerpt: "Giorgetto Giugiaro design, unpainted brushed stainless steel body panels, and upward-opening gullwing doors.",
     gradient: { from: "#60a3bc", to: "#0a3d62" },
-    coverImage: "https://images.unsplash.com/photo-1617814076367-b759c7d7e738?auto=format&fit=crop&w=1200&q=80",
+    coverImage: "https://images.unsplash.com/photo-1511919884226-fd3cad34687c?auto=format&fit=crop&w=1200&q=80",
   },
   {
     id: "classic18",
@@ -305,6 +305,6 @@ export const classicSpotlightItems: ClassicSpotlightItem[] = [
     headline: "1970 Plymouth Hemi 'Cuda: The Ultimate Mopar Holy Grail",
     excerpt: "Shaker hood, Hockey stick stripes, and the fearsome 426 Elephant engine in a compact, razor-sharp E-body coupe.",
     gradient: { from: "#eb2f06", to: "#1e272e" },
-    coverImage: "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&w=1200&q=80",
+    coverImage: "https://images.unsplash.com/photo-1583267746897-2cf415887172?auto=format&fit=crop&w=1200&q=80",
   },
 ];

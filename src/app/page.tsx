@@ -1,5 +1,4 @@
 import Hero from "@/components/Hero";
-import BreakingTicker from "@/components/BreakingTicker";
 import TopStories from "@/components/TopStories";
 import PopularVehicles from "@/components/PopularVehicles";
 import BySegment from "@/components/BySegment";
@@ -14,15 +13,14 @@ export default function Home() {
   return (
     <>
       <Hero />
-      <BreakingTicker />
       <TopStories />
+      <SpecsPromo />
       <PopularVehicles />
       <BySegment />
       <ComparisonBanner />
       <EVSpotlight />
       <ClassicSpotlight />
       <EditorsPicks />
-      <SpecsPromo />
       <Newsletter />
     </>
   );

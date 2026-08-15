@@ -22,10 +22,8 @@ export default function CookieConsent() {
   });
 
   useEffect(() => {
-    // Check if user has already made a choice
     const saved = localStorage.getItem(STORAGE_KEY);
     if (!saved) {
-      // Delay slightly for smooth page entry
       const timer = setTimeout(() => setIsOpen(true), 1200);
       return () => clearTimeout(timer);
     } else {
@@ -38,7 +36,6 @@ export default function CookieConsent() {
   }, []);
 
   useEffect(() => {
-    // Listen for manual open trigger from Footer or Privacy page
     const handleOpen = () => {
       setIsOpen(true);
       setShowDetails(true);
@@ -80,7 +77,6 @@ export default function CookieConsent() {
           className="fixed bottom-4 left-4 right-4 md:left-auto md:right-6 md:max-w-md z-50 pointer-events-auto"
         >
           <div className="relative overflow-hidden rounded-2xl border border-white/20 dark:border-white/10 bg-surface/85 dark:bg-black/80 backdrop-blur-2xl p-5 md:p-6 shadow-[0_20px_50px_rgba(0,0,0,0.45)] ring-1 ring-white/10 text-text-light">
-            {/* Ambient Glass Glow */}
             <div className="absolute -top-12 -right-12 w-32 h-32 bg-accent/20 rounded-full blur-2xl pointer-events-none" />
             
             <div className="flex items-start gap-3.5 mb-3">
@@ -118,14 +114,34 @@ export default function CookieConsent() {
                 <div className="flex items-center justify-between p-2.5 rounded-lg bg-surface/60 border border-border-custom/40">
                   <div>
                     <span className="font-bold text-text-light block">Analytics & Performance</span>
-                    <span className="text-[11px] text-text-muted">Anonymized traffic metrics (Vercel Analytics).</span>
+                    <span className="text-[11px] text-text-muted">Anonymized traffic metrics for performance optimization.</span>
                   </div>
                   <button
                     type="button"
+                    role="switch"
+                    aria-checked={preferences.analytics}
+                    aria-label="Toggle analytics cookies"
                     onClick={() => setPreferences(p => ({ ...p, analytics: !p.analytics }))}
                     className={`w-11 h-6 flex items-center rounded-full p-1 transition-colors ${preferences.analytics ? 'bg-accent' : 'bg-border-custom'}`}
                   >
                     <div className={`bg-white w-4 h-4 rounded-full shadow-md transform transition-transform ${preferences.analytics ? 'translate-x-5' : 'translate-x-0'}`} />
+                  </button>
+                </div>
+
+                <div className="flex items-center justify-between p-2.5 rounded-lg bg-surface/60 border border-border-custom/40">
+                  <div>
+                    <span className="font-bold text-text-light block">Marketing & Social</span>
+                    <span className="text-[11px] text-text-muted">Personalized partner spotlights & automotive social embeds.</span>
+                  </div>
+                  <button
+                    type="button"
+                    role="switch"
+                    aria-checked={preferences.marketing}
+                    aria-label="Toggle marketing cookies"
+                    onClick={() => setPreferences(p => ({ ...p, marketing: !p.marketing }))}
+                    className={`w-11 h-6 flex items-center rounded-full p-1 transition-colors ${preferences.marketing ? 'bg-accent' : 'bg-border-custom'}`}
+                  >
+                    <div className={`bg-white w-4 h-4 rounded-full shadow-md transform transition-transform ${preferences.marketing ? 'translate-x-5' : 'translate-x-0'}`} />
                   </button>
                 </div>
               </m.div>
@@ -137,7 +153,7 @@ export default function CookieConsent() {
                 <button
                   type="button"
                   onClick={handleRejectAll}
-                  className="px-4 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider bg-surface border border-border-custom hover:bg-surface/80 text-text-light transition-all touch-press active:scale-95 text-center"
+                  className="px-4 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider bg-surface border border-border-custom hover:bg-surface/80 text-text-light transition-all touch-press active:scale-95 text-center cursor-pointer"
                 >
                   Reject All
                 </button>
@@ -145,7 +161,7 @@ export default function CookieConsent() {
                 <button
                   type="button"
                   onClick={handleAcceptAll}
-                  className="px-4 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider bg-accent hover:bg-accent/90 text-white shadow-lg shadow-accent/25 transition-all touch-press active:scale-95 text-center"
+                  className="px-4 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider bg-accent hover:bg-accent/90 text-white shadow-lg shadow-accent/25 transition-all touch-press active:scale-95 text-center cursor-pointer"
                 >
                   Accept All
                 </button>
@@ -155,7 +171,8 @@ export default function CookieConsent() {
                 <button
                   type="button"
                   onClick={() => setShowDetails(!showDetails)}
-                  className="hover:text-text-light transition-colors underline underline-offset-2"
+                  className="hover:text-text-light transition-colors underline underline-offset-2 cursor-pointer"
+                  aria-expanded={showDetails}
                 >
                   {showDetails ? "Hide options" : "Customize choices"}
                 </button>
@@ -164,7 +181,7 @@ export default function CookieConsent() {
                   <button
                     type="button"
                     onClick={handleSavePreferences}
-                    className="font-bold text-accent hover:underline"
+                    className="font-bold text-accent hover:underline cursor-pointer"
                   >
                     Save Preferences
                   </button>

@@ -18,6 +18,12 @@ export function getHeroArticle(): Article {
   return articles.find((a) => a.heroArticle) || articles[0];
 }
 
+export function getHeroArticles(limit = 4): Article[] {
+  const hero = articles.find((a) => a.heroArticle) || articles[0];
+  const others = articles.filter((a) => a.id !== hero.id && a.featured).slice(0, limit - 1);
+  return [hero, ...others];
+}
+
 export function getTopStories(limit = 4): Article[] {
   return articles.filter((a) => a.featured).slice(0, limit);
 }

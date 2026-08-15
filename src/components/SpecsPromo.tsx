@@ -19,7 +19,7 @@ export default function SpecsPromo() {
     if (query.trim().length > 1) {
       setIsTyping(true);
       if (searchTimeout.current) clearTimeout(searchTimeout.current);
-      
+
       searchTimeout.current = setTimeout(() => {
         setArticleResults(searchArticles(query));
         setVehicleResults(searchVehicles(query));
@@ -44,31 +44,47 @@ export default function SpecsPromo() {
   };
 
   return (
-    <section className="py-16 md:py-24 bg-background relative overflow-hidden" id="specs">
+    <section className="py-16 md:py-20 bg-background relative overflow-hidden" id="specs">
       <div className="container mx-auto px-4 md:px-6 relative z-10">
-        <m.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
-          className="max-w-4xl mx-auto bg-surface border border-border-custom rounded-xl p-6 md:p-10 lg:p-16 text-center relative overflow-hidden">
-          <div className="absolute inset-0 opacity-20 dark:opacity-30 pointer-events-none" style={{ backgroundImage: "radial-gradient(#6B7280 1px, transparent 1px)", backgroundSize: "20px 20px" }} />
+        <m.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="max-w-4xl mx-auto bg-surface border border-border-custom rounded-3xl p-6 md:p-10 lg:p-14 text-center relative overflow-hidden shadow-2xl"
+        >
+          <div className="absolute inset-0 opacity-20 pointer-events-none" style={{ backgroundImage: "radial-gradient(#6B7280 1px, transparent 1px)", backgroundSize: "20px 20px" }} />
+          
           <div className="relative z-10 flex flex-col items-center">
-            <span className="inline-block px-3 py-1 bg-text-light text-background text-[10px] font-bold uppercase tracking-widest rounded-sm mb-6">Database</span>
-            <h2 className="font-heading text-4xl md:text-5xl font-extrabold leading-tight mb-4 text-text-primary">Compare Any Car. Instantly.</h2>
-            <p className="text-text-muted text-base md:text-lg max-w-2xl mx-auto mb-10">Search our massive database of 20+ vehicles and growing. From battery capacity to headroom, we&apos;ve got the numbers.</p>
-            
+            <span className="inline-block px-3 py-1 bg-accent/10 border border-accent/25 text-accent text-[10px] font-bold uppercase tracking-widest rounded-md mb-4">
+              Intelligence Database
+            </span>
+            <h2 className="font-heading text-3xl sm:text-4xl md:text-5xl font-extrabold leading-tight mb-4 text-text-light">
+              Compare Any Car. Instantly.
+            </h2>
+            <p className="text-text-muted text-sm sm:text-base max-w-2xl mx-auto mb-8">
+              Search verified telemetry, fast-charging curves, 0-100 times, and technical dimensions across our full vehicle database.
+            </p>
+
             <div className="w-full max-w-2xl relative">
-              <form onSubmit={handleSearch} className="bg-background border border-border-custom rounded-md flex flex-col sm:flex-row gap-2 p-2 focus-within:border-accent transition-colors shadow-2xl shadow-black/40 relative z-20">
-                <input 
-                  type="text" 
-                  value={query} 
-                  onChange={(e) => setQuery(e.target.value)} 
-                  placeholder="Search make, model, year..." 
-                  className="flex-1 bg-transparent border-none outline-none px-4 py-3 text-text-light placeholder:text-muted" 
+              <form onSubmit={handleSearch} className="bg-background border-2 border-border-custom focus-within:border-accent rounded-2xl flex flex-col sm:flex-row gap-2 p-2 transition-all shadow-xl relative z-20">
+                <input
+                  type="text"
+                  value={query}
+                  onChange={(e) => setQuery(e.target.value)}
+                  placeholder="Search make, model, electric range, horsepower..."
+                  className="flex-1 bg-transparent border-none outline-none px-4 py-3 text-text-light placeholder:text-text-muted/60 text-sm sm:text-base"
                 />
                 {isTyping && (
-                  <div className="absolute right-[110px] top-1/2 -translate-y-1/2 w-5 h-5 rounded-full border-2 border-border-custom border-t-accent animate-spin"></div>
+                  <div className="absolute right-[120px] top-1/2 -translate-y-1/2 w-4 h-4 rounded-full border-2 border-border-custom border-t-accent animate-spin" />
                 )}
-                <button type="submit" className="bg-accent text-white font-bold uppercase tracking-wide text-sm px-8 py-3 rounded hover:bg-accent-dark transition-colors touch-press">Search</button>
+                <button
+                  type="submit"
+                  className="bg-accent hover:bg-accent/90 text-white font-heading font-bold uppercase tracking-wider text-xs px-8 py-3.5 rounded-xl shadow-lg shadow-accent/25 transition-all touch-press active:scale-95 cursor-pointer"
+                >
+                  Search Specs
+                </button>
               </form>
-              
+
               <AnimatePresence>
                 {(articleResults.length > 0 || vehicleResults.length > 0) && query.length > 1 && (
                   <m.div
@@ -77,24 +93,32 @@ export default function SpecsPromo() {
                     exit={{ opacity: 0, y: -10 }}
                     className="absolute top-full left-0 right-0 z-50 text-left"
                   >
-                    <SearchResults 
-                      articles={articleResults} 
-                      vehicles={vehicleResults} 
-                      onClose={clearSearch} 
-                      query={query} 
+                    <SearchResults
+                      articles={articleResults}
+                      vehicles={vehicleResults}
+                      onClose={clearSearch}
+                      query={query}
                     />
                   </m.div>
                 )}
               </AnimatePresence>
             </div>
 
-            <div className="flex items-center gap-4 mt-6 text-xs font-semibold text-muted uppercase tracking-widest relative z-10">
-              <span>Popular:</span>
-              <div className="flex gap-2">
-                <button type="button" onClick={() => { setQuery("Model Y"); router.push(`/search?q=Model Y`); }} className="hover:text-accent transition-colors touch-press">Model Y</button>
-                <button type="button" onClick={() => { setQuery("Taycan"); router.push(`/search?q=Taycan`); }} className="hover:text-accent transition-colors touch-press">Taycan</button>
-                <button type="button" onClick={() => { setQuery("M3"); router.push(`/search?q=M3`); }} className="hover:text-accent transition-colors touch-press">M3</button>
-              </div>
+            <div className="flex flex-wrap items-center justify-center gap-3 mt-6 text-xs font-semibold text-text-muted uppercase tracking-wider relative z-10">
+              <span className="text-text-muted/70">Popular:</span>
+              {["Model Y", "Taycan", "BMW M3", "GT500", "Ioniq 5 N"].map((term) => (
+                <button
+                  key={term}
+                  type="button"
+                  onClick={() => {
+                    setQuery(term);
+                    router.push(`/search?q=${encodeURIComponent(term)}`);
+                  }}
+                  className="px-2.5 py-1 rounded-md bg-background/80 border border-border-custom hover:border-accent hover:text-accent transition-colors touch-press text-[11px]"
+                >
+                  {term}
+                </button>
+              ))}
             </div>
           </div>
         </m.div>
