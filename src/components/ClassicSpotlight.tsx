@@ -4,6 +4,7 @@ import { useState, useMemo } from "react";
 import { m, AnimatePresence } from "framer-motion";
 import { classicSpotlightItems } from "@/lib/data/classic-spotlight";
 import Link from "next/link";
+import Image from "next/image";
 
 type EraTab = "all" | "50s-60s" | "70s" | "80s-90s";
 
@@ -105,9 +106,18 @@ export default function ClassicSpotlight() {
                       className="absolute inset-0 transition-transform duration-700 ease-out group-hover:scale-110" 
                       style={{ backgroundImage: `linear-gradient(135deg, ${classic.gradient.from}, ${classic.gradient.to})` }} 
                     />
+                    {classic.coverImage && (
+                      <Image
+                        src={classic.coverImage}
+                        alt={classic.name}
+                        fill
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                        className="object-cover opacity-85 group-hover:opacity-95 group-hover:scale-105 transition-all duration-700"
+                      />
+                    )}
                     
                     {/* Atmospheric Dark Overlay */}
-                    <div className="absolute inset-0 bg-black/30 group-hover:bg-black/15 transition-colors duration-300" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/40 to-black/20 group-hover:from-black/75 transition-colors duration-300" />
                     
                     <div className="absolute top-3 left-3 flex flex-col gap-1.5 z-10">
                       <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-black/75 backdrop-blur-md text-[#d4af37] text-[11px] font-bold rounded border border-[#d4af37]/40 uppercase tracking-wide">

@@ -43,6 +43,7 @@ export interface EVSpotlightItem {
   headline: string;
   excerpt: string;
   gradient: { from: string; to: string };
+  coverImage?: string;
 }
 
 export interface ClassicSpotlightItem {
@@ -60,6 +61,7 @@ export interface ClassicSpotlightItem {
   excerpt: string;
   gradient: { from: string; to: string };
   status: string;
+  coverImage?: string;
 }
 
 export interface TickerHeadline {

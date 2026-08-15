@@ -3,6 +3,7 @@
 import { m } from "framer-motion";
 import { evSpotlightItems } from "@/lib/data/ev-spotlight";
 import Link from "next/link";
+import Image from "next/image";
 
 export default function EVSpotlight() {
   return (
@@ -18,7 +19,17 @@ export default function EVSpotlight() {
               <Link href={`/articles/${ev.slug}`} className="group bg-background border border-border-custom rounded-xl overflow-hidden flex flex-col h-full touch-press block">
                 <div className="relative w-full h-48 md:h-56 lg:h-64 overflow-hidden">
                   <div className="absolute inset-0 transition-transform duration-500 ease-out group-hover:scale-105" style={{ backgroundImage: `linear-gradient(135deg, ${ev.gradient.from}, ${ev.gradient.to})` }} />
-                <div className="absolute top-4 left-4 flex flex-col gap-2">
+                  {ev.coverImage && (
+                    <Image
+                      src={ev.coverImage}
+                      alt={ev.headline}
+                      fill
+                      sizes="(max-width: 768px) 100vw, 33vw"
+                      className="object-cover opacity-80 group-hover:opacity-95 group-hover:scale-105 transition-all duration-500"
+                    />
+                  )}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
+                <div className="absolute top-4 left-4 flex flex-col gap-2 z-10">
                   <span className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-black/60 backdrop-blur-md text-white text-xs font-bold rounded-sm border border-white/10 uppercase tracking-wide">
                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-[#00B894]"><rect x="2" y="7" width="16" height="10" rx="2" ry="2"></rect><line x1="22" y1="11" x2="22" y2="13"></line></svg>
                     {ev.range}
