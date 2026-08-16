@@ -40,7 +40,7 @@ export default async function CompareIndexPage({
           Head-to-Head Comparisons
         </h1>
         <p className="text-xl text-muted max-w-2xl mx-auto">
-          We pit the industry's most important cars against each other. Range, performance, price—see how they stack up.
+          We pit the industry&apos;s most important cars against each other. Range, performance, price—see how they stack up.
         </p>
       </div>
 
@@ -74,7 +74,7 @@ export default async function CompareIndexPage({
               </div>
               <div className="p-6 text-center">
                 <h3 className="font-bold text-lg mb-2 group-hover:text-accent transition-colors">{comp.carA.name} vs {comp.carB.name}</h3>
-                <p className="text-text-muted text-sm italic">"{comp.tagline}"</p>
+                <p className="text-text-muted text-sm italic">&ldquo;{comp.tagline}&rdquo;</p>
               </div>
             </Link>
           ))}

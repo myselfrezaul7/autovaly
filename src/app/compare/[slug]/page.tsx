@@ -106,7 +106,7 @@ export default async function ComparisonDetailPage({ params }: { params: Promise
       </div>
 
       <div className="container mx-auto px-4 md:px-6 pt-12 text-center max-w-3xl">
-        <p className="text-xl md:text-2xl font-medium text-muted italic">"{comparison.tagline}"</p>
+        <p className="text-xl md:text-2xl font-medium text-muted italic">&ldquo;{comparison.tagline}&rdquo;</p>
       </div>
 
       {carA && carB && (

@@ -2,6 +2,7 @@
 
 import { m } from "framer-motion";
 import { useState } from "react";
+import { subscribeNewsletter } from "@/app/actions/newsletter";
 
 export default function Newsletter() {
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
@@ -14,21 +15,11 @@ export default function Newsletter() {
 
     const form = e.currentTarget;
     const formData = new FormData(form);
-    const subscriberEmail = formData.get("email")?.toString() || "";
-
-    formData.append("access_key", "3281e53d-d6de-433b-ac48-98dc9f829145");
-    formData.append("from_name", "Autovaly Newsletter");
-    formData.append("subject", `New Newsletter Subscriber: ${subscriberEmail}`);
 
     try {
-      const response = await fetch("https://api.web3forms.com/submit", {
-        method: "POST",
-        body: formData,
-      });
+      const result = await subscribeNewsletter(formData);
 
-      const data = await response.json();
-
-      if (response.ok && data.success) {
+      if (result.success) {
         setStatus("success");
         try {
           localStorage.setItem("autovaly_newsletter_subscribed", "true");
@@ -38,7 +29,7 @@ export default function Newsletter() {
         form.reset();
       } else {
         setStatus("error");
-        setErrorMessage(data.message || "Failed to subscribe. Please try again.");
+        setErrorMessage(result.error || "Failed to subscribe. Please try again.");
       }
     } catch {
       setStatus("error");
@@ -72,9 +63,6 @@ export default function Newsletter() {
             </m.div>
           ) : (
             <form onSubmit={handleSubmit} className="w-full flex flex-col sm:flex-row gap-3 max-w-lg mb-3">
-              {/* Anti-bot */}
-              <input type="checkbox" name="botcheck" className="hidden" style={{ display: "none" }} />
-              
               <input
                 type="email"
                 name="email"

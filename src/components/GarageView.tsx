@@ -27,8 +27,8 @@ export default function GarageView() {
 
   const handleShareGarage = () => {
     if (typeof window !== "undefined") {
-      const slugs = garage.map((v) => v.slug).join(",");
-      const url = `${window.location.origin}/search?q=${encodeURIComponent(garage[0]?.make || "garage")}`;
+      const query = garage.map((v) => v.make).filter((v, i, a) => a.indexOf(v) === i).join(" ") || "garage";
+      const url = `${window.location.origin}/search?q=${encodeURIComponent(query)}`;
       navigator.clipboard.writeText(url);
       setCopiedLink(true);
       setTimeout(() => setCopiedLink(false), 2500);
