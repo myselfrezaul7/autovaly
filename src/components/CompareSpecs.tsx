@@ -40,7 +40,14 @@ function SpecBar({ valueA, valueB, winner, suffix = "" }: { valueA: number; valu
         </span>
       </div>
       <div className="flex gap-4 items-center">
-        <div className="flex-1 h-2 bg-background/50 rounded-full overflow-hidden flex justify-end shadow-inner relative">
+        <div
+          role="meter"
+          aria-valuenow={valueA}
+          aria-valuemin={0}
+          aria-valuemax={max}
+          aria-label={`Car A value: ${valueA}${suffix}`}
+          className="flex-1 h-2 bg-background/50 rounded-full overflow-hidden flex justify-end shadow-inner relative"
+        >
           <m.div 
             initial={{ width: 0 }}
             whileInView={{ width: `${percentA}%` }}
@@ -51,7 +58,14 @@ function SpecBar({ valueA, valueB, winner, suffix = "" }: { valueA: number; valu
             {winner === "A" && <div className="absolute inset-0 bg-white/20 animate-pulse mix-blend-overlay" />}
           </m.div>
         </div>
-        <div className="flex-1 h-2 bg-background/50 rounded-full overflow-hidden relative shadow-inner">
+        <div
+          role="meter"
+          aria-valuenow={valueB}
+          aria-valuemin={0}
+          aria-valuemax={max}
+          aria-label={`Car B value: ${valueB}${suffix}`}
+          className="flex-1 h-2 bg-background/50 rounded-full overflow-hidden relative shadow-inner"
+        >
           <m.div 
             initial={{ width: 0 }}
             whileInView={{ width: `${percentB}%` }}
@@ -84,7 +98,14 @@ function SpecBarReverse({ valueA, valueB, winner, suffix = "" }: { valueA: numbe
         </span>
       </div>
       <div className="flex gap-4 items-center">
-        <div className="flex-1 h-2 bg-background/50 rounded-full overflow-hidden flex justify-end shadow-inner relative">
+        <div
+          role="meter"
+          aria-valuenow={valueA}
+          aria-valuemin={0}
+          aria-valuemax={Math.max(valueA, valueB)}
+          aria-label={`Car A value: ${valueA}${suffix}`}
+          className="flex-1 h-2 bg-background/50 rounded-full overflow-hidden flex justify-end shadow-inner relative"
+        >
           <m.div 
             initial={{ width: 0 }}
             whileInView={{ width: `${percentA}%` }}
@@ -95,7 +116,14 @@ function SpecBarReverse({ valueA, valueB, winner, suffix = "" }: { valueA: numbe
             {winner === "A" && <div className="absolute inset-0 bg-white/20 animate-pulse mix-blend-overlay" />}
           </m.div>
         </div>
-        <div className="flex-1 h-2 bg-background/50 rounded-full overflow-hidden relative shadow-inner">
+        <div
+          role="meter"
+          aria-valuenow={valueB}
+          aria-valuemin={0}
+          aria-valuemax={Math.max(valueA, valueB)}
+          aria-label={`Car B value: ${valueB}${suffix}`}
+          className="flex-1 h-2 bg-background/50 rounded-full overflow-hidden relative shadow-inner"
+        >
           <m.div 
             initial={{ width: 0 }}
             whileInView={{ width: `${percentB}%` }}

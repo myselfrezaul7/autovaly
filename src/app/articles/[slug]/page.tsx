@@ -113,7 +113,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
 
             {/* Author Byline */}
             <div className="flex items-center gap-3.5 text-xs text-text-muted mb-10 flex-wrap border-b border-border-custom pb-6">
-              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-accent to-red-400 flex items-center justify-center text-white font-bold text-sm flex-shrink-0 ring-2 ring-border-custom">
+              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-accent to-red-400 flex items-center justify-center text-white font-bold text-sm flex-shrink-0 ring-2 ring-border-custom" aria-hidden="true">
                 {article.author.name.charAt(0)}
               </div>
               <div>
@@ -126,7 +126,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
             </div>
 
             <ArticleBody content={article.body} readTime={article.readTime} />
-            <SocialShare url={`/articles/${article.slug}`} title={article.title} />
+            <SocialShare url={`https://autovaly.com/articles/${article.slug}`} title={article.title} />
           </article>
 
           {/* Sidebar Column: Table of Contents & Quick Meta */}

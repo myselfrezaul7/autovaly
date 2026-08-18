@@ -3,7 +3,7 @@
 import { ThemeProvider } from "@/lib/theme-context";
 import { CurrencyProvider } from "@/lib/currency-context";
 import { GarageProvider } from "@/lib/garage-context";
-import { LazyMotion, domAnimation } from "framer-motion";
+import { LazyMotion, domMax } from "framer-motion";
 import { useEffect } from "react";
 
 export function Providers({ children }: { children: React.ReactNode }) {
@@ -16,12 +16,10 @@ export function Providers({ children }: { children: React.ReactNode }) {
   }, []);
 
   return (
-    <LazyMotion features={domAnimation}>
+    <LazyMotion features={domMax}>
       <ThemeProvider>
         <CurrencyProvider>
-          <GarageProvider>
-            {children}
-          </GarageProvider>
+          <GarageProvider>{children}</GarageProvider>
         </CurrencyProvider>
       </ThemeProvider>
     </LazyMotion>
@@ -29,4 +27,3 @@ export function Providers({ children }: { children: React.ReactNode }) {
 }
 
 export default Providers;
-

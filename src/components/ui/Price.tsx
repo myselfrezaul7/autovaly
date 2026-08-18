@@ -1,6 +1,6 @@
 "use client";
 
-import { useCurrency } from "@/lib/currency-context";
+import { useCurrency, eurFormatter } from "@/lib/currency-context";
 
 interface PriceProps {
   eurAmount: number;
@@ -10,18 +10,20 @@ interface PriceProps {
 
 export default function Price({ eurAmount, usdAmount, className = "" }: PriceProps) {
   const { formatPrice, mounted } = useCurrency();
-  
+
   if (!mounted) {
     return (
-      <span className={className}>
-        {new Intl.NumberFormat("en-US", { style: "currency", currency: "EUR", maximumFractionDigits: 0 }).format(eurAmount)}
+      <span className={className} aria-label={`Price: ${eurFormatter.format(eurAmount)}`}>
+        {eurFormatter.format(eurAmount)}
       </span>
     );
   }
 
+  const formatted = formatPrice(eurAmount, usdAmount);
+
   return (
-    <span className={className}>
-      {formatPrice(eurAmount, usdAmount)}
+    <span className={className} aria-label={`Price: ${formatted}`}>
+      {formatted}
     </span>
   );
 }

@@ -1,12 +1,13 @@
 "use client";
 
-import React, { createContext, useContext, useEffect, useState, useCallback } from "react";
+import React, { createContext, useContext, useEffect, useState, useCallback, useMemo } from "react";
 import { Vehicle } from "./types";
 
 interface GarageContextType {
   garage: Vehicle[];
   addToGarage: (vehicle: Vehicle) => void;
   removeFromGarage: (vehicleId: string) => void;
+  clearGarage: () => void;
   isInGarage: (vehicleId: string) => boolean;
   garageCount: number;
 }
@@ -21,17 +22,24 @@ export function GarageProvider({ children }: { children: React.ReactNode }) {
       const stored = localStorage.getItem("autovaly_garage");
       if (stored) {
         const parsed = JSON.parse(stored);
-        setTimeout(() => setGarage(parsed), 0);
+        if (Array.isArray(parsed)) {
+          setGarage(parsed);
+        }
       }
-    } catch (e) {
-      console.error("Failed to parse garage from localStorage", e);
+    } catch {
+      // ignore JSON parse error
     }
 
     const handleStorage = (e: StorageEvent) => {
       if (e.key === "autovaly_garage" && e.newValue) {
         try {
-          setGarage(JSON.parse(e.newValue));
-        } catch {}
+          const parsed = JSON.parse(e.newValue);
+          if (Array.isArray(parsed)) {
+            setGarage(parsed);
+          }
+        } catch {
+          // ignore
+        }
       }
     };
 
@@ -44,8 +52,8 @@ export function GarageProvider({ children }: { children: React.ReactNode }) {
       const updated = [vehicle, ...prev.filter((v) => v.id !== vehicle.id)].slice(0, 20);
       try {
         localStorage.setItem("autovaly_garage", JSON.stringify(updated));
-      } catch (e) {
-        console.error("Failed to save garage", e);
+      } catch {
+        // ignore storage error
       }
       return updated;
     });
@@ -56,31 +64,42 @@ export function GarageProvider({ children }: { children: React.ReactNode }) {
       const updated = prev.filter((v) => v.id !== vehicleId);
       try {
         localStorage.setItem("autovaly_garage", JSON.stringify(updated));
-      } catch (e) {
-        console.error("Failed to remove from garage", e);
+      } catch {
+        // ignore storage error
       }
       return updated;
     });
   }, []);
 
+  const clearGarage = useCallback(() => {
+    setGarage([]);
+    try {
+      localStorage.removeItem("autovaly_garage");
+    } catch {
+      // ignore
+    }
+  }, []);
+
+  const garageIds = useMemo(() => new Set(garage.map((v) => v.id)), [garage]);
+
   const isInGarage = useCallback(
-    (vehicleId: string) => garage.some((v) => v.id === vehicleId),
-    [garage]
+    (vehicleId: string) => garageIds.has(vehicleId),
+    [garageIds]
   );
 
-  return (
-    <GarageContext.Provider
-      value={{
-        garage,
-        addToGarage,
-        removeFromGarage,
-        isInGarage,
-        garageCount: garage.length,
-      }}
-    >
-      {children}
-    </GarageContext.Provider>
+  const contextValue = useMemo(
+    () => ({
+      garage,
+      addToGarage,
+      removeFromGarage,
+      clearGarage,
+      isInGarage,
+      garageCount: garage.length,
+    }),
+    [garage, addToGarage, removeFromGarage, clearGarage, isInGarage]
   );
+
+  return <GarageContext.Provider value={contextValue}>{children}</GarageContext.Provider>;
 }
 
 export function useGarage() {

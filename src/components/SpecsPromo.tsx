@@ -2,6 +2,7 @@
 
 import { m, AnimatePresence } from "framer-motion";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { useState, useEffect, useRef } from "react";
 import { searchArticles, searchVehicles } from "@/lib/content";
 import { Article, Vehicle } from "@/lib/types";
@@ -13,6 +14,7 @@ export default function SpecsPromo() {
   const [vehicleResults, setVehicleResults] = useState<Vehicle[]>([]);
   const [isTyping, setIsTyping] = useState(false);
   const searchTimeout = useRef<NodeJS.Timeout>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
 
   useEffect(() => {
@@ -31,6 +33,18 @@ export default function SpecsPromo() {
       setIsTyping(false);
     }
   }, [query]);
+
+  // Click outside to close dropdown
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
+        setArticleResults([]);
+        setVehicleResults([]);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -65,9 +79,13 @@ export default function SpecsPromo() {
               Search verified telemetry, fast-charging curves, 0-100 times, and technical dimensions across our full vehicle database.
             </p>
 
-            <div className="w-full max-w-2xl relative">
+            <div ref={containerRef} className="w-full max-w-2xl relative">
               <form onSubmit={handleSearch} className="bg-background border-2 border-border-custom focus-within:border-accent rounded-2xl flex flex-col sm:flex-row gap-2 p-2 transition-all shadow-xl relative z-20">
+                <label htmlFor="specs-search-input" className="sr-only">
+                  Search make, model, electric range, or horsepower
+                </label>
                 <input
+                  id="specs-search-input"
                   type="text"
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
@@ -75,7 +93,7 @@ export default function SpecsPromo() {
                   className="flex-1 bg-transparent border-none outline-none px-4 py-3 text-text-light placeholder:text-text-muted/60 text-sm sm:text-base"
                 />
                 {isTyping && (
-                  <div className="absolute right-[120px] top-1/2 -translate-y-1/2 w-4 h-4 rounded-full border-2 border-border-custom border-t-accent animate-spin" />
+                  <div className="absolute right-[130px] top-1/2 -translate-y-1/2 w-4 h-4 rounded-full border-2 border-border-custom border-t-accent animate-spin" aria-hidden="true" />
                 )}
                 <button
                   type="submit"
@@ -107,17 +125,13 @@ export default function SpecsPromo() {
             <div className="flex flex-wrap items-center justify-center gap-3 mt-6 text-xs font-semibold text-text-muted uppercase tracking-wider relative z-10">
               <span className="text-text-muted/70">Popular:</span>
               {["Model Y", "Taycan", "BMW M3", "GT500", "Ioniq 5 N"].map((term) => (
-                <button
+                <Link
                   key={term}
-                  type="button"
-                  onClick={() => {
-                    setQuery(term);
-                    router.push(`/search?q=${encodeURIComponent(term)}`);
-                  }}
+                  href={`/search?q=${encodeURIComponent(term)}`}
                   className="px-2.5 py-1 rounded-md bg-background/80 border border-border-custom hover:border-accent hover:text-accent transition-colors touch-press text-[11px]"
                 >
                   {term}
-                </button>
+                </Link>
               ))}
             </div>
           </div>

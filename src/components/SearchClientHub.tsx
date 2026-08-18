@@ -1,13 +1,12 @@
 "use client";
 
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo, useEffect, useDeferredValue } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Article, Vehicle } from "@/lib/types";
 import { ClassicSpotlightItem } from "@/lib/types";
 import ArticleCard from "@/components/ui/ArticleCard";
 import Price from "@/components/ui/Price";
-import { getCategoryTagColor, formatDate } from "@/lib/content";
 
 type SearchTab = "all" | "vehicles" | "articles" | "classics" | "evs";
 
@@ -27,16 +26,17 @@ export default function SearchClientHub({
   allClassics,
 }: SearchClientHubProps) {
   const [query, setQuery] = useState(initialQuery);
+  const deferredQuery = useDeferredValue(query);
   const [activeTab, setActiveTab] = useState<SearchTab>((initialTab as SearchTab) || "all");
 
   useEffect(() => {
     setQuery(initialQuery);
   }, [initialQuery]);
 
-  // Real-time matched articles
+  // Real-time matched articles (using deferredQuery)
   const filteredArticles = useMemo(() => {
-    if (!query.trim()) return allArticles;
-    const q = query.toLowerCase().trim();
+    if (!deferredQuery.trim()) return allArticles;
+    const q = deferredQuery.toLowerCase().trim();
     return allArticles.filter(
       (a) =>
         a.title.toLowerCase().includes(q) ||
@@ -45,12 +45,12 @@ export default function SearchClientHub({
         a.segments.some((s) => s.toLowerCase().includes(q)) ||
         a.author.name.toLowerCase().includes(q)
     );
-  }, [query, allArticles]);
+  }, [deferredQuery, allArticles]);
 
   // Real-time matched vehicles
   const filteredVehicles = useMemo(() => {
-    if (!query.trim()) return allVehicles;
-    const q = query.toLowerCase().trim();
+    if (!deferredQuery.trim()) return allVehicles;
+    const q = deferredQuery.toLowerCase().trim();
     return allVehicles.filter(
       (v) =>
         v.make.toLowerCase().includes(q) ||
@@ -61,12 +61,12 @@ export default function SearchClientHub({
         v.segments.some((s) => s.toLowerCase().includes(q)) ||
         v.highlights.some((h) => h.toLowerCase().includes(q))
     );
-  }, [query, allVehicles]);
+  }, [deferredQuery, allVehicles]);
 
   // Real-time matched classics
   const filteredClassics = useMemo(() => {
-    if (!query.trim()) return allClassics;
-    const q = query.toLowerCase().trim();
+    if (!deferredQuery.trim()) return allClassics;
+    const q = deferredQuery.toLowerCase().trim();
     return allClassics.filter(
       (c) =>
         c.name.toLowerCase().includes(q) ||
@@ -76,11 +76,11 @@ export default function SearchClientHub({
         c.era.toLowerCase().includes(q) ||
         c.excerpt.toLowerCase().includes(q)
     );
-  }, [query, allClassics]);
+  }, [deferredQuery, allClassics]);
 
   // Real-time EV specific subset
   const filteredEVs = useMemo(() => {
-    const q = query.toLowerCase().trim();
+    const q = deferredQuery.toLowerCase().trim();
     const evVehicles = allVehicles.filter((v) => v.fuelType === "BEV");
     const evArticles = allArticles.filter((a) => a.category === "EV" || a.segments.includes("EVs"));
     if (!q) return { vehicles: evVehicles, articles: evArticles };
@@ -92,7 +92,7 @@ export default function SearchClientHub({
         (a) => a.title.toLowerCase().includes(q) || a.excerpt.toLowerCase().includes(q)
       ),
     };
-  }, [query, allVehicles, allArticles]);
+  }, [deferredQuery, allVehicles, allArticles]);
 
   const totalResults =
     filteredArticles.length + filteredVehicles.length + filteredClassics.length;
@@ -110,7 +110,11 @@ export default function SearchClientHub({
       {/* Real-time Dynamic Search Bar */}
       <div className="relative mb-8">
         <div className="relative flex items-center">
+          <label htmlFor="search-hub-input" className="sr-only">
+            Search all cars, news, specs, classics, and electric models
+          </label>
           <input
+            id="search-hub-input"
             type="text"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
@@ -126,51 +130,49 @@ export default function SearchClientHub({
             stroke="currentColor"
             strokeWidth="2.5"
             className="absolute left-4 text-accent pointer-events-none"
+            aria-hidden="true"
           >
             <circle cx="11" cy="11" r="8" />
             <path d="m21 21-4.35-4.35" />
           </svg>
           {query && (
             <button
+              type="button"
               onClick={() => setQuery("")}
-              className="absolute right-4 p-1 rounded-full text-text-muted hover:text-text-light bg-border-custom/50 hover:bg-border-custom text-xs font-bold transition-all"
+              className="absolute right-4 p-1 rounded-full text-text-muted hover:text-text-light bg-border-custom/50 hover:bg-border-custom text-xs font-bold transition-all cursor-pointer"
+              aria-label="Clear search text"
             >
               ✕
             </button>
           )}
         </div>
-
-        {/* Quick Suggestion Pills */}
-        <div className="flex items-center gap-2 mt-3 overflow-x-auto pb-1 text-xs text-text-muted hide-scrollbar">
-          <span className="font-bold uppercase tracking-wider text-[10px] text-text-muted/70 flex-shrink-0">Popular:</span>
-          {["Tesla", "Porsche", "Ferrari", "BMW", "Classic", "BYD", "V8", "Solid-State", "GT500"].map((term) => (
-            <button
-              key={term}
-              onClick={() => setQuery(term)}
-              className="px-3 py-1 rounded-full bg-surface border border-border-custom hover:border-accent/50 hover:text-accent transition-colors flex-shrink-0"
-            >
-              {term}
-            </button>
-          ))}
-        </div>
       </div>
 
-      {/* Tabs */}
-      <div className="flex items-center gap-2 overflow-x-auto pb-4 mb-8 border-b border-border-custom hide-scrollbar">
+      {/* Segment / Category Tabs */}
+      <div className="flex items-center gap-2 overflow-x-auto pb-4 mb-8 hide-scrollbar border-b border-border-custom" role="tablist" aria-label="Search filter categories">
         {tabs.map((tab) => {
           const isActive = activeTab === tab.id;
           return (
             <button
               key={tab.id}
+              role="tab"
+              type="button"
+              id={`tab-${tab.id}`}
+              aria-selected={isActive}
+              aria-controls={`tabpanel-${tab.id}`}
               onClick={() => setActiveTab(tab.id)}
-              className={`px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider whitespace-nowrap transition-all duration-300 flex items-center gap-2 cursor-pointer border ${
+              className={`px-4 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider whitespace-nowrap transition-all duration-200 flex items-center gap-2 cursor-pointer ${
                 isActive
-                  ? "bg-accent text-white border-accent shadow-lg shadow-accent/25"
-                  : "bg-surface text-text-muted border-border-custom hover:border-accent/40 hover:text-text-light"
+                  ? "bg-accent text-white shadow-lg shadow-accent/25"
+                  : "bg-surface text-text-muted hover:text-text-light hover:bg-surface/80 border border-border-custom"
               }`}
             >
               <span>{tab.label}</span>
-              <span className={`text-[10px] px-1.5 py-0.2 rounded-full font-extrabold ${isActive ? "bg-white/20 text-white" : "bg-border-custom text-text-muted"}`}>
+              <span
+                className={`text-[10px] px-1.5 py-0.5 rounded-full font-extrabold ${
+                  isActive ? "bg-white/20 text-white" : "bg-border-custom text-text-muted"
+                }`}
+              >
                 {tab.count}
               </span>
             </button>
@@ -178,202 +180,256 @@ export default function SearchClientHub({
         })}
       </div>
 
-      {/* Results Header */}
-      <div className="flex items-center justify-between mb-6 text-xs text-text-muted">
-        <p>
-          {query ? (
-            <>
-              Found <strong className="text-text-light">{totalResults} matches</strong> for &quot;
-              <span className="text-accent font-bold">{query}</span>&quot;
-            </>
-          ) : (
-            <>Showing all database assets ({totalResults} entries)</>
-          )}
-        </p>
+      {/* Screen Reader Result Announcement */}
+      <div className="sr-only" role="status" aria-live="polite">
+        Found {totalResults} search results for {deferredQuery}
       </div>
 
-      {/* Zero Results State */}
-      {totalResults === 0 && (
-        <div className="p-12 border border-border-custom rounded-3xl text-center bg-surface flex flex-col items-center">
-          <div className="w-16 h-16 rounded-full bg-accent/10 border border-accent/20 flex items-center justify-center text-accent text-2xl mb-4">
-            🔍
-          </div>
-          <h3 className="text-xl font-bold font-heading mb-2 text-text-light">No direct matches found</h3>
-          <p className="text-sm text-text-muted max-w-md mb-6">
-            We couldn&apos;t find anything matching &quot;{query}&quot;. Try checking for spelling or searching for a broader term like &quot;Porsche&quot;, &quot;Electric&quot;, or &quot;V8&quot;.
-          </p>
-          <button
-            onClick={() => setQuery("")}
-            className="px-6 py-2.5 rounded-xl bg-accent text-white font-heading font-bold uppercase tracking-wider text-xs shadow-lg"
-          >
-            Clear Search
-          </button>
-        </div>
-      )}
-
-      {/* 1. Vehicles Section */}
-      {(activeTab === "all" || activeTab === "vehicles") && filteredVehicles.length > 0 && (
-        <div className="mb-14">
-          <div className="flex items-center justify-between mb-6 pb-2 border-b border-border-custom">
-            <h2 className="font-heading font-bold text-xl uppercase tracking-wider flex items-center gap-2">
-              <span className="text-accent">🚗</span> Vehicle Database ({filteredVehicles.length})
-            </h2>
-            {activeTab === "all" && filteredVehicles.length > 3 && (
+      {/* Results View */}
+      <div id={`tabpanel-${activeTab}`} role="tabpanel" aria-labelledby={`tab-${activeTab}`}>
+        {totalResults === 0 ? (
+          <div className="py-20 text-center bg-surface border border-border-custom rounded-3xl p-8">
+            <div className="text-4xl mb-4" aria-hidden="true">🔍</div>
+            <h3 className="text-xl font-bold font-heading mb-2">No Matching Results</h3>
+            <p className="text-text-muted text-sm max-w-md mx-auto mb-6">
+              We couldn&apos;t find anything matching &quot;{query}&quot;. Try checking for spelling errors, using more general terms, or browsing our vehicle specs database.
+            </p>
+            <div className="flex justify-center gap-3 flex-wrap">
               <button
-                onClick={() => setActiveTab("vehicles")}
-                className="text-xs font-bold uppercase tracking-widest text-accent hover:underline"
+                type="button"
+                onClick={() => setQuery("Electric")}
+                className="px-3 py-1.5 bg-background border border-border-custom rounded-lg text-xs font-bold hover:border-accent transition-colors"
               >
-                View all {filteredVehicles.length} vehicles →
+                ⚡ Electric (BEV)
               </button>
-            )}
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {(activeTab === "all" ? filteredVehicles.slice(0, 4) : filteredVehicles).map((vehicle) => (
-              <Link
-                key={vehicle.id}
-                href={`/vehicles/${vehicle.slug}`}
-                className="flex flex-col sm:flex-row gap-5 p-4 rounded-2xl border border-border-custom bg-surface hover:border-accent/60 hover:shadow-xl transition-all group touch-press"
-              >
-                <div
-                  className="relative w-full sm:w-44 h-32 rounded-xl bg-border-custom overflow-hidden flex-shrink-0"
-                  style={{ background: `linear-gradient(to right, ${vehicle.coverGradient.from}, ${vehicle.coverGradient.to})` }}
-                >
-                  {vehicle.coverImage && (
-                    <Image
-                      src={vehicle.coverImage}
-                      alt={vehicle.model}
-                      fill
-                      sizes="(max-width: 640px) 100vw, 176px"
-                      className="object-cover opacity-85 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500"
-                    />
-                  )}
-                  <span className="absolute top-2 left-2 bg-black/80 backdrop-blur-md px-2 py-0.5 rounded text-[10px] font-bold uppercase text-white">
-                    {vehicle.fuelType}
-                  </span>
-                </div>
-
-                <div className="flex-1 flex flex-col justify-between">
-                  <div>
-                    <div className="flex items-center gap-2 mb-1 text-[11px] text-text-muted">
-                      <span className="font-bold uppercase tracking-wider text-accent">{vehicle.make}</span>
-                      <span>·</span>
-                      <span>{vehicle.year} {vehicle.bodyStyle}</span>
-                    </div>
-                    <h3 className="text-lg font-bold font-heading group-hover:text-accent transition-colors">
-                      {vehicle.make} {vehicle.model}
-                    </h3>
-                    <p className="text-xs text-text-muted line-clamp-1">{vehicle.trim}</p>
-                  </div>
-
-                  <div className="flex items-center justify-between mt-3 pt-2 border-t border-border-custom/50">
-                    <div className="text-[10px] text-text-muted uppercase font-bold">Base MSRP</div>
-                    <Price eurAmount={vehicle.priceEur} usdAmount={vehicle.priceUsd} className="font-bold text-sm tabular-nums text-text-light" />
-                  </div>
-                </div>
-              </Link>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* 2. Articles Section */}
-      {(activeTab === "all" || activeTab === "articles") && filteredArticles.length > 0 && (
-        <div className="mb-14">
-          <div className="flex items-center justify-between mb-6 pb-2 border-b border-border-custom">
-            <h2 className="font-heading font-bold text-xl uppercase tracking-wider flex items-center gap-2">
-              <span className="text-accent">📰</span> News & Reviews ({filteredArticles.length})
-            </h2>
-            {activeTab === "all" && filteredArticles.length > 3 && (
               <button
-                onClick={() => setActiveTab("articles")}
-                className="text-xs font-bold uppercase tracking-widest text-accent hover:underline"
+                type="button"
+                onClick={() => setQuery("Porsche")}
+                className="px-3 py-1.5 bg-background border border-border-custom rounded-lg text-xs font-bold hover:border-accent transition-colors"
               >
-                View all {filteredArticles.length} articles →
+                🏎️ Porsche
               </button>
-            )}
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {(activeTab === "all" ? filteredArticles.slice(0, 6) : filteredArticles).map((article) => (
-              <ArticleCard
-                key={article.id}
-                slug={article.slug}
-                tag={article.category}
-                tagColorClass={getCategoryTagColor(article.category)}
-                headline={article.title}
-                excerpt={article.excerpt}
-                author={article.author.name}
-                date={formatDate(article.publishedAt)}
-                readTime={article.readTime}
-                gradientFrom={article.coverGradient.from}
-                gradientTo={article.coverGradient.to}
-                coverImage={article.coverImage}
-              />
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* 3. Classic Cars Section */}
-      {(activeTab === "all" || activeTab === "classics") && filteredClassics.length > 0 && (
-        <div className="mb-14">
-          <div className="flex items-center justify-between mb-6 pb-2 border-b border-border-custom">
-            <h2 className="font-heading font-bold text-xl uppercase tracking-wider flex items-center gap-2">
-              <span className="text-[#d4af37]">🏆</span> Heritage Classics ({filteredClassics.length})
-            </h2>
-            <Link
-              href="/classics"
-              className="text-xs font-bold uppercase tracking-widest text-[#d4af37] hover:underline"
-            >
-              Classics Hub →
-            </Link>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {(activeTab === "all" ? filteredClassics.slice(0, 3) : filteredClassics).map((classic) => (
-              <Link
-                key={classic.id}
-                href={`/articles/${classic.slug}`}
-                className="group bg-surface border border-border-custom rounded-2xl overflow-hidden flex flex-col h-full hover:border-[#d4af37]/60 transition-all duration-300 touch-press"
+              <button
+                type="button"
+                onClick={() => setQuery("Tesla")}
+                className="px-3 py-1.5 bg-background border border-border-custom rounded-lg text-xs font-bold hover:border-accent transition-colors"
               >
-                <div className="relative w-full h-44 overflow-hidden">
-                  <div
-                    className="absolute inset-0 transition-transform duration-700 ease-out group-hover:scale-105"
-                    style={{ backgroundImage: `linear-gradient(135deg, ${classic.gradient.from}, ${classic.gradient.to})` }}
-                  />
-                  {classic.coverImage && (
-                    <Image
-                      src={classic.coverImage}
-                      alt={classic.name}
-                      fill
-                      sizes="(max-width: 640px) 100vw, 33vw"
-                      className="object-cover opacity-85 group-hover:opacity-100 transition-opacity"
-                    />
+                🔋 Tesla
+              </button>
+              <button
+                type="button"
+                onClick={() => setQuery("BMW")}
+                className="px-3 py-1.5 bg-background border border-border-custom rounded-lg text-xs font-bold hover:border-accent transition-colors"
+              >
+                🇩🇪 BMW
+              </button>
+            </div>
+          </div>
+        ) : (
+          <div className="space-y-16">
+            {/* Section 1: Vehicle Database Specs Matches */}
+            {(activeTab === "all" || activeTab === "vehicles") && filteredVehicles.length > 0 && (
+              <div>
+                <div className="flex items-center justify-between mb-6">
+                  <h2 className="text-xl font-heading font-bold uppercase tracking-wider flex items-center gap-2">
+                    <span className="w-2.5 h-2.5 rounded-full bg-accent" aria-hidden="true" />
+                    <span>Vehicle Specification Database</span>
+                    <span className="text-xs text-text-muted font-normal">({filteredVehicles.length})</span>
+                  </h2>
+                  {activeTab === "all" && filteredVehicles.length > 4 && (
+                    <button
+                      type="button"
+                      onClick={() => setActiveTab("vehicles")}
+                      className="text-xs font-bold text-accent hover:underline uppercase tracking-wider"
+                    >
+                      View All {filteredVehicles.length} Vehicles →
+                    </button>
                   )}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
-                  <div className="absolute top-3 left-3">
-                    <span className="px-2.5 py-0.5 bg-black/80 backdrop-blur-md text-[#d4af37] text-[10px] font-bold rounded border border-[#d4af37]/30 uppercase">
-                      {classic.year} · {classic.status}
-                    </span>
-                  </div>
                 </div>
-                <div className="p-4 flex flex-col flex-1">
-                  <span className="text-[10px] font-bold uppercase text-[#d4af37] mb-1">{classic.era}</span>
-                  <h3 className="font-heading font-bold text-base mb-2 group-hover:text-[#d4af37] transition-colors line-clamp-1">
-                    {classic.name}
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                  {(activeTab === "all" ? filteredVehicles.slice(0, 4) : filteredVehicles).map((vehicle) => (
+                    <Link
+                      key={vehicle.id}
+                      href={`/vehicles/${vehicle.slug}`}
+                      className="group bg-surface border border-border-custom rounded-2xl overflow-hidden hover:border-accent/60 transition-all duration-300 flex flex-col justify-between shadow-lg hover:shadow-accent/5 touch-press"
+                      aria-label={`View specs for ${vehicle.make} ${vehicle.model}`}
+                    >
+                      <div className="p-5">
+                        <div className="flex items-center justify-between text-[11px] font-bold text-text-muted uppercase tracking-wider mb-2">
+                          <span className="text-accent">{vehicle.make}</span>
+                          <span className="bg-border-custom/50 px-2 py-0.5 rounded text-[10px] text-text-light font-extrabold">{vehicle.fuelType}</span>
+                        </div>
+                        <h3 className="font-heading font-extrabold text-lg text-text-light group-hover:text-accent transition-colors leading-tight mb-1">
+                          {vehicle.model}
+                        </h3>
+                        <p className="text-xs text-text-muted mb-4">{vehicle.trim}</p>
+
+                        <div className="grid grid-cols-3 gap-2 py-3 border-y border-border-custom/50 text-center mb-4">
+                          <div>
+                            <span className="block text-[10px] text-text-muted uppercase tracking-wider">Power</span>
+                            <span className="text-xs font-extrabold text-text-light">{vehicle.specs.powerHp} hp</span>
+                          </div>
+                          <div>
+                            <span className="block text-[10px] text-text-muted uppercase tracking-wider">0-100</span>
+                            <span className="text-xs font-extrabold text-text-light">{vehicle.specs.acceleration060}s</span>
+                          </div>
+                          <div>
+                            <span className="block text-[10px] text-text-muted uppercase tracking-wider">Top Speed</span>
+                            <span className="text-xs font-extrabold text-text-light">{vehicle.specs.topSpeedKmh} km/h</span>
+                          </div>
+                        </div>
+
+                        <div className="flex items-center justify-between text-xs">
+                          <span className="text-text-muted font-medium">Starting MSRP</span>
+                          <span className="font-extrabold text-accent">
+                            <Price eurAmount={vehicle.priceEur} usdAmount={vehicle.priceUsd} />
+                          </span>
+                        </div>
+                      </div>
+                      <div className="bg-background/40 py-2.5 px-5 text-center border-t border-border-custom/50 group-hover:bg-accent group-hover:text-white transition-colors text-[11px] font-bold uppercase tracking-wider text-text-muted">
+                        Full Telemetry & Specs →
+                      </div>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Section 2: Articles, News & Road Tests */}
+            {(activeTab === "all" || activeTab === "articles") && filteredArticles.length > 0 && (
+              <div>
+                <div className="flex items-center justify-between mb-6">
+                  <h2 className="text-xl font-heading font-bold uppercase tracking-wider flex items-center gap-2">
+                    <span className="w-2.5 h-2.5 rounded-full bg-accent" aria-hidden="true" />
+                    <span>Editorial Stories & Road Tests</span>
+                    <span className="text-xs text-text-muted font-normal">({filteredArticles.length})</span>
+                  </h2>
+                  {activeTab === "all" && filteredArticles.length > 6 && (
+                    <button
+                      type="button"
+                      onClick={() => setActiveTab("articles")}
+                      className="text-xs font-bold text-accent hover:underline uppercase tracking-wider"
+                    >
+                      View All {filteredArticles.length} Articles →
+                    </button>
+                  )}
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {(activeTab === "all" ? filteredArticles.slice(0, 6) : filteredArticles).map((article) => (
+                    <ArticleCard key={article.id} article={article} />
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Section 3: Heritage Classics Fleet */}
+            {(activeTab === "all" || activeTab === "classics") && filteredClassics.length > 0 && (
+              <div>
+                <div className="flex items-center justify-between mb-6">
+                  <h2 className="text-xl font-heading font-bold uppercase tracking-wider flex items-center gap-2 text-[#d4af37]">
+                    <span className="w-2.5 h-2.5 rounded-full bg-[#d4af37]" aria-hidden="true" />
+                    <span>Heritage Classics Spotlight</span>
+                    <span className="text-xs text-text-muted font-normal">({filteredClassics.length})</span>
+                  </h2>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {filteredClassics.map((classic) => (
+                    <Link
+                      key={classic.id}
+                      href={`/articles/${classic.slug}`}
+                      className="group bg-surface border border-border-custom rounded-2xl overflow-hidden hover:border-[#d4af37]/60 transition-all flex flex-col justify-between shadow-xl"
+                    >
+                      <div
+                        className="h-48 relative overflow-hidden bg-background"
+                        style={{ backgroundImage: `linear-gradient(135deg, ${classic.gradient.from}, ${classic.gradient.to})` }}
+                      >
+                        {classic.coverImage && (
+                          <Image
+                            src={classic.coverImage}
+                            alt={classic.name}
+                            fill
+                            className="object-cover group-hover:scale-105 transition-transform duration-500"
+                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                          />
+                        )}
+                        <div className="absolute inset-0 bg-gradient-to-t from-surface via-transparent to-transparent" />
+                        <span className="absolute top-3 left-3 bg-[#d4af37] text-black text-[10px] font-extrabold px-2.5 py-1 rounded-md uppercase tracking-wider shadow-lg">
+                          {classic.era}
+                        </span>
+                      </div>
+                      <div className="p-6">
+                        <span className="text-xs font-bold text-[#d4af37] uppercase tracking-wider block mb-1">
+                          {classic.status}
+                        </span>
+                        <h3 className="font-heading font-extrabold text-xl text-text-light mb-2 group-hover:text-[#d4af37] transition-colors">
+                          {classic.name}
+                        </h3>
+                        <p className="text-xs text-text-muted line-clamp-2 leading-relaxed mb-4">
+                          {classic.excerpt}
+                        </p>
+                        <div className="text-xs font-bold text-text-light flex items-center justify-between pt-4 border-t border-border-custom/50">
+                          <span className="text-text-muted font-normal">{classic.engine}</span>
+                          <span className="text-[#d4af37]">Read Retrospective →</span>
+                        </div>
+                      </div>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Section 4: 100% Electric View */}
+            {activeTab === "evs" && (
+              <div className="space-y-12">
+                <div>
+                  <h3 className="font-heading font-bold text-lg uppercase tracking-wider text-accent mb-6">
+                    ⚡ Electric Vehicle Specifications ({filteredEVs.vehicles.length})
                   </h3>
-                  <p className="text-xs text-text-muted line-clamp-2 mb-4 flex-1">{classic.excerpt}</p>
-                  <div className="text-[11px] font-bold text-[#d4af37] uppercase tracking-wider flex items-center justify-between mt-auto pt-2 border-t border-border-custom/50">
-                    <span>Read Story</span>
-                    <span>→</span>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                    {filteredEVs.vehicles.map((vehicle) => (
+                      <Link
+                        key={vehicle.id}
+                        href={`/vehicles/${vehicle.slug}`}
+                        className="group bg-surface border border-border-custom rounded-2xl p-5 hover:border-accent/60 transition-all flex flex-col justify-between shadow-lg"
+                      >
+                        <div>
+                          <span className="text-xs font-bold text-accent uppercase tracking-wider block mb-1">{vehicle.make}</span>
+                          <h4 className="font-heading font-extrabold text-base text-text-light mb-1">{vehicle.model}</h4>
+                          <p className="text-xs text-text-muted mb-3">{vehicle.trim}</p>
+                          <div className="bg-accent/10 border border-accent/20 rounded-xl p-2.5 mb-3 text-xs">
+                            <span className="text-text-muted block text-[10px] uppercase">WLTP Range</span>
+                            <span className="font-extrabold text-accent text-sm">{vehicle.evSpecs?.rangeKm || "N/A"} km</span>
+                          </div>
+                        </div>
+                        <div className="text-xs font-extrabold text-text-light flex items-center justify-between pt-3 border-t border-border-custom/50">
+                          <span>0-100: {vehicle.specs.acceleration060}s</span>
+                          <span className="text-accent"><Price eurAmount={vehicle.priceEur} usdAmount={vehicle.priceUsd} /></span>
+                        </div>
+                      </Link>
+                    ))}
                   </div>
                 </div>
-              </Link>
-            ))}
+
+                {filteredEVs.articles.length > 0 && (
+                  <div>
+                    <h3 className="font-heading font-bold text-lg uppercase tracking-wider text-accent mb-6">
+                      ⚡ EV News & Road Tests ({filteredEVs.articles.length})
+                    </h3>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                      {filteredEVs.articles.map((article) => (
+                        <ArticleCard key={article.id} article={article} />
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 }

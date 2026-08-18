@@ -19,9 +19,9 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Invalid secret or parameters" }, { status: 401 });
     }
 
-    const expectedSecret = process.env.SANITY_REVALIDATE_SECRET || "default_revalidate_secret";
-    if (validation.data.secret !== expectedSecret) {
-      logger.warn("Revalidation secret mismatch");
+    const expectedSecret = process.env.SANITY_REVALIDATE_SECRET;
+    if (!expectedSecret || validation.data.secret !== expectedSecret) {
+      logger.warn("Revalidation secret mismatch or unset");
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 

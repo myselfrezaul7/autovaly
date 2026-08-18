@@ -7,7 +7,7 @@ export const searchQuerySchema = z.object({
     .string()
     .transform(sanitizeString)
     .pipe(z.string().max(100, { message: "Query string too long" })),
-  tab: z.enum(["vehicles", "articles"]).optional().default("vehicles"),
+  tab: z.enum(["all", "vehicles", "articles", "classics", "evs"]).optional().default("all"),
 });
 
 export const newsletterSchema = z.object({
@@ -27,7 +27,14 @@ export const contactSchema = z.object({
     .transform((val) => val.trim().toLowerCase())
     .pipe(z.string().email({ message: "Please provide a valid email address" })),
   subject: z
-    .enum(["General Inquiry", "Editorial Pitch", "Advertising", "Bug Report"])
+    .enum([
+      "General Inquiry",
+      "Editorial Tips / Leaks",
+      "Advertising & Partnerships",
+      "Vehicle Spec Correction",
+      "Editorial Pitch",
+      "Bug Report",
+    ])
     .default("General Inquiry"),
   message: z
     .string()
@@ -40,3 +47,8 @@ export const revalidateSchema = z.object({
   tag: z.string().optional(),
   path: z.string().optional(),
 });
+
+export type SearchQueryInput = z.infer<typeof searchQuerySchema>;
+export type NewsletterInput = z.infer<typeof newsletterSchema>;
+export type ContactInput = z.infer<typeof contactSchema>;
+export type RevalidateInput = z.infer<typeof revalidateSchema>;

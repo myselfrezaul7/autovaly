@@ -1,5 +1,7 @@
 import { Metadata } from "next";
 import Link from "next/link";
+import Breadcrumbs from "@/components/ui/Breadcrumbs";
+import BreadcrumbJsonLd from "@/components/BreadcrumbJsonLd";
 
 export const metadata: Metadata = {
   title: "Terms of Service — Autovaly",
@@ -8,14 +10,30 @@ export const metadata: Metadata = {
     title: "Terms of Service | Autovaly",
     description: "Review Autovaly's Terms of Service and editorial policies.",
     url: "https://autovaly.com/terms",
+    images: [{ url: "https://autovaly.com/og-image.jpg", width: 1200, height: 630, alt: "Autovaly Terms of Service" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Terms of Service | Autovaly",
+    description: "Review Autovaly's Terms of Service and editorial policies.",
   },
   alternates: { canonical: "/terms" },
 };
 
 export default function TermsPage() {
+  const crumbs = [
+    { name: "Home", url: "/" },
+    { name: "Terms of Service", url: "/terms" },
+  ];
+
   return (
-    <div className="min-h-screen bg-background text-text-light py-16 lg:py-24">
+    <main id="main-content" className="min-h-screen bg-background text-text-light py-16 lg:py-24">
+      <BreadcrumbJsonLd crumbs={crumbs} />
       <div className="container mx-auto px-4 md:px-6 max-w-4xl">
+        <div className="mb-8">
+          <Breadcrumbs crumbs={crumbs} />
+        </div>
+
         {/* Header */}
         <div className="mb-12">
           <span className="text-xs font-bold uppercase tracking-widest text-accent bg-accent/10 px-3 py-1 rounded border border-accent/20 mb-4 inline-block">
@@ -93,6 +111,6 @@ export default function TermsPage() {
           </Link>
         </div>
       </div>
-    </div>
+    </main>
   );
 }

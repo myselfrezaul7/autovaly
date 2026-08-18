@@ -7,7 +7,7 @@ import { formatErrorResponse, ValidationError, RateLimitError } from "@/lib/erro
 import { headers } from "next/headers";
 
 const WEB3FORMS_API = "https://api.web3forms.com/submit";
-const WEB3FORMS_KEY = "3281e53d-d6de-433b-ac48-98dc9f829145";
+const WEB3FORMS_KEY = process.env.WEB3FORMS_KEY || "3281e53d-d6de-433b-ac48-98dc9f829145";
 
 export async function subscribeNewsletter(formData: FormData) {
   try {

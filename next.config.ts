@@ -11,24 +11,21 @@ const withSerwist = withSerwistInit({
 const nextConfig: NextConfig = {
   trailingSlash: false,
   poweredByHeader: false,
+  reactStrictMode: true,
   images: {
-    formats: ['image/avif', 'image/webp'],
+    formats: ["image/avif", "image/webp"],
     remotePatterns: [
       {
-        protocol: 'https',
-        hostname: 'cdn.sanity.io',
+        protocol: "https",
+        hostname: "cdn.sanity.io",
       },
       {
-        protocol: 'https',
-        hostname: 'images.unsplash.com',
+        protocol: "https",
+        hostname: "images.unsplash.com",
       },
       {
-        protocol: 'https',
-        hostname: 'upload.wikimedia.org',
-      },
-      {
-        protocol: 'https',
-        hostname: '**',
+        protocol: "https",
+        hostname: "upload.wikimedia.org",
       },
     ],
   },

@@ -38,17 +38,32 @@ export default function Newsletter() {
   };
 
   return (
-    <section className="w-full relative overflow-hidden">
+    <section className="w-full relative overflow-hidden" aria-label="Autovaly Newsletter Subscription">
       <div className="absolute inset-0 bg-gradient-to-br from-accent to-accent-dark" />
-      <div className="absolute inset-0 gradient-mesh opacity-30 mix-blend-screen" />
-      <div className="absolute inset-0 opacity-10" style={{ backgroundImage: "url(\"data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E\")" }} />
-      
+      <div className="absolute inset-0 gradient-mesh opacity-30 mix-blend-screen" aria-hidden="true" />
+      <div
+        className="absolute inset-0 opacity-10"
+        style={{
+          backgroundImage:
+            "url(\"data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E\")",
+        }}
+        aria-hidden="true"
+      />
+
       <div className="container mx-auto px-4 md:px-6 py-16 md:py-20 relative z-10">
-        <m.div initial={{ opacity: 0, scale: 0.95 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} className="flex flex-col items-center text-center max-w-3xl mx-auto text-white">
-          <div className="w-12 h-12 rounded-2xl bg-white/15 border border-white/25 backdrop-blur-md flex items-center justify-center mb-6">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        <m.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true }}
+          className="flex flex-col items-center text-center max-w-3xl mx-auto text-white"
+        >
+          <div className="w-12 h-12 rounded-2xl bg-white/15 border border-white/25 backdrop-blur-md flex items-center justify-center mb-6" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+              <polyline points="22,6 12,13 2,6" />
+            </svg>
           </div>
-          
+
           <h2 className="font-heading text-4xl md:text-5xl font-extrabold leading-tight mb-4 tracking-wide">
             Stay in the Fast Lane.
           </h2>
@@ -57,18 +72,31 @@ export default function Newsletter() {
           </p>
 
           {status === "success" ? (
-            <m.div initial={{ scale: 0.8, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} className="bg-white/20 backdrop-blur-xl border border-white/30 rounded-2xl px-8 py-6 text-lg font-bold flex flex-col sm:flex-row items-center justify-center gap-3 shadow-2xl">
-              <div className="w-8 h-8 rounded-full bg-white text-accent flex items-center justify-center text-base font-extrabold">✓</div>
+            <m.div
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              className="bg-white/20 backdrop-blur-xl border border-white/30 rounded-2xl px-8 py-6 text-lg font-bold flex flex-col sm:flex-row items-center justify-center gap-3 shadow-2xl"
+              role="status"
+              aria-live="polite"
+            >
+              <div className="w-8 h-8 rounded-full bg-white text-accent flex items-center justify-center text-base font-extrabold" aria-hidden="true">
+                ✓
+              </div>
               <span>You&apos;re in! Welcome to the Autovaly Inner Circle.</span>
             </m.div>
           ) : (
             <form onSubmit={handleSubmit} className="w-full flex flex-col sm:flex-row gap-3 max-w-lg mb-3">
+              <label htmlFor="newsletter-email-input" className="sr-only">
+                Email address for newsletter subscription
+              </label>
               <input
+                id="newsletter-email-input"
                 type="email"
                 name="email"
                 placeholder="Enter your email (e.g. driver@domain.com)"
                 className="flex-1 bg-white/15 backdrop-blur-xl border border-white/25 text-white placeholder:text-white/60 px-5 py-3.5 rounded-xl outline-none focus:bg-white/25 focus:border-white/50 transition-all text-sm"
                 required
+                aria-required="true"
                 disabled={status === "loading"}
               />
               <button
@@ -76,20 +104,20 @@ export default function Newsletter() {
                 disabled={status === "loading"}
                 className="bg-white text-accent font-heading font-bold uppercase tracking-wider text-xs px-8 py-3.5 rounded-xl hover:bg-gray-100 transition-all whitespace-nowrap touch-press active:scale-95 disabled:opacity-50 cursor-pointer shadow-lg"
               >
-                {status === "loading" ? "Subscribing..." : "Join Newsletter →"}
+                {status === "loading" ? "Subscribing..." : <span>Join Newsletter <span aria-hidden="true">→</span></span>}
               </button>
             </form>
           )}
 
           {status === "error" && (
-            <p className="text-xs font-semibold text-red-200 mb-4 bg-red-900/40 px-4 py-2 rounded-lg border border-red-500/30">
+            <p className="text-xs font-semibold text-red-200 mb-4 bg-red-900/40 px-4 py-2 rounded-lg border border-red-500/30" role="alert" aria-live="assertive">
               {errorMessage}
             </p>
           )}
 
           <div className="flex items-center gap-3 text-xs font-semibold uppercase tracking-widest text-white/80 mt-3">
             <span>Verified Subscribers</span>
-            <span className="w-1 h-1 rounded-full bg-white/40" />
+            <span className="w-1 h-1 rounded-full bg-white/40" aria-hidden="true" />
             <span>Zero Spam · Unsubscribe Anytime</span>
           </div>
         </m.div>

@@ -1,15 +1,13 @@
 "use client";
 
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import { m, AnimatePresence } from "framer-motion";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { useTheme } from "@/lib/theme-context";
 import { useCurrency } from "@/lib/currency-context";
-import { searchArticles, searchVehicles } from "@/lib/content";
-import { Article, Vehicle } from "@/lib/types";
-import SearchResults from "./ui/SearchResults";
 import { useGarage } from "@/lib/useGarage";
+import SearchModal from "./SearchModal";
 
 const navLinks = [
   { name: "News", href: "/news" },
@@ -25,17 +23,11 @@ export default function Navbar() {
   const [isVisible, setIsVisible] = useState(true);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
-  const [articleResults, setArticleResults] = useState<Article[]>([]);
-  const [vehicleResults, setVehicleResults] = useState<Vehicle[]>([]);
-  const [isTyping, setIsTyping] = useState(false);
 
   const { theme, toggleTheme, mounted } = useTheme();
   const { currency, toggleCurrency } = useCurrency();
   const { garageCount } = useGarage();
   const pathname = usePathname();
-  const router = useRouter();
-  const searchTimeout = useRef<NodeJS.Timeout>(null);
   const lastScrollY = useRef(0);
 
   // Direction-aware scroll
@@ -56,60 +48,17 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Real-time search with debounce
-  useEffect(() => {
-    if (searchQuery.trim().length > 1) {
-      setIsTyping(true);
-      if (searchTimeout.current) clearTimeout(searchTimeout.current);
-
-      searchTimeout.current = setTimeout(() => {
-        setArticleResults(searchArticles(searchQuery));
-        setVehicleResults(searchVehicles(searchQuery));
-        setIsTyping(false);
-      }, 150);
-    } else {
-      setArticleResults([]);
-      setVehicleResults([]);
-      setIsTyping(false);
-    }
-  }, [searchQuery]);
-
+  // Global ⌘K shortcut
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
         e.preventDefault();
         setIsSearchOpen((prev) => !prev);
       }
-      if (e.key === "Escape" && isSearchOpen) {
-        setIsSearchOpen(false);
-      }
     };
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [isSearchOpen]);
-
-  useEffect(() => {
-    if (isSearchOpen || isMobileMenuOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
-    }
-    return () => {
-      document.body.style.overflow = "";
-    };
-  }, [isSearchOpen, isMobileMenuOpen]);
-
-  const handleSearchSubmit = useCallback(
-    (e: React.FormEvent) => {
-      e.preventDefault();
-      if (searchQuery.trim()) {
-        router.push(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
-        setIsSearchOpen(false);
-        setSearchQuery("");
-      }
-    },
-    [searchQuery, router]
-  );
+  }, []);
 
   return (
     <>
@@ -125,7 +74,7 @@ export default function Navbar() {
         <div className={`container mx-auto px-4 md:px-6 flex items-center justify-between transition-all duration-300 ${isScrolled ? "h-14" : "h-16"}`}>
           {/* Logo */}
           <Link href="/" className="font-heading font-extrabold text-2xl tracking-wide uppercase flex items-center gap-2 text-text-light">
-            <svg width="28" height="28" viewBox="0 0 32 32" fill="none" className="text-accent">
+            <svg width="28" height="28" viewBox="0 0 32 32" fill="none" className="text-accent" aria-hidden="true">
               <path d="M4 20l3-8h18l3 8" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
               <path d="M2 20h28v4a2 2 0 01-2 2H4a2 2 0 01-2-2v-4z" fill="currentColor" opacity="0.15" stroke="currentColor" strokeWidth="2" />
               <circle cx="9" cy="26" r="2.5" fill="currentColor" />
@@ -162,7 +111,7 @@ export default function Navbar() {
             {/* Currency Switcher */}
             <button
               onClick={toggleCurrency}
-              aria-label="Toggle Currency"
+              aria-label={`Switch currency (current: ${currency})`}
               className="hidden md:flex px-2.5 py-1 items-center text-xs font-bold rounded-lg border border-border-custom hover:bg-surface transition-colors touch-press active:scale-95 cursor-pointer"
             >
               <span className={`${currency === "EUR" ? "text-accent" : "text-text-muted"} transition-colors`}>€</span>
@@ -176,7 +125,7 @@ export default function Navbar() {
               onClick={() => setIsSearchOpen(true)}
               className="flex items-center gap-2 p-2 sm:px-3 sm:py-1.5 rounded-xl border border-border-custom hover:border-accent/60 bg-surface/60 hover:text-accent transition-all touch-press active:scale-95 cursor-pointer text-text-light"
             >
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                 <circle cx="11" cy="11" r="8" />
                 <path d="m21 21-4.35-4.35" />
               </svg>
@@ -190,9 +139,9 @@ export default function Navbar() {
             <Link
               href="/garage"
               className="relative p-2 rounded-xl border border-border-custom hover:border-accent/60 bg-surface/60 hover:text-accent transition-all touch-press active:scale-95 text-text-light"
-              aria-label="My Garage"
+              aria-label={`My Garage (${garageCount} saved)`}
             >
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                 <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" />
               </svg>
               {garageCount > 0 && (
@@ -205,13 +154,13 @@ export default function Navbar() {
             {/* Theme Toggle */}
             <button
               onClick={toggleTheme}
-              aria-label="Toggle Theme"
+              aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
               className="p-2 rounded-xl border border-border-custom hover:border-accent/60 bg-surface/60 hover:text-accent transition-all touch-press active:scale-95 cursor-pointer text-text-light"
             >
-              <svg className="hidden dark:block" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <svg className="hidden dark:block" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                 <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
               </svg>
-              <svg className="block dark:hidden" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <svg className="block dark:hidden" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                 <circle cx="12" cy="12" r="5" />
                 <line x1="12" y1="1" x2="12" y2="3" />
                 <line x1="12" y1="21" x2="12" y2="23" />
@@ -227,6 +176,7 @@ export default function Navbar() {
             {/* Mobile Hamburger */}
             <button
               aria-label="Open Mobile Menu"
+              aria-expanded={isMobileMenuOpen}
               className="lg:hidden p-2 flex flex-col gap-1.5 ml-1 touch-press active:scale-95 cursor-pointer"
               onClick={() => setIsMobileMenuOpen(true)}
             >
@@ -238,65 +188,8 @@ export default function Navbar() {
         </div>
       </header>
 
-      {/* Search Overlay Dialog */}
-      <AnimatePresence>
-        {isSearchOpen && (
-          <m.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 bg-background/95 backdrop-blur-2xl flex flex-col items-center pt-[10vh] md:pt-[15vh] px-4"
-          >
-            <button
-              onClick={() => setIsSearchOpen(false)}
-              className="absolute top-6 right-6 p-2 text-text-light hover:text-accent cursor-pointer"
-              aria-label="Close search"
-            >
-              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <line x1="18" y1="6" x2="6" y2="18" />
-                <line x1="6" y1="6" x2="18" y2="18" />
-              </svg>
-            </button>
-
-            <m.div
-              initial={{ y: 20, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: 0.1 }}
-              className="w-full max-w-2xl relative"
-            >
-              <form onSubmit={handleSearchSubmit}>
-                <div className="flex items-center border-b-2 border-border-custom focus-within:border-accent transition-colors pb-4">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mr-4 text-accent">
-                    <circle cx="11" cy="11" r="8" />
-                    <path d="m21 21-4.35-4.35" />
-                  </svg>
-                  <input
-                    type="text"
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    placeholder="Search vehicles, articles, specs, classics..."
-                    className="flex-1 bg-transparent text-xl md:text-2xl font-heading font-bold outline-none text-text-light placeholder:text-text-muted/50"
-                    autoFocus
-                  />
-                  {isTyping && (
-                    <div className="w-5 h-5 rounded-full border-2 border-border-custom border-t-accent animate-spin ml-4" />
-                  )}
-                </div>
-                <p className="mt-4 text-xs text-text-muted">Press Enter to view all results in Universal Hub or Esc to close</p>
-              </form>
-
-              {(articleResults.length > 0 || vehicleResults.length > 0) && searchQuery.length > 1 && (
-                <SearchResults
-                  articles={articleResults}
-                  vehicles={vehicleResults}
-                  onClose={() => setIsSearchOpen(false)}
-                  query={searchQuery}
-                />
-              )}
-            </m.div>
-          </m.div>
-        )}
-      </AnimatePresence>
+      {/* Standalone Search Modal */}
+      <SearchModal isOpen={isSearchOpen} onClose={() => setIsSearchOpen(false)} />
 
       {/* Mobile Nav Drawer */}
       <AnimatePresence>
@@ -318,7 +211,7 @@ export default function Navbar() {
               className="fixed top-0 right-0 h-full w-[290px] bg-surface/95 backdrop-blur-2xl z-50 border-l border-border-custom p-6 pb-[calc(2rem+env(safe-area-inset-bottom))] lg:hidden flex flex-col justify-between"
               role="dialog"
               aria-modal="true"
-              aria-label="Mobile menu"
+              aria-label="Mobile Navigation Menu"
             >
               <div>
                 <div className="flex items-center justify-between pb-4 border-b border-border-custom">

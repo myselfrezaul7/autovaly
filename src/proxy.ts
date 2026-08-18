@@ -14,7 +14,7 @@ export function proxy(request: NextRequest) {
       "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; " +
       "font-src 'self' https://fonts.gstatic.com; " +
       "img-src 'self' data: https: https://cdn.sanity.io; " +
-      "connect-src 'self' https://formspree.io https://*.sanity.io https://*.api.sanity.io https://cdn.sanity.io; " +
+      "connect-src 'self' https://api.web3forms.com https://formspree.io https://*.sanity.io https://*.api.sanity.io https://cdn.sanity.io; " +
       "frame-ancestors 'none';"
   );
 

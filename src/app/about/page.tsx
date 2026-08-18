@@ -1,5 +1,7 @@
 import { Metadata } from "next";
 import Link from "next/link";
+import Breadcrumbs from "@/components/ui/Breadcrumbs";
+import BreadcrumbJsonLd from "@/components/BreadcrumbJsonLd";
 
 export const metadata: Metadata = {
   title: "About Us — Autovaly Editorial & Testing Standards",
@@ -8,14 +10,30 @@ export const metadata: Metadata = {
     title: "About Us | Autovaly",
     description: "Learn about Autovaly's independent testing methodology, editorial team, and data-driven automotive journalism.",
     url: "https://autovaly.com/about",
+    images: [{ url: "https://autovaly.com/og-image.jpg", width: 1200, height: 630, alt: "About Autovaly" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "About Us | Autovaly",
+    description: "Learn about Autovaly's independent testing methodology and editorial team.",
   },
   alternates: { canonical: "/about" },
 };
 
 export default function AboutPage() {
+  const crumbs = [
+    { name: "Home", url: "/" },
+    { name: "About Us", url: "/about" },
+  ];
+
   return (
-    <div className="min-h-screen bg-background text-text-light py-16 lg:py-24">
+    <main id="main-content" className="min-h-screen bg-background text-text-light py-16 lg:py-24">
+      <BreadcrumbJsonLd crumbs={crumbs} />
       <div className="container mx-auto px-4 md:px-6 max-w-5xl">
+        <div className="mb-8">
+          <Breadcrumbs crumbs={crumbs} />
+        </div>
+
         {/* Hero Header */}
         <div className="mb-16">
           <span className="text-xs font-bold uppercase tracking-widest text-accent bg-accent/10 px-3 py-1 rounded border border-accent/20 mb-4 inline-block">
@@ -52,7 +70,7 @@ export default function AboutPage() {
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="p-6 rounded-2xl bg-surface border border-border-custom">
-              <div className="w-10 h-10 rounded-xl bg-accent/10 text-accent flex items-center justify-center text-xl mb-4 font-bold">
+              <div className="w-10 h-10 rounded-xl bg-accent/10 text-accent flex items-center justify-center text-xl mb-4 font-bold" aria-hidden="true">
                 ⚡
               </div>
               <h3 className="font-heading font-bold text-lg text-text-light mb-2">Real-World Range & Charging</h3>
@@ -62,7 +80,7 @@ export default function AboutPage() {
             </div>
 
             <div className="p-6 rounded-2xl bg-surface border border-border-custom">
-              <div className="w-10 h-10 rounded-xl bg-accent/10 text-accent flex items-center justify-center text-xl mb-4 font-bold">
+              <div className="w-10 h-10 rounded-xl bg-accent/10 text-accent flex items-center justify-center text-xl mb-4 font-bold" aria-hidden="true">
                 ⏱️
               </div>
               <h3 className="font-heading font-bold text-lg text-text-light mb-2">VBOX GPS Acceleration</h3>
@@ -72,7 +90,7 @@ export default function AboutPage() {
             </div>
 
             <div className="p-6 rounded-2xl bg-surface border border-border-custom">
-              <div className="w-10 h-10 rounded-xl bg-accent/10 text-accent flex items-center justify-center text-xl mb-4 font-bold">
+              <div className="w-10 h-10 rounded-xl bg-accent/10 text-accent flex items-center justify-center text-xl mb-4 font-bold" aria-hidden="true">
                 🛡️
               </div>
               <h3 className="font-heading font-bold text-lg text-text-light mb-2">Zero Paid Reviews</h3>
@@ -118,7 +136,7 @@ export default function AboutPage() {
             ].map((member, idx) => (
               <div key={idx} className="p-6 rounded-2xl bg-surface border border-border-custom flex flex-col justify-between">
                 <div>
-                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-accent to-red-400 flex items-center justify-center text-white font-bold text-lg mb-4">
+                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-accent to-red-400 flex items-center justify-center text-white font-bold text-lg mb-4" aria-hidden="true">
                     {member.name.charAt(0)}
                   </div>
                   <h3 className="font-heading font-bold text-lg text-text-light">{member.name}</h3>
@@ -146,6 +164,6 @@ export default function AboutPage() {
           </Link>
         </div>
       </div>
-    </div>
+    </main>
   );
 }

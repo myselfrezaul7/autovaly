@@ -1,17 +1,38 @@
-"use client";
-
+import { Metadata } from "next";
 import Link from "next/link";
+import CookieSettingsButton from "@/components/ui/CookieSettingsButton";
+import Breadcrumbs from "@/components/ui/Breadcrumbs";
+import BreadcrumbJsonLd from "@/components/BreadcrumbJsonLd";
+
+export const metadata: Metadata = {
+  title: "Privacy Policy & Data Rights — Autovaly",
+  description: "Learn how Autovaly protects reader privacy, manages local telemetry, and complies with GDPR and CCPA data standards.",
+  openGraph: {
+    title: "Privacy Policy & Data Rights | Autovaly",
+    description: "Learn how Autovaly protects reader privacy and complies with GDPR and CCPA standards.",
+    url: "https://autovaly.com/privacy",
+    images: [{ url: "https://autovaly.com/og-image.jpg", width: 1200, height: 630, alt: "Autovaly Privacy Policy" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Privacy Policy & Data Rights | Autovaly",
+    description: "Learn how Autovaly protects reader privacy and complies with GDPR and CCPA standards.",
+  },
+  alternates: { canonical: "/privacy" },
+};
 
 export default function PrivacyPage() {
-  const openCookieSettings = () => {
-    if (typeof window !== "undefined") {
-      window.dispatchEvent(new CustomEvent("open-cookie-settings"));
-    }
-  };
+  const crumbs = [
+    { name: "Home", url: "/" },
+    { name: "Privacy Policy", url: "/privacy" },
+  ];
 
   return (
-    <div className="min-h-screen bg-background text-text-light py-16 lg:py-24">
+    <main id="main-content" className="min-h-screen bg-background text-text-light py-16 lg:py-24">
+      <BreadcrumbJsonLd crumbs={crumbs} />
       <div className="container mx-auto px-4 md:px-6 max-w-4xl">
+        <Breadcrumbs crumbs={crumbs} />
+
         {/* Header */}
         <div className="mb-12">
           <span className="text-xs font-bold uppercase tracking-widest text-accent bg-accent/10 px-3 py-1 rounded border border-accent/20 mb-4 inline-block">
@@ -28,17 +49,12 @@ export default function PrivacyPage() {
         {/* Quick Action Cookie Banner */}
         <div className="p-6 rounded-2xl bg-surface border border-border-custom mb-12 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <div>
-            <h3 className="font-heading font-bold text-base text-text-light">Manage Your Cookie Preferences</h3>
+            <h2 className="font-heading font-bold text-base text-text-light">Manage Your Cookie Preferences</h2>
             <p className="text-xs text-text-muted mt-1">
               You can adjust your analytics, personalization, and functional cookie preferences at any time.
             </p>
           </div>
-          <button
-            onClick={openCookieSettings}
-            className="px-6 py-2.5 rounded-xl bg-accent text-white font-heading font-bold uppercase tracking-wider text-xs shadow-lg shadow-accent/20 hover:bg-accent/90 transition-all touch-press active:scale-95 flex-shrink-0"
-          >
-            Open Cookie Settings
-          </button>
+          <CookieSettingsButton />
         </div>
 
         {/* Policy Body */}
@@ -103,6 +119,6 @@ export default function PrivacyPage() {
           </Link>
         </div>
       </div>
-    </div>
+    </main>
   );
 }

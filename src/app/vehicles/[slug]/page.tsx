@@ -1,4 +1,4 @@
-import { getVehicleBySlug, getAllVehicles, getArticlesByCategory, getCategoryTagColor } from "@/lib/content";
+import { getVehicleBySlug, getAllVehicles, getAllArticles, getCategoryTagColor } from "@/lib/content";
 import { notFound } from "next/navigation";
 import Price from "@/components/ui/Price";
 import Link from "next/link";
@@ -10,6 +10,7 @@ import VehicleJsonLd from "@/components/VehicleJsonLd";
 import FAQJsonLd from "@/components/FAQJsonLd";
 import TrackView from "@/components/TrackView";
 import VehiclePerformance from "@/components/VehiclePerformance";
+import GarageButton from "@/components/ui/GarageButton";
 
 export async function generateStaticParams() {
   const vehicles = getAllVehicles();
@@ -47,8 +48,6 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   };
 }
 
-import GarageButton from "@/components/ui/GarageButton";
-
 export default async function VehicleDetailPage({ params }: { params: Promise<{ slug: string }> }) {
   const slug = (await params).slug;
   const vehicle = getVehicleBySlug(slug);
@@ -57,7 +56,7 @@ export default async function VehicleDetailPage({ params }: { params: Promise<{ 
     notFound();
   }
 
-  const allArticles = getArticlesByCategory("Review").concat(getArticlesByCategory("News"), getArticlesByCategory("EV"), getArticlesByCategory("Comparison"), getArticlesByCategory("Industry"));
+  const allArticles = getAllArticles();
   const relatedArticles = allArticles.filter(a => a.segments.some(s => vehicle.segments.includes(s))).slice(0, 3);
 
   const crumbs = [
