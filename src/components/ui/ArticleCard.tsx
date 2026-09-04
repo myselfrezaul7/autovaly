@@ -64,7 +64,7 @@ export default function ArticleCard({
       viewport={{ once: true, margin: "-50px" }}
       transition={{ duration: 0.5 }}
       className={clsx(
-        "group bg-surface border border-border-custom rounded-2xl overflow-hidden cursor-pointer transition-all duration-300 hover:-translate-y-1 hover:shadow-xl flex",
+        "group bg-surface border border-border-custom rounded-2xl overflow-hidden cursor-pointer transition-all duration-300 hover:-translate-y-1 hover:shadow-xl flex focus-visible:ring-2 focus-visible:ring-accent/40",
         {
           "flex-col": !isCompact,
           "flex-row": isCompact,
@@ -108,7 +108,7 @@ export default function ArticleCard({
         </span>
         <h3
           className={clsx("font-heading font-bold leading-[1.2] transition-colors duration-300 group-hover:text-accent text-text-light", {
-            "text-xl mb-3 relative after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-0 after:h-0.5 after:bg-accent after:transition-all after:duration-300 group-hover:after:w-10": variant === "large",
+            "text-xl mb-3 relative after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-10 after:h-0.5 after:bg-accent after:origin-left after:scale-x-0 group-hover:after:scale-x-100 after:transition-transform after:duration-300": variant === "large",
             "text-base mb-2": isCompact,
             "text-lg": isSegment,
             "text-xl text-white": isPortrait,
@@ -135,6 +135,6 @@ export default function ArticleCard({
     </m.article>
   );
 
-  if (finalSlug) return <Link href={`/articles/${finalSlug}`} className="block">{content}</Link>;
+  if (finalSlug) return <Link href={`/articles/${finalSlug}`} className="block rounded-2xl focus-visible:ring-2 focus-visible:ring-accent/40 focus-visible:outline-none">{content}</Link>;
   return content;
 }

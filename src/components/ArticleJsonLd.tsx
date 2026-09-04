@@ -15,7 +15,7 @@ export default function ArticleJsonLd({ article }: { article: Article }) {
             ? `https://autovaly.com${article.coverImage}`
             : article.coverImage,
         ]
-      : ["https://autovaly.com/og-image.jpg"],
+      : ["https://autovaly.com/og-image.png"],
     datePublished: new Date(article.publishedAt).toISOString(),
     dateModified: new Date(article.publishedAt).toISOString(),
     inLanguage: "en-US",
@@ -32,7 +32,7 @@ export default function ArticleJsonLd({ article }: { article: Article }) {
       email: "itsautovaly@gmail.com",
       logo: {
         "@type": "ImageObject",
-        url: "https://autovaly.com/og-image.jpg",
+        url: "https://autovaly.com/og-image.png",
       },
     },
     mainEntityOfPage: {

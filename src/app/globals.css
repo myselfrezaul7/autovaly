@@ -1,8 +1,9 @@
 @import "tailwindcss";
 
-@custom-variant dark (&:is(.dark *));
+@custom-variant dark (&:where(.dark, .dark *));
 
 :root, .dark {
+  color-scheme: dark;
   --background: #111318;
   --surface: #1C1F26;
   --footer-bg: #0C0E12;
@@ -31,6 +32,7 @@
 }
 
 .light {
+  color-scheme: light;
   --background: #F8F9FA;
   --surface: #FFFFFF;
   --footer-bg: #F1F3F5;
@@ -72,6 +74,9 @@
   --color-text-on-surface: var(--text-on-surface);
   --color-text-light: var(--text-light);
   --color-text-muted: var(--text-muted);
+  --color-muted: var(--text-muted);
+  --color-primary: var(--text-primary);
+  --color-secondary: var(--text-secondary);
   
   --color-border-custom: var(--border-custom);
   --color-overlay: var(--overlay);
@@ -88,10 +93,30 @@
   --font-heading: var(--font-barlow), Impact, sans-serif;
 
   --animate-ticker: ticker 30s linear infinite;
+  --animate-float: float 4s ease-in-out infinite;
+  --animate-shimmer: shimmer 1.5s infinite;
+  --animate-grid-pulse: grid-pulse 4s ease-in-out infinite alternate;
+  --animate-pattern-drift: pattern-drift 20s linear infinite;
   
   @keyframes ticker {
     0% { transform: translateX(0); }
     100% { transform: translateX(-50%); }
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-4px); }
+  }
+  @keyframes shimmer {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+  }
+  @keyframes grid-pulse {
+    from { opacity: 0.3; }
+    to { opacity: 0.6; }
+  }
+  @keyframes pattern-drift {
+    0% { background-position: 0 0; }
+    100% { background-position: 40px 40px; }
   }
 }
 
@@ -208,4 +233,10 @@ body {
 @keyframes grid-pulse {
   from { opacity: 0.3; }
   to { opacity: 0.6; }
+}
+
+/* CSS containment for virtualized / long catalog lists */
+.contain-card {
+  content-visibility: auto;
+  contain-intrinsic-size: 0 420px;
 }

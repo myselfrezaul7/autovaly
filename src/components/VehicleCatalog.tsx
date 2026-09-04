@@ -212,7 +212,7 @@ export default function VehicleCatalog({ initialVehicles }: { initialVehicles: V
               const saved = isSavedInGarage(vehicle.id);
               return (
                 <ScrollReveal key={vehicle.id} delay={0.04 * Math.min(idx, 8)}>
-                  <div className="flex flex-col bg-surface border border-border-custom rounded-3xl overflow-hidden hover:border-accent hover:shadow-2xl transition-all group h-full relative">
+                  <div className="flex flex-col bg-surface border border-border-custom rounded-2xl overflow-hidden hover:border-accent hover:shadow-2xl transition-all group h-full relative">
                     <Link
                       href={`/vehicles/${vehicle.slug}`}
                       className="block h-48 w-full relative overflow-hidden"
@@ -243,7 +243,7 @@ export default function VehicleCatalog({ initialVehicles }: { initialVehicles: V
                     <button
                       type="button"
                       onClick={(e) => toggleGarageItem(e, vehicle)}
-                      className={`absolute top-4 right-4 z-20 w-8 h-8 rounded-full flex items-center justify-center backdrop-blur-md border transition-all cursor-pointer ${
+                      className={`absolute top-4 right-4 z-20 w-11 h-11 rounded-full flex items-center justify-center backdrop-blur-md border transition-all cursor-pointer ${
                         saved
                           ? "bg-accent border-accent text-white shadow-lg"
                           : "bg-black/60 border-white/10 text-white/80 hover:text-accent hover:bg-black/90"
@@ -278,7 +278,7 @@ export default function VehicleCatalog({ initialVehicles }: { initialVehicles: V
                           {vehicle.evSpecs && (
                             <div className="col-span-2 pt-1.5 border-t border-border-custom/40 flex justify-between items-center">
                               <span className="text-[10px] text-text-muted font-bold uppercase">Range (WLTP)</span>
-                              <span className="font-bold text-[#00B894]">{vehicle.evSpecs.rangeKm} km</span>
+                              <span className="font-bold text-tag-ev">{vehicle.evSpecs.rangeKm} km</span>
                             </div>
                           )}
                         </div>

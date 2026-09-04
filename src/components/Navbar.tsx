@@ -7,7 +7,9 @@ import { usePathname } from "next/navigation";
 import { useTheme } from "@/lib/theme-context";
 import { useCurrency } from "@/lib/currency-context";
 import { useGarage } from "@/lib/useGarage";
-import SearchModal from "./SearchModal";
+import dynamic from "next/dynamic";
+
+const SearchModal = dynamic(() => import("./SearchModal"), { ssr: false });
 
 const navLinks = [
   { name: "News", href: "/news" },
@@ -123,7 +125,7 @@ export default function Navbar() {
             <button
               aria-label="Search"
               onClick={() => setIsSearchOpen(true)}
-              className="flex items-center gap-2 p-2 sm:px-3 sm:py-1.5 rounded-xl border border-border-custom hover:border-accent/60 bg-surface/60 hover:text-accent transition-all touch-press active:scale-95 cursor-pointer text-text-light"
+              className="min-h-[44px] min-w-[44px] flex items-center justify-center gap-2 p-2 sm:px-3 sm:py-1.5 rounded-xl border border-border-custom hover:border-accent/60 bg-surface/60 hover:text-accent transition-all touch-press active:scale-95 cursor-pointer text-text-light"
             >
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                 <circle cx="11" cy="11" r="8" />
@@ -138,7 +140,7 @@ export default function Navbar() {
             {/* Garage Icon */}
             <Link
               href="/garage"
-              className="relative p-2 rounded-xl border border-border-custom hover:border-accent/60 bg-surface/60 hover:text-accent transition-all touch-press active:scale-95 text-text-light"
+              className="relative min-h-[44px] min-w-[44px] flex items-center justify-center p-2 rounded-xl border border-border-custom hover:border-accent/60 bg-surface/60 hover:text-accent transition-all touch-press active:scale-95 text-text-light"
               aria-label={`My Garage (${garageCount} saved)`}
             >
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -155,7 +157,7 @@ export default function Navbar() {
             <button
               onClick={toggleTheme}
               aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
-              className="p-2 rounded-xl border border-border-custom hover:border-accent/60 bg-surface/60 hover:text-accent transition-all touch-press active:scale-95 cursor-pointer text-text-light"
+              className="min-h-[44px] min-w-[44px] flex items-center justify-center p-2 rounded-xl border border-border-custom hover:border-accent/60 bg-surface/60 hover:text-accent transition-all touch-press active:scale-95 cursor-pointer text-text-light"
             >
               <svg className="hidden dark:block" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                 <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
@@ -177,7 +179,7 @@ export default function Navbar() {
             <button
               aria-label="Open Mobile Menu"
               aria-expanded={isMobileMenuOpen}
-              className="lg:hidden p-2 flex flex-col gap-1.5 ml-1 touch-press active:scale-95 cursor-pointer"
+              className="lg:hidden min-h-[44px] min-w-[44px] flex flex-col items-center justify-center gap-1.5 ml-1 touch-press active:scale-95 cursor-pointer"
               onClick={() => setIsMobileMenuOpen(true)}
             >
               <span className="block w-5 h-[2px] rounded-full bg-text-light transition-all" />

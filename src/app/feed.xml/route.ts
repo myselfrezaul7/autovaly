@@ -21,7 +21,7 @@ export async function GET() {
           ? article.coverImage.startsWith("http")
             ? article.coverImage
             : `https://autovaly.com${article.coverImage}`
-          : "https://autovaly.com/og-image.jpg";
+          : "https://autovaly.com/og-image.png";
 
         return `
     <item>

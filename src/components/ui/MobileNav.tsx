@@ -60,7 +60,7 @@ export default function MobileNav() {
             <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" />
           </svg>
           {garageCount > 0 && (
-            <span className="absolute -top-1 -right-2 w-3.5 h-3.5 bg-accent text-white text-[8px] rounded-full flex items-center justify-center font-extrabold">
+            <span className="absolute -top-1 -right-2 w-4 h-4 bg-accent text-white text-[10px] rounded-full flex items-center justify-center font-extrabold">
               {garageCount}
             </span>
           )}
@@ -71,13 +71,14 @@ export default function MobileNav() {
 
   return (
     <div className="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-surface/90 backdrop-blur-2xl border-t border-border-custom pb-[env(safe-area-inset-bottom)] shadow-[0_-10px_25px_rgba(0,0,0,0.35)]">
-      <nav className="flex items-center justify-around h-[58px] px-1">
+      <nav className="flex items-center justify-around h-[58px] px-1" aria-label="Mobile bottom navigation">
         {links.map((link) => {
           const isActive = pathname === link.href || (link.href !== "/" && pathname.startsWith(link.href));
           return (
             <Link
               key={link.name}
               href={link.href}
+              aria-current={isActive ? "page" : undefined}
               className={`flex flex-col items-center justify-center w-full h-full py-1 transition-all touch-press active:scale-95 ${
                 isActive ? "text-accent" : "text-text-muted hover:text-text-light"
               }`}
@@ -85,7 +86,7 @@ export default function MobileNav() {
               <div className={`${isActive ? "scale-110" : ""} transition-transform`}>
                 {link.icon}
               </div>
-              <span className="text-[9px] font-bold uppercase tracking-wider mt-0.5">{link.name}</span>
+              <span className="text-[11px] font-bold uppercase tracking-wider mt-0.5">{link.name}</span>
             </Link>
           );
         })}

@@ -10,7 +10,7 @@ export const metadata: Metadata = {
     title: "About Us | Autovaly",
     description: "Learn about Autovaly's independent testing methodology, editorial team, and data-driven automotive journalism.",
     url: "https://autovaly.com/about",
-    images: [{ url: "https://autovaly.com/og-image.jpg", width: 1200, height: 630, alt: "About Autovaly" }],
+    images: [{ url: "https://autovaly.com/og-image.png", width: 1200, height: 630, alt: "About Autovaly" }],
   },
   twitter: {
     card: "summary_large_image",

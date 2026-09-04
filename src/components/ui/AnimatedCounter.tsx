@@ -8,6 +8,7 @@ interface AnimatedCounterProps {
   suffix?: string;
   duration?: number;
   decimals?: number;
+  className?: string;
 }
 
 export default function AnimatedCounter({
@@ -15,6 +16,7 @@ export default function AnimatedCounter({
   suffix = "",
   duration = 1.5,
   decimals,
+  className,
 }: AnimatedCounterProps) {
   const ref = useRef<HTMLSpanElement>(null);
   const inView = useInView(ref, { once: true, margin: "-50px" });
@@ -36,5 +38,5 @@ export default function AnimatedCounter({
     }
   }, [inView, spring, value]);
 
-  return <m.span ref={ref}>{display}</m.span>;
+  return <m.span ref={ref} className={className ? `tabular-nums ${className}` : "tabular-nums"}>{display}</m.span>;
 }

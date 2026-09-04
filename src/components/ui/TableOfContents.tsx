@@ -76,8 +76,8 @@ export default function TableOfContents({ content }: { content: string }) {
             >
               <a
                 href={`#${heading.id}`}
-                className={`block transition-colors hover:text-accent ${
-                  isActive ? "text-accent font-bold pl-1 border-l-2 border-accent" : ""
+                className={`block transition-colors hover:text-accent border-l-2 pl-1 ${
+                  isActive ? "text-accent font-bold border-accent" : "border-transparent"
                 }`}
               >
                 {heading.text}

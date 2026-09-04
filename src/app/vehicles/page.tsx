@@ -12,7 +12,7 @@ export const metadata: Metadata = {
     title: "Vehicle Database 2026 — Specs, Prices & Expert Reviews | Autovaly",
     description: "Browse our comprehensive vehicle database with full specs, pricing in EUR and USD, and expert reviews.",
     url: "https://autovaly.com/vehicles",
-    images: [{ url: "https://autovaly.com/og-image.jpg", width: 1200, height: 630, alt: "Autovaly Vehicle Database" }],
+    images: [{ url: "https://autovaly.com/og-image.png", width: 1200, height: 630, alt: "Autovaly Vehicle Database" }],
   },
   twitter: {
     card: "summary_large_image",

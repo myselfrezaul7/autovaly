@@ -1,12 +1,18 @@
 import { z } from "zod";
 
-const sanitizeString = (str: string) => str.replace(/<[^>]*>?/gm, "").trim();
+const sanitizeString = (str: string) =>
+  str
+    .replace(/<[^>]*>?/gm, "")
+    .replace(/[\u0000-\u001F\u007F-\u009F]/g, "")
+    .trim();
 
 export const searchQuerySchema = z.object({
   q: z
     .string()
     .transform(sanitizeString)
-    .pipe(z.string().max(100, { message: "Query string too long" })),
+    .pipe(z.string().max(100, { message: "Query string too long" }))
+    .optional()
+    .default(""),
   tab: z.enum(["all", "vehicles", "articles", "classics", "evs"]).optional().default("all"),
 });
 

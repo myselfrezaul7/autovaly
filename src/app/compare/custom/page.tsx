@@ -1,10 +1,11 @@
-import { getVehicleBySlug } from "@/lib/content";
-import { notFound } from "next/navigation";
+import { getVehicleBySlug, getAllVehicles } from "@/lib/content";
 import Image from "next/image";
+import Link from "next/link";
 import { Metadata } from "next";
 import Breadcrumbs from "@/components/ui/Breadcrumbs";
 import BreadcrumbJsonLd from "@/components/BreadcrumbJsonLd";
 import CompareSpecs from "@/components/CompareSpecs";
+import CompareBuilder from "@/components/CompareBuilder";
 import { ComparisonData } from "@/lib/types";
 
 export async function generateMetadata({
@@ -23,6 +24,8 @@ export async function generateMetadata({
 
   if (!carA || !carB) return { title: "Custom Comparison", robots: { index: false, follow: true } };
 
+  const [canonicalA, canonicalB] = [slugA, slugB].sort();
+
   const title = `${carA.make} ${carA.model} vs ${carB.make} ${carB.model} Showdown`;
   const description = `Compare the ${carA.make} ${carA.model} against the ${carB.make} ${carB.model}. Complete head-to-head telemetry, performance, and pricing.`;
 
@@ -34,16 +37,16 @@ export async function generateMetadata({
       type: "article",
       title: `${title} | Autovaly`,
       description,
-      url: `https://autovaly.com/compare/custom?a=${slugA}&b=${slugB}`,
-      images: carA.coverImage ? [{ url: carA.coverImage, width: 1200, height: 630, alt: title }] : [],
+      url: `https://autovaly.com/compare/custom?a=${canonicalA}&b=${canonicalB}`,
+      images: carA.coverImage ? [{ url: carA.coverImage, width: 1200, height: 630, alt: title }] : [{ url: "/og-image.png", width: 1200, height: 630, alt: title }],
     },
     twitter: {
       card: "summary_large_image",
       title: `${title} | Autovaly`,
       description,
-      images: carA.coverImage ? [carA.coverImage] : [],
+      images: carA.coverImage ? [carA.coverImage] : ["/og-image.png"],
     },
-    alternates: { canonical: `/compare/custom?a=${slugA}&b=${slugB}` },
+    alternates: { canonical: `/compare/custom?a=${canonicalA}&b=${canonicalB}` },
   };
 }
 
@@ -56,16 +59,50 @@ export default async function CustomComparisonPage({
   const slugA = a || (vehicles ? vehicles.split(",")[0] : null);
   const slugB = b || (vehicles ? vehicles.split(",")[1] : null);
 
-  if (!slugA || !slugB) {
-    notFound();
+  const carA = slugA ? getVehicleBySlug(slugA) : null;
+  const carB = slugB ? getVehicleBySlug(slugB) : null;
+
+  if (!slugA || !slugB || !carA || !carB) {
+    const allVehicles = getAllVehicles();
+    const crumbs = [
+      { name: "Home", url: "/" },
+      { name: "Compare", url: "/compare" },
+      { name: "Custom Comparison", url: "/compare/custom" },
+    ];
+
+    return (
+      <main id="main-content" className="min-h-screen pb-20 bg-background text-text-light">
+        <BreadcrumbJsonLd crumbs={crumbs} />
+        <div className="container mx-auto px-4 md:px-6 pt-6">
+          <Breadcrumbs crumbs={crumbs} />
+        </div>
+
+        <div className="container mx-auto px-4 md:px-6 pt-12 max-w-4xl">
+          <div className="text-center mb-10">
+            <span className="text-accent font-bold uppercase tracking-widest text-xs mb-2 block">
+              Head-to-Head Comparison Builder
+            </span>
+            <h1 className="text-3xl md:text-5xl font-heading font-extrabold text-white mb-4">
+              Compare Any Two Vehicles
+            </h1>
+            <p className="text-text-muted text-base md:text-lg max-w-2xl mx-auto mb-6">
+              Select two vehicles below to generate an instant head-to-head spec breakdown, acceleration telemetry, WLTP efficiency, and pricing comparison.
+            </p>
+            <Link
+              href="/vehicles"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-surface border border-border-custom hover:border-accent text-sm font-semibold text-text-light transition-colors"
+            >
+              Browse All Vehicles &rarr;
+            </Link>
+          </div>
+
+          <CompareBuilder vehicles={allVehicles} initialCarA={carA?.slug || slugA || ""} />
+        </div>
+      </main>
+    );
   }
 
-  const carA = getVehicleBySlug(slugA);
-  const carB = getVehicleBySlug(slugB);
-
-  if (!carA || !carB) {
-    notFound();
-  }
+  const [canonicalA, canonicalB] = [slugA, slugB].sort();
 
   // Synthesize complete spec comparison matrix
   const specs = [
@@ -112,7 +149,7 @@ export default async function CustomComparisonPage({
 
   const customComparison: ComparisonData = {
     id: `custom-${carA.slug}-${carB.slug}`,
-    slug: `custom?a=${slugA}&b=${slugB}`,
+    slug: `custom?a=${canonicalA}&b=${canonicalB}`,
     tagline: `Instrumented head-to-head showdown: ${carA.make} ${carA.model} vs ${carB.make} ${carB.model}`,
     carA: {
       name: `${carA.make} ${carA.model}`,
@@ -130,7 +167,7 @@ export default async function CustomComparisonPage({
   const crumbs = [
     { name: "Home", url: "/" },
     { name: "Compare", url: "/compare" },
-    { name: `${carA.model} vs ${carB.model}`, url: `/compare/custom?a=${slugA}&b=${slugB}` },
+    { name: `${carA.model} vs ${carB.model}`, url: `/compare/custom?a=${canonicalA}&b=${canonicalB}` },
   ];
 
   return (

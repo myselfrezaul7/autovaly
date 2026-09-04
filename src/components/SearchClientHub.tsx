@@ -328,8 +328,8 @@ export default function SearchClientHub({
             {(activeTab === "all" || activeTab === "classics") && filteredClassics.length > 0 && (
               <div>
                 <div className="flex items-center justify-between mb-6">
-                  <h2 className="text-xl font-heading font-bold uppercase tracking-wider flex items-center gap-2 text-[#d4af37]">
-                    <span className="w-2.5 h-2.5 rounded-full bg-[#d4af37]" aria-hidden="true" />
+                  <h2 className="text-xl font-heading font-bold uppercase tracking-wider flex items-center gap-2 text-accent-gold">
+                    <span className="w-2.5 h-2.5 rounded-full bg-accent-gold" aria-hidden="true" />
                     <span>Heritage Classics Spotlight</span>
                     <span className="text-xs text-text-muted font-normal">({filteredClassics.length})</span>
                   </h2>
@@ -340,7 +340,7 @@ export default function SearchClientHub({
                     <Link
                       key={classic.id}
                       href={`/articles/${classic.slug}`}
-                      className="group bg-surface border border-border-custom rounded-2xl overflow-hidden hover:border-[#d4af37]/60 transition-all flex flex-col justify-between shadow-xl"
+                      className="group bg-surface border border-border-custom rounded-2xl overflow-hidden hover:border-accent-gold/60 transition-all flex flex-col justify-between shadow-xl"
                     >
                       <div
                         className="h-48 relative overflow-hidden bg-background"
@@ -356,15 +356,15 @@ export default function SearchClientHub({
                           />
                         )}
                         <div className="absolute inset-0 bg-gradient-to-t from-surface via-transparent to-transparent" />
-                        <span className="absolute top-3 left-3 bg-[#d4af37] text-black text-[10px] font-extrabold px-2.5 py-1 rounded-md uppercase tracking-wider shadow-lg">
+                        <span className="absolute top-3 left-3 bg-accent-gold text-black text-[10px] font-extrabold px-2.5 py-1 rounded-md uppercase tracking-wider shadow-lg">
                           {classic.era}
                         </span>
                       </div>
                       <div className="p-6">
-                        <span className="text-xs font-bold text-[#d4af37] uppercase tracking-wider block mb-1">
+                        <span className="text-xs font-bold text-accent-gold uppercase tracking-wider block mb-1">
                           {classic.status}
                         </span>
-                        <h3 className="font-heading font-extrabold text-xl text-text-light mb-2 group-hover:text-[#d4af37] transition-colors">
+                        <h3 className="font-heading font-extrabold text-xl text-text-light mb-2 group-hover:text-accent-gold transition-colors">
                           {classic.name}
                         </h3>
                         <p className="text-xs text-text-muted line-clamp-2 leading-relaxed mb-4">
@@ -372,7 +372,7 @@ export default function SearchClientHub({
                         </p>
                         <div className="text-xs font-bold text-text-light flex items-center justify-between pt-4 border-t border-border-custom/50">
                           <span className="text-text-muted font-normal">{classic.engine}</span>
-                          <span className="text-[#d4af37]">Read Retrospective →</span>
+                          <span className="text-accent-gold">Read Retrospective →</span>
                         </div>
                       </div>
                     </Link>

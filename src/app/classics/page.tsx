@@ -39,12 +39,12 @@ export default function ClassicsPage() {
         {/* Hero Header */}
         <div className="mb-10 pb-6 border-b border-border-custom">
           <div className="flex items-center gap-2 mb-3">
-            <span className="text-xs font-bold uppercase tracking-widest text-[#d4af37] bg-[#d4af37]/10 px-3 py-1 rounded border border-[#d4af37]/25 inline-flex items-center gap-1.5">
+            <span className="text-xs font-bold uppercase tracking-widest text-accent-gold bg-accent-gold/10 px-3 py-1 rounded border border-accent-gold/25 inline-flex items-center gap-1.5">
               🏆 Heritage & Collector Archive
             </span>
           </div>
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-heading font-extrabold tracking-tight leading-tight mb-4">
-            Legendary <span className="text-[#d4af37]">Classic Cars</span>
+            Legendary <span className="text-accent-gold">Classic Cars</span>
           </h1>
           <p className="text-base sm:text-lg text-text-muted max-w-3xl leading-relaxed">
             The defining machines of automotive history: homologation race specials, golden-era muscle, and analog supercars that shaped modern driving.

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { m, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence, useReducedMotion } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
 import { getHeroArticles, getCategoryTagColor, formatDate } from "@/lib/content";
@@ -11,12 +11,13 @@ export default function Hero() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
+  const prefersReducedMotion = useReducedMotion();
 
   const currentArticle = articles[currentIndex] || articles[0];
   const tagColor = getCategoryTagColor(currentArticle.category);
 
   useEffect(() => {
-    if (isPaused) return;
+    if (isPaused || prefersReducedMotion) return;
     timerRef.current = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % articles.length);
     }, 6500);
@@ -24,23 +25,25 @@ export default function Hero() {
     return () => {
       if (timerRef.current) clearInterval(timerRef.current);
     };
-  }, [isPaused, articles.length]);
+  }, [isPaused, prefersReducedMotion, articles.length]);
 
   return (
     <section
       className="relative w-full overflow-hidden border-b border-border-custom bg-surface"
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
+      onFocus={() => setIsPaused(true)}
+      onBlur={() => setIsPaused(false)}
     >
       <div className="flex flex-col lg:flex-row w-full min-h-[540px] lg:min-h-[620px]">
         {/* Left Column: Visual Vehicle Showcase with Telemetry */}
         <div className="relative flex-shrink-0 lg:w-[60%] min-h-[320px] sm:min-h-[380px] lg:min-h-[620px] overflow-hidden bg-gradient-to-br from-[#111318] via-[#1a1e27] to-[#111318]">
-          <AnimatePresence mode="wait">
+          <AnimatePresence mode="wait" initial={false}>
             <m.div
               key={currentArticle.id}
-              initial={{ opacity: 0, scale: 1.04 }}
+              initial={{ opacity: 0, scale: prefersReducedMotion ? 1 : 1.04 }}
               animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.98 }}
+              exit={{ opacity: 0, scale: prefersReducedMotion ? 1 : 0.98 }}
               transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
               className="absolute inset-0"
             >
@@ -64,7 +67,7 @@ export default function Hero() {
 
           {/* Telemetry Overlay Badges */}
           <div className="absolute bottom-6 left-6 lg:bottom-10 lg:left-10 flex flex-wrap gap-2 z-20">
-            <span className="px-3 py-1 bg-black/80 backdrop-blur-md rounded-full text-xs font-bold text-[#00B894] border border-white/15 shadow-lg flex items-center gap-1.5">
+            <span className="px-3 py-1 bg-black/80 backdrop-blur-md rounded-full text-xs font-bold text-tag-ev border border-white/15 shadow-lg flex items-center gap-1.5">
               <span>⚡</span>
               <span>TEST VERIFIED</span>
             </span>
@@ -92,21 +95,26 @@ export default function Hero() {
               </span>
 
               {/* Mini Slide Dots */}
-              <div className="flex items-center gap-1.5">
+              <div className="flex items-center">
                 {articles.map((_, idx) => (
                   <button
                     key={idx}
+                    type="button"
                     onClick={() => setCurrentIndex(idx)}
                     aria-label={`Go to slide ${idx + 1}`}
-                    className={`h-1.5 rounded-full transition-all duration-300 cursor-pointer ${
-                      idx === currentIndex ? "w-6 bg-accent" : "w-1.5 bg-border-custom hover:bg-text-muted"
-                    }`}
-                  />
+                    className="min-h-[44px] min-w-[32px] flex items-center justify-center cursor-pointer"
+                  >
+                    <span
+                      className={`h-1.5 rounded-full transition-all duration-300 ${
+                        idx === currentIndex ? "w-6 bg-accent" : "w-1.5 bg-border-custom hover:bg-text-muted"
+                      }`}
+                    />
+                  </button>
                 ))}
               </div>
             </div>
 
-            <AnimatePresence mode="wait">
+            <AnimatePresence mode="wait" initial={false}>
               <m.div
                 key={currentArticle.id}
                 initial={{ opacity: 0, y: 15 }}

@@ -67,13 +67,13 @@ export const metadata: Metadata = {
     siteName: "Autovaly",
     title: "Autovaly — Drive the Story",
     description: "Expert car news, EV reviews, and comparisons for enthusiasts and buyers worldwide.",
-    images: [{ url: "/og-image.jpg", width: 1200, height: 630, alt: "Autovaly — Drive the Story" }],
+    images: [{ url: "/og-image.png", width: 1200, height: 630, alt: "Autovaly — Drive the Story" }],
   },
   twitter: {
     card: "summary_large_image",
     title: "Autovaly — Drive the Story",
-    description: "Expert car news, EV reviews, and comparisons.",
-    images: ["/og-image.jpg"],
+    description: "Deep-dive automotive journalism, real-world EV reviews, and technical car comparisons.",
+    images: ["/og-image.png"],
     creator: "@autovaly",
   },
   robots: {

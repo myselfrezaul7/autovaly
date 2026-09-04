@@ -74,7 +74,7 @@ export default function CookieConsent() {
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, y: 30, scale: 0.95 }}
           transition={{ type: "spring", damping: 28, stiffness: 260 }}
-          className="fixed bottom-4 left-4 right-4 md:left-auto md:right-6 md:max-w-md z-50 pointer-events-auto"
+          className="fixed bottom-[calc(68px+env(safe-area-inset-bottom,0px))] md:bottom-6 left-4 right-4 md:left-auto md:right-6 md:max-w-md z-50 pointer-events-auto"
         >
           <div className="relative overflow-hidden rounded-2xl border border-white/20 dark:border-white/10 bg-surface/85 dark:bg-black/80 backdrop-blur-2xl p-5 md:p-6 shadow-[0_20px_50px_rgba(0,0,0,0.45)] ring-1 ring-white/10 text-text-light">
             <div className="absolute -top-12 -right-12 w-32 h-32 bg-accent/20 rounded-full blur-2xl pointer-events-none" />

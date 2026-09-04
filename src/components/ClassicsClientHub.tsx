@@ -53,8 +53,8 @@ export default function ClassicsClientHub({ initialItems }: ClassicsClientHubPro
                 onClick={() => setActiveEra(era.id)}
                 className={`px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider whitespace-nowrap transition-all duration-300 flex items-center gap-2 cursor-pointer border ${
                   isActive
-                    ? "bg-[#d4af37] text-black border-[#d4af37] shadow-lg shadow-[#d4af37]/20"
-                    : "bg-surface text-text-muted border-border-custom hover:border-[#d4af37]/50 hover:text-text-light"
+                    ? "bg-accent-gold text-black border-accent-gold shadow-lg shadow-accent-gold/20"
+                    : "bg-surface text-text-muted border-border-custom hover:border-accent-gold/50 hover:text-text-light"
                 }`}
               >
                 <span>{era.label}</span>
@@ -73,7 +73,7 @@ export default function ClassicsClientHub({ initialItems }: ClassicsClientHubPro
             placeholder="Search classics (e.g. F40, Hemi, V8, JDM)..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-9 pr-4 py-2 rounded-xl bg-surface border border-border-custom text-xs text-text-light placeholder:text-text-muted/60 focus:outline-none focus:border-[#d4af37] transition-all"
+            className="w-full pl-9 pr-4 py-2 rounded-xl bg-surface border border-border-custom text-xs text-text-light placeholder:text-text-muted/60 focus:border-accent-gold focus-visible:ring-2 focus-visible:ring-accent-gold/40 focus-visible:outline-none transition-all"
           />
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="absolute left-3 top-1/2 -translate-y-1/2 text-text-muted"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
           {searchQuery && (
@@ -89,7 +89,7 @@ export default function ClassicsClientHub({ initialItems }: ClassicsClientHubPro
 
       {/* Counter */}
       <p className="text-xs text-text-muted mb-6 uppercase tracking-wider font-bold">
-        Showing <span className="text-[#d4af37]">{filteredItems.length}</span> of {initialItems.length} classic cars
+        Showing <span className="text-accent-gold">{filteredItems.length}</span> of {initialItems.length} classic cars
       </p>
 
       {/* Grid of ALL Classics */}
@@ -107,7 +107,7 @@ export default function ClassicsClientHub({ initialItems }: ClassicsClientHubPro
             >
               <Link
                 href={`/articles/${classic.slug}`}
-                className="group bg-surface border border-border-custom rounded-2xl overflow-hidden flex flex-col h-full touch-press block hover:border-[#d4af37]/60 hover:shadow-2xl hover:shadow-[#d4af37]/10 transition-all duration-300"
+                className="group bg-surface border border-border-custom rounded-2xl overflow-hidden flex flex-col h-full touch-press block hover:border-accent-gold/60 hover:shadow-2xl hover:shadow-accent-gold/10 transition-all duration-300"
               >
                 {/* Cover Image & Overlays */}
                 <div className="relative w-full h-52 sm:h-60 overflow-hidden">
@@ -129,7 +129,7 @@ export default function ClassicsClientHub({ initialItems }: ClassicsClientHubPro
 
                   {/* Top Badges */}
                   <div className="absolute top-3.5 left-3.5 flex flex-col gap-1.5 z-10">
-                    <span className="inline-flex items-center gap-1 px-3 py-1 bg-black/80 backdrop-blur-md text-[#d4af37] text-xs font-bold rounded-md border border-[#d4af37]/40 uppercase tracking-wide">
+                    <span className="inline-flex items-center gap-1 px-3 py-1 bg-black/80 backdrop-blur-md text-accent-gold text-xs font-bold rounded-md border border-accent-gold/40 uppercase tracking-wide">
                       {classic.year} · {classic.status}
                     </span>
                     <span className="inline-flex items-center gap-1 px-2.5 py-0.5 bg-black/65 backdrop-blur-md text-white/90 text-[10px] font-medium rounded border border-white/10 uppercase tracking-wide">
@@ -153,13 +153,13 @@ export default function ClassicsClientHub({ initialItems }: ClassicsClientHubPro
                 {/* Body Content */}
                 <div className="p-6 flex flex-col flex-1">
                   <div className="flex items-center justify-between gap-2 mb-2">
-                    <span className="text-[11px] font-bold uppercase tracking-widest text-[#d4af37]">{classic.era}</span>
+                    <span className="text-[11px] font-bold uppercase tracking-widest text-accent-gold">{classic.era}</span>
                     {classic.topSpeed && (
                       <span className="text-[11px] font-medium text-text-muted">{classic.topSpeed}</span>
                     )}
                   </div>
 
-                  <h2 className="font-heading text-xl font-bold leading-tight mb-2.5 transition-colors duration-300 group-hover:text-[#d4af37]">
+                  <h2 className="font-heading text-xl font-bold leading-tight mb-2.5 transition-colors duration-300 group-hover:text-accent-gold">
                     {classic.headline}
                   </h2>
 
@@ -167,7 +167,7 @@ export default function ClassicsClientHub({ initialItems }: ClassicsClientHubPro
                     {classic.excerpt}
                   </p>
 
-                  <div className="text-xs font-bold text-[#d4af37] uppercase tracking-widest mt-auto pt-3 border-t border-border-custom/50 flex items-center justify-between">
+                  <div className="text-xs font-bold text-accent-gold uppercase tracking-widest mt-auto pt-3 border-t border-border-custom/50 flex items-center justify-between">
                     <span>Read Heritage Story</span>
                     <span className="group-hover:translate-x-2 transition-transform duration-300">→</span>
                   </div>
@@ -185,7 +185,7 @@ export default function ClassicsClientHub({ initialItems }: ClassicsClientHubPro
           <p className="text-xs text-text-muted mb-4">Try adjusting your search keywords or era filter</p>
           <button
             onClick={() => { setActiveEra("all"); setSearchQuery(""); }}
-            className="px-5 py-2 rounded-full bg-[#d4af37] text-black text-xs font-bold uppercase tracking-wider"
+            className="px-5 py-2 rounded-full bg-accent-gold text-black text-xs font-bold uppercase tracking-wider"
           >
             Reset Filters
           </button>

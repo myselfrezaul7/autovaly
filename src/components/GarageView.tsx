@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useGarage } from "@/lib/useGarage";
 import Link from "next/link";
 import Image from "next/image";
@@ -12,6 +12,11 @@ export default function GarageView() {
   const { garage, removeFromGarage } = useGarage();
   const [selectedForCompare, setSelectedForCompare] = useState<string[]>([]);
   const [copiedLink, setCopiedLink] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const toggleSelect = (slug: string) => {
     setSelectedForCompare((prev) => {
@@ -25,15 +30,50 @@ export default function GarageView() {
     });
   };
 
-  const handleShareGarage = () => {
+  const handleShareGarage = async () => {
     if (typeof window !== "undefined") {
-      const query = garage.map((v) => v.make).filter((v, i, a) => a.indexOf(v) === i).join(" ") || "garage";
-      const url = `${window.location.origin}/search?q=${encodeURIComponent(query)}`;
-      navigator.clipboard.writeText(url);
-      setCopiedLink(true);
-      setTimeout(() => setCopiedLink(false), 2500);
+      const shareUrl = garage.length >= 2
+        ? `${window.location.origin}/compare/custom?a=${garage[0]?.slug}&b=${garage[1]?.slug}`
+        : `${window.location.origin}/garage`;
+
+      if (typeof navigator !== "undefined" && navigator.share) {
+        try {
+          await navigator.share({
+            title: "My Autovaly Garage Fleet",
+            text: `Check out my saved vehicle shortlist (${garage.length} vehicles) on Autovaly:`,
+            url: shareUrl,
+          });
+          return;
+        } catch {
+          // Fall back to clipboard
+        }
+      }
+
+      if (typeof navigator !== "undefined" && navigator.clipboard) {
+        try {
+          await navigator.clipboard.writeText(shareUrl);
+          setCopiedLink(true);
+          setTimeout(() => setCopiedLink(false), 2500);
+        } catch {
+          // ignore clipboard errors
+        }
+      }
     }
   };
+
+  if (!mounted) {
+    return (
+      <div className="container mx-auto px-4 md:px-6 py-12 animate-pulse">
+        <div className="h-8 w-48 bg-surface rounded-xl mb-4" />
+        <div className="h-6 w-72 bg-surface rounded-xl mb-10" />
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          {[1, 2, 3, 4].map((n) => (
+            <div key={n} className="h-80 bg-surface rounded-2xl border border-border-custom" />
+          ))}
+        </div>
+      </div>
+    );
+  }
 
   if (garage.length === 0) {
     return (

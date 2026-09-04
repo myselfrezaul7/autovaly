@@ -10,7 +10,7 @@ export const metadata: Metadata = {
     title: "Terms of Service | Autovaly",
     description: "Review Autovaly's Terms of Service and editorial policies.",
     url: "https://autovaly.com/terms",
-    images: [{ url: "https://autovaly.com/og-image.jpg", width: 1200, height: 630, alt: "Autovaly Terms of Service" }],
+    images: [{ url: "https://autovaly.com/og-image.png", width: 1200, height: 630, alt: "Autovaly Terms of Service" }],
   },
   twitter: {
     card: "summary_large_image",

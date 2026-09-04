@@ -94,7 +94,7 @@ export default function Newsletter() {
                 type="email"
                 name="email"
                 placeholder="Enter your email (e.g. driver@domain.com)"
-                className="flex-1 bg-white/15 backdrop-blur-xl border border-white/25 text-white placeholder:text-white/60 px-5 py-3.5 rounded-xl outline-none focus:bg-white/25 focus:border-white/50 transition-all text-sm"
+                className="flex-1 bg-white/15 backdrop-blur-xl border border-white/25 text-white placeholder:text-white/60 px-5 py-3.5 rounded-xl outline-none focus:bg-white/25 focus:border-white/50 focus-visible:ring-2 focus-visible:ring-white/60 focus-visible:outline-none transition-all text-sm"
                 required
                 aria-required="true"
                 disabled={status === "loading"}

@@ -1,3 +1,4 @@
+import { cache } from "react";
 import { articles } from "./data/articles";
 import { vehicles } from "./data/vehicles";
 import { Article, ArticleCategory, VehicleSegment, Vehicle, FuelType, BodyStyle } from "./types";
@@ -10,9 +11,25 @@ const TAG_COLORS: Record<ArticleCategory, string> = {
   Comparison: "bg-tag-comparison",
 };
 
-export function getAllArticles(): Article[] {
-  return [...articles].sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime());
-}
+const sortedArticles = [...articles].sort(
+  (a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime()
+);
+
+const sortedVehicles = [...vehicles].sort((a, b) => a.make.localeCompare(b.make));
+
+const articleSlugMap = new Map<string, Article>(articles.map((a) => [a.slug, a]));
+const vehicleSlugMap = new Map<string, Vehicle>(vehicles.map((v) => [v.slug, v]));
+
+const dateFormatter = new Intl.DateTimeFormat("en-US", {
+  month: "short",
+  day: "numeric",
+  year: "numeric",
+  timeZone: "UTC",
+});
+
+export const getAllArticles = cache((): Article[] => {
+  return sortedArticles;
+});
 
 export function getHeroArticle(): Article {
   return articles.find((a) => a.heroArticle) || articles[0];
@@ -41,9 +58,9 @@ export function getEditorsPicks(): Article[] {
   return articles.filter((a) => a.editorsPick);
 }
 
-export function getArticleBySlug(slug: string): Article | undefined {
-  return articles.find((a) => a.slug === slug);
-}
+export const getArticleBySlug = cache((slug: string): Article | undefined => {
+  return articleSlugMap.get(slug);
+});
 
 export function getRelatedArticles(articleId: string, limit = 3): Article[] {
   const article = articles.find((a) => a.id === articleId);
@@ -58,7 +75,7 @@ export function getCategoryTagColor(category: ArticleCategory): string {
 }
 
 export function formatDate(isoDate: string): string {
-  return new Date(isoDate).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
+  return dateFormatter.format(new Date(isoDate));
 }
 
 export function searchArticles(query: string): Article[] {
@@ -74,13 +91,13 @@ export function searchArticles(query: string): Article[] {
 }
 
 // Vehicle utilities
-export function getAllVehicles(): Vehicle[] {
-  return [...vehicles].sort((a, b) => a.make.localeCompare(b.make));
-}
+export const getAllVehicles = cache((): Vehicle[] => {
+  return sortedVehicles;
+});
 
-export function getVehicleBySlug(slug: string): Vehicle | undefined {
-  return vehicles.find((v) => v.slug === slug);
-}
+export const getVehicleBySlug = cache((slug: string): Vehicle | undefined => {
+  return vehicleSlugMap.get(slug);
+});
 
 export function getVehiclesByFuelType(fuelType: FuelType): Vehicle[] {
   return vehicles.filter((v) => v.fuelType === fuelType);

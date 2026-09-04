@@ -40,8 +40,8 @@ export default function ClassicSpotlight() {
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 pb-4 border-b border-border-custom gap-4">
           <div>
-            <h2 className="font-heading text-2xl md:text-3xl uppercase tracking-wider pl-4 border-l-[5px] border-[#d4af37] flex items-center gap-2">
-              <span className="text-[#d4af37]">🏆</span> Popular Classic Cars
+            <h2 className="font-heading text-2xl md:text-3xl uppercase tracking-wider pl-4 border-l-[5px] border-accent-gold flex items-center gap-2">
+              <span className="text-accent-gold">🏆</span> Popular Classic Cars
             </h2>
             <p className="text-xs md:text-sm text-text-muted mt-1.5 pl-4">
               Timeless automotive legends, homologation specials, and collector milestones
@@ -51,7 +51,7 @@ export default function ClassicSpotlight() {
           <div className="flex items-center gap-3">
             <Link 
               href="/classics" 
-              className="text-[#d4af37] text-xs md:text-sm font-bold uppercase tracking-widest hover:brightness-125 transition-all flex items-center gap-1.5 flex-shrink-0"
+              className="text-accent-gold text-xs md:text-sm font-bold uppercase tracking-widest hover:brightness-125 transition-all flex items-center gap-1.5 flex-shrink-0"
             >
               Explore Classics Hub <span aria-hidden="true">→</span>
             </Link>
@@ -71,8 +71,8 @@ export default function ClassicSpotlight() {
                 }}
                 className={`px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider whitespace-nowrap transition-all duration-300 flex items-center gap-2 cursor-pointer border ${
                   isActive
-                    ? "bg-[#d4af37] text-black border-[#d4af37] shadow-md shadow-[#d4af37]/20"
-                    : "bg-surface text-text-muted border-border-custom hover:border-[#d4af37]/50 hover:text-text-light"
+                    ? "bg-accent-gold text-black border-accent-gold shadow-md shadow-accent-gold/20"
+                    : "bg-surface text-text-muted border-border-custom hover:border-accent-gold/50 hover:text-text-light"
                 }`}
               >
                 <span>{tab.label}</span>
@@ -99,7 +99,7 @@ export default function ClassicSpotlight() {
               >
                 <Link 
                   href={`/articles/${classic.slug}`} 
-                  className="group bg-surface border border-border-custom rounded-xl overflow-hidden flex flex-col h-full touch-press block hover:border-[#d4af37]/50 hover:shadow-xl hover:shadow-[#d4af37]/5 transition-all duration-300"
+                  className="group bg-surface border border-border-custom rounded-2xl overflow-hidden flex flex-col h-full touch-press block hover:border-accent-gold/50 hover:shadow-xl hover:shadow-accent-gold/5 transition-all duration-300"
                 >
                   <div className="relative w-full h-48 sm:h-52 overflow-hidden">
                     <div 
@@ -120,7 +120,7 @@ export default function ClassicSpotlight() {
                     <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/40 to-black/20 group-hover:from-black/75 transition-colors duration-300" />
                     
                     <div className="absolute top-3 left-3 flex flex-col gap-1.5 z-10">
-                      <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-black/75 backdrop-blur-md text-[#d4af37] text-[11px] font-bold rounded border border-[#d4af37]/40 uppercase tracking-wide">
+                      <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-black/75 backdrop-blur-md text-accent-gold text-[11px] font-bold rounded border border-accent-gold/40 uppercase tracking-wide">
                         {classic.year} · {classic.status}
                       </span>
                       <span className="inline-flex items-center gap-1 px-2.5 py-0.5 bg-black/65 backdrop-blur-md text-white/90 text-[10px] font-medium rounded border border-white/10 uppercase tracking-wide">
@@ -142,18 +142,18 @@ export default function ClassicSpotlight() {
                   
                   <div className="p-5 flex flex-col flex-1">
                     <div className="flex items-center justify-between gap-2 mb-1.5">
-                      <span className="text-[10px] font-bold uppercase tracking-widest text-[#d4af37]">{classic.era}</span>
+                      <span className="text-[10px] font-bold uppercase tracking-widest text-accent-gold">{classic.era}</span>
                       {classic.topSpeed && (
                         <span className="text-[10px] font-medium text-text-muted">{classic.topSpeed}</span>
                       )}
                     </div>
-                    <h3 className="font-heading text-lg font-bold leading-[1.25] mb-2.5 transition-colors duration-300 group-hover:text-[#d4af37]">
+                    <h3 className="font-heading text-lg font-bold leading-[1.25] mb-2.5 transition-colors duration-300 group-hover:text-accent-gold">
                       {classic.headline}
                     </h3>
                     <p className="text-xs text-text-muted leading-relaxed mb-4 flex-1">
                       {classic.excerpt}
                     </p>
-                    <div className="text-xs font-bold text-[#d4af37] uppercase tracking-widest mt-auto pt-2 border-t border-border-custom/50 flex items-center justify-between">
+                    <div className="text-xs font-bold text-accent-gold uppercase tracking-widest mt-auto pt-2 border-t border-border-custom/50 flex items-center justify-between">
                       <span>Heritage Story</span>
                       <span className="group-hover:translate-x-1.5 transition-transform duration-300">→</span>
                     </div>
@@ -169,7 +169,7 @@ export default function ClassicSpotlight() {
           {activeTab === "all" && (
             <button
               onClick={() => setIsExpanded(!isExpanded)}
-              className="inline-flex items-center gap-2 px-6 py-3 bg-surface border border-border-custom hover:border-[#d4af37]/60 text-text-light hover:text-[#d4af37] rounded-full text-xs font-bold uppercase tracking-widest transition-all duration-300 cursor-pointer shadow-md hover:shadow-[#d4af37]/10 active:scale-95"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-surface border border-border-custom hover:border-accent-gold/60 text-text-light hover:text-accent-gold rounded-full text-xs font-bold uppercase tracking-widest transition-all duration-300 cursor-pointer shadow-md hover:shadow-accent-gold/10 active:scale-95"
             >
               {isExpanded ? "Show Top 4 Spotlight ↑" : "Quick Preview (+14 Cars) ↓"}
             </button>
@@ -177,7 +177,7 @@ export default function ClassicSpotlight() {
 
           <Link
             href="/classics"
-            className="inline-flex items-center gap-2 px-8 py-3 bg-[#d4af37] hover:bg-[#d4af37]/90 text-black rounded-full text-xs font-bold uppercase tracking-widest transition-all duration-300 cursor-pointer shadow-lg shadow-[#d4af37]/25 active:scale-95"
+            className="inline-flex items-center gap-2 px-8 py-3 bg-accent-gold hover:bg-accent-gold/90 text-black rounded-full text-xs font-bold uppercase tracking-widest transition-all duration-300 cursor-pointer shadow-lg shadow-accent-gold/25 active:scale-95"
           >
             <span>View All {classicSpotlightItems.length} Classic Legends in Heritage Hub</span>
             <span>→</span>

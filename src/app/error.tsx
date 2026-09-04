@@ -32,13 +32,13 @@ export default function Error({
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <button
             onClick={() => reset()}
-            className="px-6 py-3 bg-accent text-white rounded-md font-semibold uppercase tracking-wide hover:brightness-110 transition-all active:scale-95"
+            className="px-6 py-3 bg-accent text-white rounded-xl font-semibold uppercase tracking-wide hover:brightness-110 transition-all active:scale-95"
           >
             Try again
           </button>
           <Link
             href="/"
-            className="px-6 py-3 bg-surface border border-border-custom text-text-light rounded-md font-semibold uppercase tracking-wide hover:bg-white/5 transition-all active:scale-95"
+            className="px-6 py-3 bg-surface border border-border-custom text-text-light rounded-xl font-semibold uppercase tracking-wide hover:bg-white/5 transition-all active:scale-95"
           >
             Go back home
           </Link>

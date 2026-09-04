@@ -13,7 +13,7 @@ export const metadata: Metadata = {
     title: "Car Comparison Tool | Autovaly",
     description: "Compare cars head-to-head with detailed spec breakdowns, telemetry, and pricing.",
     url: "https://autovaly.com/compare",
-    images: [{ url: "https://autovaly.com/og-image.jpg", width: 1200, height: 630, alt: "Autovaly Comparison Tool" }],
+    images: [{ url: "https://autovaly.com/og-image.png", width: 1200, height: 630, alt: "Autovaly Comparison Tool" }],
   },
   twitter: {
     card: "summary_large_image",

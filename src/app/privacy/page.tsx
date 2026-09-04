@@ -11,7 +11,7 @@ export const metadata: Metadata = {
     title: "Privacy Policy & Data Rights | Autovaly",
     description: "Learn how Autovaly protects reader privacy and complies with GDPR and CCPA standards.",
     url: "https://autovaly.com/privacy",
-    images: [{ url: "https://autovaly.com/og-image.jpg", width: 1200, height: 630, alt: "Autovaly Privacy Policy" }],
+    images: [{ url: "https://autovaly.com/og-image.png", width: 1200, height: 630, alt: "Autovaly Privacy Policy" }],
   },
   twitter: {
     card: "summary_large_image",

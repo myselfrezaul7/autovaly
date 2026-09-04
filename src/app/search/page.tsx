@@ -12,7 +12,7 @@ export const metadata: Metadata = {
     title: "Search Car Database, News & Reviews | Autovaly",
     description: "Search Autovaly for vehicles, specifications, news, and classic cars.",
     url: "https://autovaly.com/search",
-    images: [{ url: "https://autovaly.com/og-image.jpg", width: 1200, height: 630, alt: "Autovaly Search Hub" }],
+    images: [{ url: "https://autovaly.com/og-image.png", width: 1200, height: 630, alt: "Autovaly Search Hub" }],
   },
   twitter: {
     card: "summary_large_image",

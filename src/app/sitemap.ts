@@ -22,7 +22,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/terms',
   ].map((route) => ({
     url: `${baseUrl}${route}`,
-    lastModified: new Date(),
+    lastModified: new Date("2026-06-01"),
     changeFrequency: 'daily' as const,
     priority: route === '' ? 1 : 0.9,
   }))
@@ -32,18 +32,20 @@ export default function sitemap(): MetadataRoute.Sitemap {
     lastModified: new Date(article.publishedAt),
     changeFrequency: 'weekly' as const,
     priority: 0.8,
+    ...(article.coverImage ? { images: [article.coverImage] } : {}),
   }))
 
   const vehicleUrls = vehicles.map((vehicle) => ({
     url: `${baseUrl}/vehicles/${vehicle.slug}`,
-    lastModified: new Date(),
+    lastModified: new Date("2026-06-01"),
     changeFrequency: 'weekly' as const,
     priority: 0.8,
+    ...(vehicle.coverImage ? { images: [vehicle.coverImage] } : {}),
   }))
 
   const comparisonUrls = comparisons.map((comp) => ({
     url: `${baseUrl}/compare/${comp.slug}`,
-    lastModified: new Date(),
+    lastModified: new Date("2026-06-01"),
     changeFrequency: 'weekly' as const,
     priority: 0.7,
   }))

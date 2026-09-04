@@ -18,7 +18,7 @@ export default function TopBar() {
 
   return (
     <div
-      className="bg-[#0B0D11] border-b border-border-custom/80 h-10 md:h-9 flex items-center overflow-hidden relative z-50 text-text-light select-none"
+      className="bg-surface border-b border-border-custom h-10 md:h-9 flex items-center overflow-hidden relative z-50 text-text-light select-none"
       role="region"
       aria-label="Breaking automotive ticker"
     >
@@ -30,7 +30,7 @@ export default function TopBar() {
 
       {/* Marquee ticker */}
       <div
-        className={`flex items-center whitespace-nowrap ticker-track ${
+        className={`flex items-center whitespace-nowrap ticker-track will-change-transform motion-reduce:animate-none focus-within:[animation-play-state:paused] ${
           isPaused ? "[animation-play-state:paused]" : "animate-[ticker_32s_linear_infinite]"
         }`}
         onMouseEnter={() => setIsPaused(true)}
@@ -43,11 +43,11 @@ export default function TopBar() {
               <Link
                 key={`${item.id}-${i}`}
                 href={item.url}
-                className="flex items-center gap-2 text-xs font-medium text-text-muted hover:text-white px-5 transition-colors group"
+                className="flex items-center gap-2 text-xs font-medium text-text-muted hover:text-text-primary px-5 transition-colors group"
                 tabIndex={i === 1 ? -1 : 0}
               >
                 {item.isLive ? (
-                  <span className="inline-flex items-center gap-1 font-bold tracking-wider uppercase text-[10px] text-accent group-hover:text-white">
+                  <span className="inline-flex items-center gap-1 font-bold tracking-wider uppercase text-[10px] text-accent group-hover:text-text-primary">
                     <span className="w-1.5 h-1.5 rounded-full bg-accent animate-ping" aria-hidden="true" />
                     LIVE
                   </span>
@@ -62,11 +62,11 @@ export default function TopBar() {
       </div>
 
       {/* Right Controls: Play/Pause, Date & Locale */}
-      <div className="absolute right-0 top-0 bottom-0 flex items-center gap-3 text-xs text-text-muted font-medium bg-[#0B0D11] px-3 md:px-4 z-20 before:content-[''] before:absolute before:-left-6 before:top-0 before:bottom-0 before:w-6 before:bg-gradient-to-r before:from-transparent before:to-[#0B0D11] border-l border-border-custom/50">
+      <div className="absolute right-0 top-0 bottom-0 flex items-center gap-3 text-xs text-text-muted font-medium bg-surface px-3 md:px-4 z-20 before:content-[''] before:absolute before:-left-6 before:top-0 before:bottom-0 before:w-6 before:bg-gradient-to-r before:from-transparent before:to-surface border-l border-border-custom/50">
         <button
           type="button"
           onClick={() => setIsPaused(!isPaused)}
-          className="text-text-muted hover:text-text-light transition-colors p-1 rounded cursor-pointer text-[11px]"
+          className="text-text-muted hover:text-text-light transition-colors p-1 rounded cursor-pointer text-[11px] min-w-[32px] min-h-[32px] flex items-center justify-center"
           aria-label={isPaused ? "Resume news ticker" : "Pause news ticker"}
           title={isPaused ? "Resume news ticker" : "Pause news ticker"}
         >

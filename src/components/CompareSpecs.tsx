@@ -49,11 +49,12 @@ function SpecBar({ valueA, valueB, winner, suffix = "" }: { valueA: number; valu
           className="flex-1 h-2 bg-background/50 rounded-full overflow-hidden flex justify-end shadow-inner relative"
         >
           <m.div 
-            initial={{ width: 0 }}
-            whileInView={{ width: `${percentA}%` }}
-            transition={{ duration: 1.2, ease: "easeOut" }}
+            initial={{ scaleX: 0 }}
+            whileInView={{ scaleX: 1 }}
+            style={{ width: `${percentA}%`, transformOrigin: "right" }}
+            transition={{ duration: 1.0, ease: "easeOut" }}
             viewport={{ once: true }}
-            className={clsx("h-full relative", winner === "A" ? "bg-accent shadow-[0_0_12px_var(--color-accent)]" : "bg-text-muted/50")}
+            className={clsx("h-full relative will-change-transform", winner === "A" ? "bg-accent shadow-[0_0_12px_var(--color-accent)]" : "bg-text-muted/50")}
           >
             {winner === "A" && <div className="absolute inset-0 bg-white/20 animate-pulse mix-blend-overlay" />}
           </m.div>
@@ -67,11 +68,12 @@ function SpecBar({ valueA, valueB, winner, suffix = "" }: { valueA: number; valu
           className="flex-1 h-2 bg-background/50 rounded-full overflow-hidden relative shadow-inner"
         >
           <m.div 
-            initial={{ width: 0 }}
-            whileInView={{ width: `${percentB}%` }}
-            transition={{ duration: 1.2, ease: "easeOut" }}
+            initial={{ scaleX: 0 }}
+            whileInView={{ scaleX: 1 }}
+            style={{ width: `${percentB}%`, transformOrigin: "left" }}
+            transition={{ duration: 1.0, ease: "easeOut" }}
             viewport={{ once: true }}
-            className={clsx("h-full relative", winner === "B" ? "bg-accent shadow-[0_0_12px_var(--color-accent)]" : "bg-text-muted/50")}
+            className={clsx("h-full relative will-change-transform", winner === "B" ? "bg-accent shadow-[0_0_12px_var(--color-accent)]" : "bg-text-muted/50")}
           >
             {winner === "B" && <div className="absolute inset-0 bg-white/20 animate-pulse mix-blend-overlay" />}
           </m.div>
@@ -107,11 +109,12 @@ function SpecBarReverse({ valueA, valueB, winner, suffix = "" }: { valueA: numbe
           className="flex-1 h-2 bg-background/50 rounded-full overflow-hidden flex justify-end shadow-inner relative"
         >
           <m.div 
-            initial={{ width: 0 }}
-            whileInView={{ width: `${percentA}%` }}
-            transition={{ duration: 1.2, ease: "easeOut" }}
+            initial={{ scaleX: 0 }}
+            whileInView={{ scaleX: 1 }}
+            style={{ width: `${percentA}%`, transformOrigin: "right" }}
+            transition={{ duration: 1.0, ease: "easeOut" }}
             viewport={{ once: true }}
-            className={clsx("h-full relative", winner === "A" ? "bg-accent shadow-[0_0_12px_var(--color-accent)]" : "bg-text-muted/50")}
+            className={clsx("h-full relative will-change-transform", winner === "A" ? "bg-accent shadow-[0_0_12px_var(--color-accent)]" : "bg-text-muted/50")}
           >
             {winner === "A" && <div className="absolute inset-0 bg-white/20 animate-pulse mix-blend-overlay" />}
           </m.div>
@@ -125,11 +128,12 @@ function SpecBarReverse({ valueA, valueB, winner, suffix = "" }: { valueA: numbe
           className="flex-1 h-2 bg-background/50 rounded-full overflow-hidden relative shadow-inner"
         >
           <m.div 
-            initial={{ width: 0 }}
-            whileInView={{ width: `${percentB}%` }}
-            transition={{ duration: 1.2, ease: "easeOut" }}
+            initial={{ scaleX: 0 }}
+            whileInView={{ scaleX: 1 }}
+            style={{ width: `${percentB}%`, transformOrigin: "left" }}
+            transition={{ duration: 1.0, ease: "easeOut" }}
             viewport={{ once: true }}
-            className={clsx("h-full relative", winner === "B" ? "bg-accent shadow-[0_0_12px_var(--color-accent)]" : "bg-text-muted/50")}
+            className={clsx("h-full relative will-change-transform", winner === "B" ? "bg-accent shadow-[0_0_12px_var(--color-accent)]" : "bg-text-muted/50")}
           >
             {winner === "B" && <div className="absolute inset-0 bg-white/20 animate-pulse mix-blend-overlay" />}
           </m.div>
@@ -346,12 +350,12 @@ export default function CompareSpecs({ comparison }: CompareSpecsProps) {
             <span className="text-muted text-xs uppercase tracking-widest font-bold">Discover More</span>
           </div>
           <div className="p-4 md:p-6 text-center">
-            <Link href={`/vehicles/${carA.slug}`} className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-white/5 hover:bg-accent/20 text-accent font-bold rounded-lg transition-all border border-accent/20 hover:border-accent shadow-[0_0_15px_rgba(var(--color-accent),0.1)] hover:shadow-[0_0_20px_rgba(var(--color-accent),0.4)] uppercase tracking-widest text-sm">
+            <Link href={`/vehicles/${carA.slug}`} className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-white/5 hover:bg-accent/20 text-accent font-bold rounded-xl transition-all border border-accent/20 hover:border-accent shadow-lg shadow-accent/10 hover:shadow-xl hover:shadow-accent/40 uppercase tracking-widest text-sm">
               View {carA.make}
             </Link>
           </div>
           <div className="p-4 md:p-6 text-center border-l border-border-custom">
-            <Link href={`/vehicles/${carB.slug}`} className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-white/5 hover:bg-accent/20 text-accent font-bold rounded-lg transition-all border border-accent/20 hover:border-accent shadow-[0_0_15px_rgba(var(--color-accent),0.1)] hover:shadow-[0_0_20px_rgba(var(--color-accent),0.4)] uppercase tracking-widest text-sm">
+            <Link href={`/vehicles/${carB.slug}`} className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-white/5 hover:bg-accent/20 text-accent font-bold rounded-xl transition-all border border-accent/20 hover:border-accent shadow-lg shadow-accent/10 hover:shadow-xl hover:shadow-accent/40 uppercase tracking-widest text-sm">
               View {carB.make}
             </Link>
           </div>

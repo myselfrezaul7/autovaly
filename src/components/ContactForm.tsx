@@ -74,7 +74,7 @@ export default function ContactForm() {
             name="name"
             required
             aria-required="true"
-            className="w-full bg-background border border-border-custom rounded-xl px-4 py-3 text-sm text-text-light placeholder:text-text-muted/50 focus:border-accent focus:outline-none transition-colors"
+            className="w-full bg-background border border-border-custom rounded-xl px-4 py-3 text-sm text-text-light placeholder:text-text-muted/50 focus:border-accent focus-visible:ring-2 focus-visible:ring-accent/40 focus-visible:outline-none transition-colors"
             placeholder="Jane Doe"
           />
         </div>
@@ -88,7 +88,7 @@ export default function ContactForm() {
             name="email"
             required
             aria-required="true"
-            className="w-full bg-background border border-border-custom rounded-xl px-4 py-3 text-sm text-text-light placeholder:text-text-muted/50 focus:border-accent focus:outline-none transition-colors"
+            className="w-full bg-background border border-border-custom rounded-xl px-4 py-3 text-sm text-text-light placeholder:text-text-muted/50 focus:border-accent focus-visible:ring-2 focus-visible:ring-accent/40 focus-visible:outline-none transition-colors"
             placeholder="jane@example.com"
           />
         </div>
@@ -101,7 +101,7 @@ export default function ContactForm() {
         <select
           id="subject"
           name="subject"
-          className="w-full bg-background border border-border-custom rounded-xl px-4 py-3 text-sm text-text-light focus:border-accent focus:outline-none transition-colors"
+          className="w-full bg-background border border-border-custom rounded-xl px-4 py-3 text-sm text-text-light focus:border-accent focus-visible:ring-2 focus-visible:ring-accent/40 focus-visible:outline-none transition-colors"
         >
           <option value="General Inquiry">General Inquiry & Feedback</option>
           <option value="Editorial Tips / Leaks">Confidential News Tip / Spy Shot</option>
@@ -122,7 +122,7 @@ export default function ContactForm() {
           required
           aria-required="true"
           rows={5}
-          className="w-full bg-background border border-border-custom rounded-xl px-4 py-3 text-sm text-text-light placeholder:text-text-muted/50 focus:border-accent focus:outline-none transition-colors resize-y"
+          className="w-full bg-background border border-border-custom rounded-xl px-4 py-3 text-sm text-text-light placeholder:text-text-muted/50 focus:border-accent focus-visible:ring-2 focus-visible:ring-accent/40 focus-visible:outline-none transition-colors resize-y"
           placeholder="Type your message or news tip here..."
         />
       </div>

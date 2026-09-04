@@ -19,6 +19,10 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
   if (!comparison) return { title: "Not Found" };
 
+  const carA = comparison.carA.slug ? getVehicleBySlug(comparison.carA.slug) : null;
+  const carB = comparison.carB.slug ? getVehicleBySlug(comparison.carB.slug) : null;
+  const coverImage = carA?.coverImage || carB?.coverImage || "/og-image.png";
+
   const title = `${comparison.carA.name} vs ${comparison.carB.name} | Comparison`;
   const description = `Detailed comparison between ${comparison.carA.name} and ${comparison.carB.name}. ${comparison.tagline}`;
 
@@ -29,12 +33,21 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
       type: "article",
       title,
       description,
-      url: `https://autovaly.com/compare/${comparison.slug}`
+      url: `https://autovaly.com/compare/${comparison.slug}`,
+      images: [
+        {
+          url: coverImage,
+          width: 1200,
+          height: 630,
+          alt: title,
+        },
+      ],
     },
     twitter: {
       card: "summary_large_image",
       title,
       description,
+      images: [coverImage],
     },
     alternates: { canonical: `/compare/${comparison.slug}` }
   };
@@ -59,6 +72,7 @@ export default async function ComparisonDetailPage({ params }: { params: Promise
 
   return (
     <article className="min-h-screen pb-20">
+      <h1 className="sr-only">{comparison.carA.name} vs {comparison.carB.name} Head-to-Head Comparison</h1>
       <BreadcrumbJsonLd crumbs={crumbs} />
       <div className="container mx-auto px-4 md:px-6 pt-6">
         <Breadcrumbs crumbs={crumbs} />
@@ -83,7 +97,7 @@ export default async function ComparisonDetailPage({ params }: { params: Promise
           <div className="absolute inset-0 bg-gradient-to-t from-background via-background/60 to-transparent z-0" />
           <div className="relative z-10 md:text-right">
             <span className="text-accent font-bold uppercase tracking-widest text-sm mb-2 block">{carA ? carA.make : ''}</span>
-            <h1 className="text-3xl md:text-5xl font-heading font-extrabold text-white drop-shadow-lg">{comparison.carA.name}</h1>
+            <h2 className="text-3xl md:text-5xl font-heading font-extrabold text-white drop-shadow-lg">{comparison.carA.name}</h2>
           </div>
         </div>
 
