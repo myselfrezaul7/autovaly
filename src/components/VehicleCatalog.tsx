@@ -14,14 +14,17 @@ export default function VehicleCatalog({ initialVehicles }: { initialVehicles: V
   const [fuelTypes, setFuelTypes] = useState<string[]>([]);
   const [bodyStyles, setBodyStyles] = useState<string[]>([]);
   const [sortBy, setSortBy] = useState<string>("Newest First");
+  const [visibleCount, setVisibleCount] = useState(24);
   const { recentlyViewed } = useRecentlyViewed();
   const { garage, addToGarage, removeFromGarage } = useGarage();
 
   const toggleFuelType = (type: string) => {
+    setVisibleCount(24);
     setFuelTypes((prev) => (prev.includes(type) ? prev.filter((t) => t !== type) : [...prev, type]));
   };
 
   const toggleBodyStyle = (type: string) => {
+    setVisibleCount(24);
     setBodyStyles((prev) => (prev.includes(type) ? prev.filter((t) => t !== type) : [...prev, type]));
   };
 
@@ -29,6 +32,7 @@ export default function VehicleCatalog({ initialVehicles }: { initialVehicles: V
     setFuelTypes([]);
     setBodyStyles([]);
     setSearchKeyword("");
+    setVisibleCount(24);
   };
 
   const isSavedInGarage = (id: string) => garage.some((v) => v.id === id);
@@ -208,11 +212,11 @@ export default function VehicleCatalog({ initialVehicles }: { initialVehicles: V
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 mb-16">
-            {filteredVehicles.map((vehicle, idx) => {
+            {filteredVehicles.slice(0, visibleCount).map((vehicle, idx) => {
               const saved = isSavedInGarage(vehicle.id);
               return (
                 <ScrollReveal key={vehicle.id} delay={0.04 * Math.min(idx, 8)}>
-                  <div className="flex flex-col bg-surface border border-border-custom rounded-2xl overflow-hidden hover:border-accent hover:shadow-2xl transition-all group h-full relative">
+                  <div className="contain-card flex flex-col bg-surface border border-border-custom rounded-2xl overflow-hidden hover:border-accent hover:shadow-2xl transition-all group h-full relative">
                     <Link
                       href={`/vehicles/${vehicle.slug}`}
                       className="block h-48 w-full relative overflow-hidden"
@@ -258,15 +262,14 @@ export default function VehicleCatalog({ initialVehicles }: { initialVehicles: V
 
                     <div className="p-5 flex-1 flex flex-col justify-between">
                       <div>
-                        <div className="text-[11px] text-accent mb-0.5 font-extrabold uppercase tracking-wider">
-                          {vehicle.make}
-                        </div>
-                        <h2 className="text-xl font-bold font-heading mb-2 group-hover:text-accent transition-colors line-clamp-1 text-text-light">
+                        <div className="text-xs font-bold uppercase tracking-wider text-accent mb-1">{vehicle.make}</div>
+                        <h4 className="font-heading font-extrabold text-xl text-text-light mb-1 group-hover:text-accent transition-colors">
                           {vehicle.model}
-                        </h2>
-                        <p className="text-xs text-text-muted mb-4 line-clamp-1">{vehicle.trim}</p>
+                        </h4>
+                        <div className="text-xs text-text-muted mb-4">{vehicle.trim}</div>
 
-                        <div className="grid grid-cols-2 gap-2 mb-4 p-3 rounded-2xl bg-background/60 border border-border-custom/50 text-xs">
+                        {/* Specs row */}
+                        <div className="grid grid-cols-2 gap-2 text-xs bg-background/50 rounded-xl p-3 mb-4 border border-border-custom/50">
                           <div>
                             <span className="text-[10px] text-text-muted block font-bold uppercase">Power</span>
                             <span className="font-bold text-text-light">{vehicle.specs.powerHp} hp</span>
@@ -301,6 +304,19 @@ export default function VehicleCatalog({ initialVehicles }: { initialVehicles: V
                 </ScrollReveal>
               );
             })}
+          </div>
+        )}
+
+        {/* Load More Pagination */}
+        {filteredVehicles.length > visibleCount && (
+          <div className="flex justify-center -mt-8 mb-16">
+            <button
+              type="button"
+              onClick={() => setVisibleCount((prev) => prev + 24)}
+              className="px-8 py-3.5 bg-surface border border-border-custom hover:border-accent text-text-light font-heading font-bold uppercase tracking-wider text-xs rounded-xl shadow-lg transition-all touch-press cursor-pointer hover:bg-surface-hover"
+            >
+              Load More Vehicles ({filteredVehicles.length - visibleCount} remaining) ↓
+            </button>
           </div>
         )}
 
