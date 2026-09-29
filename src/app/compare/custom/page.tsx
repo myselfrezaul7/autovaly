@@ -6,6 +6,7 @@ import Breadcrumbs from "@/components/ui/Breadcrumbs";
 import BreadcrumbJsonLd from "@/components/BreadcrumbJsonLd";
 import CompareSpecs from "@/components/CompareSpecs";
 import CompareBuilder from "@/components/CompareBuilder";
+import DragBattleView from "@/components/3d/DragBattleView";
 import { ComparisonData } from "@/lib/types";
 
 export async function generateMetadata({
@@ -101,7 +102,6 @@ export default async function CustomComparisonPage({
       </main>
     );
   }
-
   const [canonicalA, canonicalB] = [slugA, slugB].sort();
 
   // Synthesize complete spec comparison matrix
@@ -227,7 +227,9 @@ export default async function CustomComparisonPage({
       </div>
 
       <div className="container mx-auto px-4 md:px-6 py-16">
-        <CompareSpecs comparison={customComparison} />
+        <DragBattleView carA={carA} carB={carB}>
+          <CompareSpecs comparison={customComparison} />
+        </DragBattleView>
       </div>
     </main>
   );

@@ -6,6 +6,7 @@ import { Metadata } from "next";
 import Breadcrumbs from "@/components/ui/Breadcrumbs";
 import BreadcrumbJsonLd from "@/components/BreadcrumbJsonLd";
 import CompareSpecs from "@/components/CompareSpecs";
+import DragBattleView from "@/components/3d/DragBattleView";
 
 export async function generateStaticParams() {
   return comparisons.map((c) => ({
@@ -125,7 +126,9 @@ export default async function ComparisonDetailPage({ params }: { params: Promise
 
       {carA && carB && (
         <div className="container mx-auto px-4 md:px-6 py-16">
-          <CompareSpecs comparison={comparison} />
+          <DragBattleView carA={carA} carB={carB}>
+            <CompareSpecs comparison={comparison} />
+          </DragBattleView>
         </div>
       )}
 

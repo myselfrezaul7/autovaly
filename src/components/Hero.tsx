@@ -4,7 +4,13 @@ import { useState, useEffect, useRef } from "react";
 import { m, AnimatePresence, useReducedMotion } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
+import dynamic from "next/dynamic";
 import { getHeroArticles, getCategoryTagColor, formatDate } from "@/lib/content";
+
+const HeroParticleCanvas = dynamic(
+  () => import("./3d/HeroParticleCanvas"),
+  { ssr: false }
+);
 
 export default function Hero() {
   const articles = getHeroArticles(4);
@@ -35,9 +41,14 @@ export default function Hero() {
       onFocus={() => setIsPaused(true)}
       onBlur={() => setIsPaused(false)}
     >
-      <div className="flex flex-col lg:flex-row w-full min-h-[540px] lg:min-h-[620px]">
-        {/* Left Column: Visual Vehicle Showcase with Telemetry */}
-        <div className="relative flex-shrink-0 lg:w-[60%] min-h-[320px] sm:min-h-[380px] lg:min-h-[620px] overflow-hidden bg-gradient-to-br from-[#111318] via-[#1a1e27] to-[#111318]">
+      <div className="flex flex-col lg:flex-row w-full min-h-[540px] lg:min-h-[620px] relative">
+        {/* Left Column: Visual Vehicle Showcase with Cyber Ambient Horizon & Telemetry */}
+        <div className="relative flex-shrink-0 lg:w-[60%] min-h-[320px] sm:min-h-[380px] lg:min-h-[620px] overflow-hidden bg-gradient-to-br from-[#0c0e13] via-[#141822] to-[#0c0e13]">
+          {/* Cybernetic Velocity Ambient Particle Canvas */}
+          <div className="absolute inset-0 z-0 pointer-events-none opacity-40 mix-blend-screen">
+            <HeroParticleCanvas />
+          </div>
+
           <AnimatePresence mode="wait" initial={false}>
             <m.div
               key={currentArticle.id}
@@ -45,7 +56,7 @@ export default function Hero() {
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: prefersReducedMotion ? 1 : 0.98 }}
               transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
-              className="absolute inset-0"
+              className="absolute inset-0 z-10 pointer-events-none"
             >
               {currentArticle.coverImage ? (
                 <Image
@@ -54,13 +65,13 @@ export default function Hero() {
                   fill
                   priority
                   sizes="(max-width: 1024px) 100vw, 60vw"
-                  className="object-cover opacity-85"
+                  className="object-cover opacity-80"
                 />
               ) : (
                 <div className="absolute inset-0 bg-gradient-to-br from-accent/20 to-surface/90" />
               )}
               {/* Subtle Vignette Gradient */}
-              <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/20 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/25 to-transparent" />
               <div className="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-surface hidden lg:block" />
             </m.div>
           </AnimatePresence>
@@ -80,13 +91,13 @@ export default function Hero() {
           </div>
 
           {/* Watermark Brand Label */}
-          <div className="absolute top-6 left-6 font-heading font-extrabold text-3xl sm:text-5xl lg:text-6xl tracking-[0.1em] text-white/10 pointer-events-none uppercase select-none">
+          <div className="absolute top-6 left-6 font-heading font-extrabold text-3xl sm:text-5xl lg:text-6xl tracking-[0.1em] text-white/10 pointer-events-none uppercase select-none z-10">
             AUTOVALY
           </div>
         </div>
 
         {/* Right Column: Editorial Details & Action Group */}
-        <div className="flex-shrink-0 lg:w-[40%] bg-surface border-t lg:border-t-0 lg:border-l border-border-custom flex flex-col justify-between p-6 sm:p-8 lg:p-12 relative z-10">
+        <div className="flex-shrink-0 lg:w-[40%] bg-surface border-t lg:border-t-0 lg:border-l border-border-custom flex flex-col justify-between p-6 sm:p-8 lg:p-12 relative z-20">
           <div>
             {/* Category Tag & Counter */}
             <div className="flex items-center justify-between gap-3 mb-4">

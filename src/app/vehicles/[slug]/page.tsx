@@ -11,6 +11,7 @@ import FAQJsonLd from "@/components/FAQJsonLd";
 import TrackView from "@/components/TrackView";
 import VehiclePerformance from "@/components/VehiclePerformance";
 import GarageButton from "@/components/ui/GarageButton";
+import AeroStudioView from "@/components/3d/AeroStudioView";
 
 export async function generateStaticParams() {
   const vehicles = getAllVehicles();
@@ -165,6 +166,28 @@ export default async function VehicleDetailPage({ params }: { params: Promise<{ 
                   </li>
                 ))}
               </ul>
+            </section>
+
+            {/* Interactive 3D Aero Studio & Wind Tunnel */}
+            <section>
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6">
+                <div>
+                  <h2 className="text-2xl font-bold flex items-center gap-3">
+                    <span className="w-8 h-1 bg-accent rounded-full inline-block"></span>
+                    Interactive 3D Aero Studio & Wind Tunnel
+                  </h2>
+                  <p className="text-sm text-muted mt-1">
+                    Rotate 360°, customize paint finishes, inspect active hotspots, or run aerodynamic wind tunnel simulation.
+                  </p>
+                </div>
+                <div className="flex items-center gap-2 self-start sm:self-center">
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-accent/10 border border-accent/30 text-accent text-xs font-bold uppercase tracking-wider rounded-full">
+                    <span className="w-2 h-2 rounded-full bg-accent animate-pulse"></span>
+                    WebGL 3D
+                  </span>
+                </div>
+              </div>
+              <AeroStudioView vehicle={vehicle} />
             </section>
 
             {/* Performance and EV Specs */}
