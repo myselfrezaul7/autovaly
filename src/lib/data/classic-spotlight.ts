@@ -16,7 +16,7 @@ export const classicSpotlightItems: ClassicSpotlightItem[] = [
     headline: "1967 Shelby GT500: Carroll Shelby's Ultimate V8 Masterpiece",
     excerpt: "The aggressive dual-stripe fastback that defined American motorsport dominance and captured Hollywood legend.",
     gradient: { from: "#c0392b", to: "#1a1a24" },
-    coverImage: "https://images.unsplash.com/photo-1584345604476-8ec5e12e42dd?auto=format&fit=crop&w=1200&q=80",
+    coverImage: "/images/vehicles/1967-shelby-gt500.jpg",
   },
   {
     id: "classic2",
@@ -33,7 +33,7 @@ export const classicSpotlightItems: ClassicSpotlightItem[] = [
     headline: "1961 Jaguar E-Type: The Most Beautiful Car Ever Built",
     excerpt: "Declared by Enzo Ferrari as automotive perfection, combining monocoque aircraft design with a 150 mph top speed.",
     gradient: { from: "#d4af37", to: "#1e272e" },
-    coverImage: "https://images.unsplash.com/photo-1563720223185-11003d516935?auto=format&fit=crop&w=1200&q=80",
+    coverImage: "/images/vehicles/1961-jaguar-e-type-coupe.jpg",
   },
   {
     id: "classic3",
@@ -50,7 +50,7 @@ export const classicSpotlightItems: ClassicSpotlightItem[] = [
     headline: "1973 Porsche 911 Carrera RS 2.7: The Purest Driver's 911",
     excerpt: "Born for Group 4 GT racing, the iconic lightweight ducktail pioneered aerodynamic balance and air-cooled supremacy.",
     gradient: { from: "#e67e22", to: "#2c3e50" },
-    coverImage: "https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1200&q=80",
+    coverImage: "/images/vehicles/1973-porsche-911-carrera-rs.jpg",
   },
   {
     id: "classic4",
@@ -67,7 +67,7 @@ export const classicSpotlightItems: ClassicSpotlightItem[] = [
     headline: "1963 Corvette Sting Ray: The Unmistakable Split-Window Coupe",
     excerpt: "Bill Mitchell and Larry Shinoda's aerodynamic revolution with independent rear suspension and timeless curves.",
     gradient: { from: "#8e44ad", to: "#1c1427" },
-    coverImage: "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&w=1200&q=80",
+    coverImage: "/images/vehicles/1963-corvette-sting-ray-split-window.jpg",
   },
   {
     id: "classic5",
@@ -84,7 +84,7 @@ export const classicSpotlightItems: ClassicSpotlightItem[] = [
     headline: "1987 Ferrari F40: The Raw 200 MPH Carbon-Kevlar Icon",
     excerpt: "The last car approved by Enzo Ferrari himself—pure analog violence with twin turbos, gated manual, and zero driver aids.",
     gradient: { from: "#e74c3c", to: "#2c2c54" },
-    coverImage: "https://images.unsplash.com/photo-1583121274602-3e2820c69888?auto=format&fit=crop&w=1200&q=80",
+    coverImage: "/images/vehicles/1987-ferrari-f40.jpg",
   },
   {
     id: "classic6",
@@ -101,7 +101,7 @@ export const classicSpotlightItems: ClassicSpotlightItem[] = [
     headline: "1954 Mercedes 300 SL: The World's First True Supercar",
     excerpt: "The revolutionary tubular spaceframe chassis and iconic upward-opening doors that created the modern sports car category.",
     gradient: { from: "#95a5a6", to: "#192a56" },
-    coverImage: "https://images.unsplash.com/photo-1617814076367-b759c7d7e738?auto=format&fit=crop&w=1200&q=80",
+    coverImage: "/images/vehicles/1954-mercedes-300-sl-gullwing.jpg",
   },
   {
     id: "classic7",
@@ -118,7 +118,7 @@ export const classicSpotlightItems: ClassicSpotlightItem[] = [
     headline: "1970 Dodge Challenger R/T 426 Hemi: Peak American Muscle",
     excerpt: "Equipped with dual four-barrel carburetors and shaker hood scoop, the 426 Hemi Challenger remains the gold standard of drag-strip fury.",
     gradient: { from: "#e17055", to: "#2d3436" },
-    coverImage: "https://images.unsplash.com/photo-1612825173281-9a193378527e?auto=format&fit=crop&w=1200&q=80",
+    coverImage: "/images/vehicles/1970-dodge-challenger-rt-426-hemi.jpg",
   },
   {
     id: "classic8",
@@ -135,7 +135,7 @@ export const classicSpotlightItems: ClassicSpotlightItem[] = [
     headline: "1993 McLaren F1: The Greatest Engineering Feat in Motoring",
     excerpt: "A central driving position, gold leaf heat shield, carbon fiber tub, and a naturally aspirated V12 that set an unbroken speed record.",
     gradient: { from: "#f39c12", to: "#1e130c" },
-    coverImage: "https://images.unsplash.com/photo-1621135802920-133df287f89c?auto=format&fit=crop&w=1200&q=80",
+    coverImage: "/images/vehicles/1993-mclaren-f1.jpg",
   },
   {
     id: "classic9",
@@ -152,7 +152,7 @@ export const classicSpotlightItems: ClassicSpotlightItem[] = [
     headline: "1969 Ford GT40: Henry Ford II's Le Mans-Crushing Legend",
     excerpt: "The 40-inch tall endurance prototype that broke European hegemony at the 24 Hours of Le Mans for four consecutive years.",
     gradient: { from: "#3498db", to: "#0c2461" },
-    coverImage: "https://images.unsplash.com/photo-1541348263662-e0c8de4259ba?auto=format&fit=crop&w=1200&q=80",
+    coverImage: "/images/vehicles/1969-ford-gt40-mk1.jpg",
   },
   {
     id: "classic10",
@@ -169,7 +169,7 @@ export const classicSpotlightItems: ClassicSpotlightItem[] = [
     headline: "1971 Lamborghini Miura SV: The Birth of the Mid-Engine Supercar",
     excerpt: "Marcello Gandini's breathtaking silhouette paired with split-sump lubrication and a screaming transverse V12.",
     gradient: { from: "#fdcb6e", to: "#2d3436" },
-    coverImage: "https://images.unsplash.com/photo-1544829099-b9a0c07fad1a?auto=format&fit=crop&w=1200&q=80",
+    coverImage: "/images/vehicles/1971-lamborghini-miura-sv.jpg",
   },
   {
     id: "classic11",
@@ -186,7 +186,7 @@ export const classicSpotlightItems: ClassicSpotlightItem[] = [
     headline: "1989 Nissan Skyline GT-R R32: The JDM Phenomenon",
     excerpt: "Undefeated in 29 consecutive Japanese Touring Car races, introducing ATTESA E-TS AWD and HICAS four-wheel steering.",
     gradient: { from: "#00cec9", to: "#130f40" },
-    coverImage: "https://images.unsplash.com/photo-1611245468758-c5793ec5b433?auto=format&fit=crop&w=1200&q=80",
+    coverImage: "/images/vehicles/1989-nissan-skyline-gtr-r32.jpg",
   },
   {
     id: "classic12",
@@ -203,7 +203,7 @@ export const classicSpotlightItems: ClassicSpotlightItem[] = [
     headline: "1964 Aston Martin DB5: The World's Most Famous GT",
     excerpt: "Superleggera magnesium-alloy bodywork, Connolly leather upholstery, and immortalized forever as James Bond's signature ride.",
     gradient: { from: "#7f8c8d", to: "#1b262c" },
-    coverImage: "https://images.unsplash.com/photo-1605559424843-9e4c228bf1c2?auto=format&fit=crop&w=1200&q=80",
+    coverImage: "/images/vehicles/1964-aston-martin-db5.jpg",
   },
   {
     id: "classic13",
@@ -220,7 +220,7 @@ export const classicSpotlightItems: ClassicSpotlightItem[] = [
     headline: "1968 Dodge Charger R/T 440: The Quintessential Villain Car",
     excerpt: "Richard Sias' coke-bottle silhouette, hidden headlights, and 440 cubic inches of pure American asphalt-tearing menace.",
     gradient: { from: "#b71540", to: "#0a3d62" },
-    coverImage: "https://images.unsplash.com/photo-1542282088-72c9c27ed0cd?auto=format&fit=crop&w=1200&q=80",
+    coverImage: "/images/vehicles/1968-dodge-charger-rt-440.jpg",
   },
   {
     id: "classic14",
@@ -237,7 +237,7 @@ export const classicSpotlightItems: ClassicSpotlightItem[] = [
     headline: "1994 Toyota Supra A80: The Bulletproof 2JZ-GTE Icon",
     excerpt: "With a sequential twin-turbo inline-six capable of handling 1,000+ hp on stock internals and a massive hoop wing, the Mk4 Supra is a legend.",
     gradient: { from: "#e55039", to: "#1e3799" },
-    coverImage: "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=1200&q=80",
+    coverImage: "/images/vehicles/1994-toyota-supra-rz-a80.jpg",
   },
   {
     id: "classic15",
@@ -254,7 +254,7 @@ export const classicSpotlightItems: ClassicSpotlightItem[] = [
     headline: "1992 Honda NSX-R: Ayrton Senna's Lightweight Masterpiece",
     excerpt: "Stripped of 120 kg with carbon-Kevlar Recaro bucket seats, blueprinted VTEC V6, and track-honed chassis dynamics.",
     gradient: { from: "#fa983a", to: "#0c2461" },
-    coverImage: "https://images.unsplash.com/photo-1502877338535-766e1452684a?auto=format&fit=crop&w=1200&q=80",
+    coverImage: "/images/vehicles/1992-honda-nsx-r-na1.jpg",
   },
   {
     id: "classic16",
@@ -271,7 +271,7 @@ export const classicSpotlightItems: ClassicSpotlightItem[] = [
     headline: "1986 BMW M3 E30: The Most Successful Touring Car Ever",
     excerpt: "Boxed fender flares, high-revving Paul Rosche S14 engine, and a dog-leg manual that conquered world touring car racing.",
     gradient: { from: "#38ada9", to: "#079992" },
-    coverImage: "https://images.unsplash.com/photo-1580273916550-e323be2ae537?auto=format&fit=crop&w=1200&q=80",
+    coverImage: "/images/vehicles/1986-bmw-m3-e30.jpg",
   },
   {
     id: "classic17",
@@ -288,7 +288,7 @@ export const classicSpotlightItems: ClassicSpotlightItem[] = [
     headline: "1981 DeLorean DMC-12: The Brushed Steel Time Machine",
     excerpt: "Giorgetto Giugiaro design, unpainted brushed stainless steel body panels, and upward-opening gullwing doors.",
     gradient: { from: "#60a3bc", to: "#0a3d62" },
-    coverImage: "https://images.unsplash.com/photo-1511919884226-fd3cad34687c?auto=format&fit=crop&w=1200&q=80",
+    coverImage: "/images/vehicles/1981-delorean-dmc-12.jpg",
   },
   {
     id: "classic18",
@@ -305,6 +305,6 @@ export const classicSpotlightItems: ClassicSpotlightItem[] = [
     headline: "1970 Plymouth Hemi 'Cuda: The Ultimate Mopar Holy Grail",
     excerpt: "Shaker hood, Hockey stick stripes, and the fearsome 426 Elephant engine in a compact, razor-sharp E-body coupe.",
     gradient: { from: "#eb2f06", to: "#1e272e" },
-    coverImage: "https://images.unsplash.com/photo-1583267746897-2cf415887172?auto=format&fit=crop&w=1200&q=80",
+    coverImage: "/images/vehicles/1970-plymouth-hemi-cuda.jpg",
   },
 ];
