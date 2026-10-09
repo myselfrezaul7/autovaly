@@ -2,7 +2,315 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { rateLimit } from "@/lib/rate-limit";
 
+// Malicious scanner tools to block via User-Agent
+const BLOCKED_USER_AGENTS = [
+  "sqlmap",
+  "nikto",
+  "masscan",
+  "wpscan",
+  "acunetix",
+  "dirbuster",
+  "nmap",
+];
+
+// Path traversal patterns
+const PATH_TRAVERSAL_PATTERNS = [
+  "../",
+  "..\\",
+  "..%2f",
+  "..%5c",
+];
+
+// Sensitive files and probe paths
+const SENSITIVE_PROBE_PATTERNS = [
+  ".env",
+  "/.git",
+  "/.svn",
+  ".bak",
+  ".sql",
+  "wp-admin",
+  "wp-login",
+  "xmlrpc.php",
+  "phpinfo",
+  "/etc/passwd",
+  "config.json",
+];
+
+// Injection attack signatures in URL / query
+const INJECTION_PATTERNS = [
+  "<script",
+  "javascript:",
+  "union select",
+  "union+select",
+  "concat(",
+];
+
+// Query parameter keys commonly exploited for open redirect attacks
+const REDIRECT_KEYS = new Set([
+  "redirect",
+  "url",
+  "next",
+  "returnto",
+  "return_to",
+]);
+
+/**
+ * Safely generates decoded variants of a URL string to catch obfuscated/encoded attack vectors.
+ */
+function getDecodedVariants(input: string): string[] {
+  const variants = [input];
+  try {
+    const once = decodeURIComponent(input);
+    if (once !== input) {
+      variants.push(once);
+      try {
+        const twice = decodeURIComponent(once);
+        if (twice !== once) {
+          variants.push(twice);
+        }
+      } catch {
+        // Ignore secondary decode error
+      }
+    }
+  } catch {
+    // Ignore primary decode error
+  }
+  return variants;
+}
+
+/**
+ * Checks if a target string matches malicious scanner, traversal, or injection patterns.
+ */
+function isMaliciousPattern(rawUrlStr: string, pathname: string, search: string): boolean {
+  // Disallow double slash path prefixes (protocol-relative evasion or traversal residue)
+  if (pathname.startsWith("//")) {
+    return true;
+  }
+
+  const combined = `${pathname}${search}`;
+  const targets = [
+    ...getDecodedVariants(combined),
+    ...getDecodedVariants(rawUrlStr),
+    ...getDecodedVariants(pathname),
+    ...getDecodedVariants(search),
+  ];
+
+  for (const target of targets) {
+    const lower = target.toLowerCase();
+
+    // 1. Path traversal checks
+    for (const pattern of PATH_TRAVERSAL_PATTERNS) {
+      if (lower.includes(pattern)) {
+        return true;
+      }
+    }
+
+    // 2. Sensitive file & probe path checks
+    for (const pattern of SENSITIVE_PROBE_PATTERNS) {
+      if (lower.includes(pattern)) {
+        return true;
+      }
+      // Also catch etc/passwd without leading slash if requested in query
+      if (pattern === "/etc/passwd" && lower.includes("etc/passwd")) {
+        return true;
+      }
+    }
+
+    // 3. Injection attack checks
+    for (const pattern of INJECTION_PATTERNS) {
+      if (lower.includes(pattern)) {
+        return true;
+      }
+    }
+  }
+
+  return false;
+}
+
+/**
+ * Validates redirect parameters to prevent open redirect phishing bounces.
+ * Returns true if the target points to an unverified external origin.
+ */
+function isExternalUnverifiedRedirect(rawTarget: string, requestOrigin: string): boolean {
+  if (!rawTarget) return false;
+
+  const target = rawTarget.trim();
+  if (!target) return false;
+
+  let decoded = target;
+  try {
+    decoded = decodeURIComponent(target).trim();
+  } catch {
+    // Malformed encoding in redirect parameter
+    return true;
+  }
+
+  // Block protocol-relative or backslash evasions (e.g., //evil.com, /\\evil.com, \\evil.com)
+  if (
+    target.startsWith("//") ||
+    target.startsWith("/\\") ||
+    target.startsWith("\\") ||
+    decoded.startsWith("//") ||
+    decoded.startsWith("/\\") ||
+    decoded.startsWith("\\")
+  ) {
+    return true;
+  }
+
+  // Check for explicit scheme: http:, https:, javascript:, data:, etc.
+  const hasScheme =
+    /^[a-zA-Z][a-zA-Z0-9+.-]*:/.test(target) ||
+    /^[a-zA-Z][a-zA-Z0-9+.-]*:/.test(decoded);
+
+  if (hasScheme) {
+    try {
+      const parsed = new URL(decoded, requestOrigin);
+      // Reject non-http(s) schemes like javascript: or data:
+      if (parsed.protocol !== "http:" && parsed.protocol !== "https:") {
+        return true;
+      }
+
+      let reqHost = "";
+      try {
+        reqHost = new URL(requestOrigin).hostname.toLowerCase();
+      } catch {
+        reqHost = "autovaly.com";
+      }
+
+      const parsedHost = parsed.hostname.toLowerCase();
+      const isAllowedHost =
+        parsedHost === reqHost ||
+        parsedHost === "autovaly.com" ||
+        parsedHost === "www.autovaly.com" ||
+        parsedHost === "localhost" ||
+        parsedHost === "127.0.0.1" ||
+        parsedHost.endsWith(".autovaly.com");
+
+      if (!isAllowedHost) {
+        return true;
+      }
+      return false;
+    } catch {
+      return true;
+    }
+  }
+
+  // Relative paths are safe if they start with a single "/"
+  if (
+    target.startsWith("/") &&
+    !target.startsWith("//") &&
+    decoded.startsWith("/") &&
+    !decoded.startsWith("//")
+  ) {
+    return false;
+  }
+
+  // Any non-relative path that doesn't start with "/" is considered unverified
+  return true;
+}
+
+/**
+ * Extracts client IP address safely from request headers.
+ */
+function getClientIp(request: NextRequest): string {
+  const forwarded = request.headers.get("x-forwarded-for");
+  if (forwarded) {
+    const first = forwarded.split(",")[0]?.trim();
+    if (first) return first;
+  }
+  const realIp = request.headers.get("x-real-ip");
+  if (realIp) return realIp.trim();
+  const cfConnectingIp = request.headers.get("cf-connecting-ip");
+  if (cfConnectingIp) return cfConnectingIp.trim();
+  return "127.0.0.1";
+}
+
 export function proxy(request: NextRequest) {
+  // 1. User-Agent Malicious Scanner Blocking
+  const userAgent = (request.headers.get("user-agent") || "").toLowerCase();
+  if (BLOCKED_USER_AGENTS.some((scanner) => userAgent.includes(scanner))) {
+    return new NextResponse("Access Denied: Malicious request blocked by Autovaly Shield", {
+      status: 403,
+      headers: {
+        "Content-Type": "text/plain",
+        "X-Robots-Tag": "noindex, nofollow",
+      },
+    });
+  }
+
+  // 2. Exploit, Traversal & Sensitive File Probe Blocking (WAF Layer)
+  const pathname = request.nextUrl.pathname;
+  const search = request.nextUrl.search;
+  const rawUrl = request.url;
+
+  if (isMaliciousPattern(rawUrl, pathname, search)) {
+    return new NextResponse("Access Denied: Malicious request blocked by Autovaly Shield", {
+      status: 403,
+      headers: {
+        "Content-Type": "text/plain",
+        "X-Robots-Tag": "noindex, nofollow",
+      },
+    });
+  }
+
+  // 3. Open Redirect Guard
+  for (const [key, value] of request.nextUrl.searchParams.entries()) {
+    if (REDIRECT_KEYS.has(key.toLowerCase())) {
+      if (isExternalUnverifiedRedirect(value, request.nextUrl.origin)) {
+        return new NextResponse("Access Denied: Invalid redirect target blocked by Autovaly Shield", {
+          status: 400,
+          headers: {
+            "Content-Type": "text/plain",
+            "X-Robots-Tag": "noindex, nofollow",
+          },
+        });
+      }
+    }
+  }
+
+  // 4. Rate Limiting for API routes (30 req / min)
+  if (pathname.startsWith("/api/")) {
+    const ip = getClientIp(request);
+    const rl = rateLimit(`api:${ip}`, 30, 60 * 1000);
+
+    if (!rl.success) {
+      return NextResponse.json(
+        { error: "Too many requests. Please try again later." },
+        {
+          status: 429,
+          headers: {
+            "Retry-After": Math.ceil((rl.resetAt - Date.now()) / 1000).toString(),
+            "X-RateLimit-Limit": rl.limit.toString(),
+            "X-RateLimit-Remaining": "0",
+            "X-RateLimit-Reset": Math.ceil(rl.resetAt / 1000).toString(),
+          },
+        }
+      );
+    }
+  }
+
+  // 5. Rate Limiting for search routes (60 req / min)
+  if (pathname.startsWith("/search")) {
+    const ip = getClientIp(request);
+    const rl = rateLimit(`search:${ip}`, 60, 60 * 1000);
+
+    if (!rl.success) {
+      return NextResponse.json(
+        { error: "Too many requests. Please try again later." },
+        {
+          status: 429,
+          headers: {
+            "Retry-After": Math.ceil((rl.resetAt - Date.now()) / 1000).toString(),
+            "X-RateLimit-Limit": rl.limit.toString(),
+            "X-RateLimit-Remaining": "0",
+            "X-RateLimit-Reset": Math.ceil(rl.resetAt / 1000).toString(),
+          },
+        }
+      );
+    }
+  }
+
+  // 6. Security Headers
   const response = NextResponse.next();
   const h = response.headers;
 
@@ -38,28 +346,6 @@ export function proxy(request: NextRequest) {
 
   // DNS prefetch
   h.set("X-DNS-Prefetch-Control", "on");
-
-  // Rate Limiting for API routes
-  if (request.nextUrl.pathname.startsWith("/api/")) {
-    const forwarded = request.headers.get("x-forwarded-for");
-    const ip = forwarded ? forwarded.split(",")[0].trim() : "127.0.0.1";
-    const rl = rateLimit(`api:${ip}`, 30, 60 * 1000);
-
-    if (!rl.success) {
-      return NextResponse.json(
-        { error: "Too many requests. Please try again later." },
-        {
-          status: 429,
-          headers: {
-            "Retry-After": Math.ceil((rl.resetAt - Date.now()) / 1000).toString(),
-            "X-RateLimit-Limit": rl.limit.toString(),
-            "X-RateLimit-Remaining": "0",
-            "X-RateLimit-Reset": Math.ceil(rl.resetAt / 1000).toString(),
-          },
-        }
-      );
-    }
-  }
 
   return response;
 }

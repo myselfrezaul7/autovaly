@@ -1,5 +1,5 @@
 export type ArticleCategory = "EV" | "Review" | "News" | "Industry" | "Comparison";
-export type VehicleSegment = "Sedans" | "SUVs" | "Trucks" | "Sports Cars" | "EVs" | "Hybrids" | "Luxury" | "Budget Picks";
+export type VehicleSegment = "Sedans" | "SUVs" | "Trucks" | "Sports Cars" | "EVs" | "Hybrids" | "Luxury" | "Budget Picks" | "Industry";
 export type FuelType = "BEV" | "PHEV" | "Hybrid" | "Gasoline" | "Diesel";
 export type BodyStyle = "Sedan" | "SUV" | "Truck" | "Hatchback" | "Wagon" | "Coupe" | "Convertible";
 

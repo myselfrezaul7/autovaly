@@ -34,14 +34,21 @@ function renderFormattedText(text: string) {
     const linkMatch = part.match(/^\[(.*?)\]\((.*?)\)$/);
     if (linkMatch) {
       const linkText = linkMatch[1];
-      const href = linkMatch[2];
-      const isExternal = href.startsWith("http");
+      const rawHref = linkMatch[2].trim();
+
+      // Block dangerous URL schemes (XSS prevention)
+      if (/^(javascript|data|vbscript):/i.test(rawHref)) {
+        return <span key={index}>{linkText}</span>;
+      }
+
+      // External link check: http, https, or protocol-relative (//)
+      const isExternal = /^https?:\/\//i.test(rawHref) || rawHref.startsWith("//");
 
       if (isExternal) {
         return (
           <a
             key={index}
-            href={href}
+            href={rawHref}
             target="_blank"
             rel="noopener noreferrer"
             className="text-accent font-semibold underline underline-offset-2 hover:text-accent-dark transition-colors"
@@ -54,7 +61,7 @@ function renderFormattedText(text: string) {
       return (
         <Link
           key={index}
-          href={href}
+          href={rawHref}
           className="text-accent font-semibold underline underline-offset-2 hover:text-accent-dark transition-colors"
         >
           {linkText}

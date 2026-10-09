@@ -86,6 +86,7 @@ export default function Newsletter() {
             </m.div>
           ) : (
             <form onSubmit={handleSubmit} className="w-full flex flex-col sm:flex-row gap-3 max-w-lg mb-3">
+              <input type="text" name="_hp_code" tabIndex={-1} autoComplete="off" className="hidden" aria-hidden="true" />
               <label htmlFor="newsletter-email-input" className="sr-only">
                 Email address for newsletter subscription
               </label>

@@ -135,6 +135,35 @@ export default function ArticleCard({
     </m.article>
   );
 
-  if (finalSlug) return <Link href={`/articles/${finalSlug}`} className="block rounded-2xl focus-visible:ring-2 focus-visible:ring-accent/40 focus-visible:outline-none">{content}</Link>;
+  if (finalSlug) {
+    if (/^(javascript|data|vbscript):/i.test(finalSlug)) {
+      return content;
+    }
+
+    const isExternal = /^https?:\/\//i.test(finalSlug) || finalSlug.startsWith("//");
+    if (isExternal) {
+      return (
+        <a
+          href={finalSlug}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="block rounded-2xl focus-visible:ring-2 focus-visible:ring-accent/40 focus-visible:outline-none"
+        >
+          {content}
+        </a>
+      );
+    }
+
+    const href = finalSlug.startsWith("/") ? finalSlug : `/articles/${finalSlug}`;
+    return (
+      <Link
+        href={href}
+        className="block rounded-2xl focus-visible:ring-2 focus-visible:ring-accent/40 focus-visible:outline-none"
+      >
+        {content}
+      </Link>
+    );
+  }
+
   return content;
 }

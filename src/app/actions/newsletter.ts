@@ -11,6 +11,12 @@ const WEB3FORMS_KEY = process.env.WEB3FORMS_KEY || "3281e53d-d6de-433b-ac48-98dc
 
 export async function subscribeNewsletter(formData: FormData) {
   try {
+    const honeypot = formData.get("_hp_code")?.toString();
+    if (honeypot && honeypot.trim().length > 0) {
+      logger.warn("Security warning: Bot detected via newsletter honeypot (_hp_code)", { honeypot });
+      return { success: true };
+    }
+
     const rawEmail = formData.get("email")?.toString() || "";
 
     // Rate limit by IP

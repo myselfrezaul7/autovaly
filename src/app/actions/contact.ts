@@ -11,6 +11,12 @@ const WEB3FORMS_KEY = process.env.WEB3FORMS_KEY || "3281e53d-d6de-433b-ac48-98dc
 
 export async function submitContactForm(formData: FormData) {
   try {
+    const honeypot = formData.get("_hp_company")?.toString();
+    if (honeypot && honeypot.trim().length > 0) {
+      logger.warn("Security warning: Bot detected via contact form honeypot (_hp_company)", { honeypot });
+      return { success: true };
+    }
+
     const rawData = {
       name: formData.get("name")?.toString() || "",
       email: formData.get("email")?.toString() || "",
