@@ -54,7 +54,35 @@ export const revalidateSchema = z.object({
   path: z.string().optional(),
 });
 
+export const domainOfferSchema = z.object({
+  name: z
+    .string()
+    .transform(sanitizeString)
+    .pipe(z.string().min(2, { message: "Name must be at least 2 characters" }).max(100)),
+  email: z
+    .string()
+    .transform((val) => val.trim().toLowerCase())
+    .pipe(z.string().email({ message: "Please provide a valid email address" })),
+  offerAmount: z
+    .string()
+    .transform(sanitizeString)
+    .pipe(z.string().min(1, { message: "Please specify your offer amount" }).max(50)),
+  phone: z
+    .string()
+    .transform(sanitizeString)
+    .pipe(z.string().max(50))
+    .optional()
+    .default(""),
+  message: z
+    .string()
+    .transform(sanitizeString)
+    .pipe(z.string().max(2000))
+    .optional()
+    .default(""),
+});
+
 export type SearchQueryInput = z.infer<typeof searchQuerySchema>;
 export type NewsletterInput = z.infer<typeof newsletterSchema>;
 export type ContactInput = z.infer<typeof contactSchema>;
 export type RevalidateInput = z.infer<typeof revalidateSchema>;
+export type DomainOfferInput = z.infer<typeof domainOfferSchema>;

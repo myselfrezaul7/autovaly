@@ -11,6 +11,7 @@ import KeyboardShortcuts from "@/components/ui/KeyboardShortcuts";
 import { ThemeScript } from "@/components/ThemeScript";
 import MobileNav from "@/components/ui/MobileNav";
 import CookieConsent from "@/components/ui/CookieConsent";
+import DomainSaleModal from "@/components/DomainSaleModal";
 
 const barlow = Barlow_Condensed({
   variable: "--font-barlow",
@@ -115,6 +116,7 @@ export default function RootLayout({
             <Footer />
             <MobileNav />
             <CookieConsent />
+            <DomainSaleModal />
           </div>
         </Providers>
       </body>

@@ -156,7 +156,7 @@ export default function Navbar() {
             {/* Theme Toggle */}
             <button
               onClick={toggleTheme}
-              aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
+              aria-label="Toggle Theme" title={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
               className="min-h-[44px] min-w-[44px] flex items-center justify-center p-2 rounded-xl border border-border-custom hover:border-accent/60 bg-surface/60 hover:text-accent transition-all touch-press active:scale-95 cursor-pointer text-text-light"
             >
               <svg className="hidden dark:block" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">

@@ -3,7 +3,7 @@ import { test, expect } from '@playwright/test';
 test('Theme toggle switches between dark and light', async ({ page }) => {
   await page.goto('/');
 
-  const themeButton = page.locator('button[aria-label="Toggle Theme"]');
+  const themeButton = page.locator('button[aria-label="Toggle Theme"], button[aria-label*="mode"]').first();
   const html = page.locator('html');
   await expect(html).toHaveClass(/dark|light/);
   
