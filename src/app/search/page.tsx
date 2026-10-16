@@ -3,10 +3,11 @@ import { classicSpotlightItems } from "@/lib/data/classic-spotlight";
 import { Metadata } from "next";
 import SearchClientHub from "@/components/SearchClientHub";
 import Breadcrumbs from "@/components/ui/Breadcrumbs";
+import { searchQuerySchema } from "@/lib/validators";
 import BreadcrumbJsonLd from "@/components/BreadcrumbJsonLd";
 
 export const metadata: Metadata = {
-  title: "Search Car Database, News, Reviews & Classics — Autovaly",
+  title: "Search Articles & Vehicles",
   description: "Search Autovaly for vehicles, specifications, news, EV reviews, and classic heritage cars in real time.",
   openGraph: {
     title: "Search Car Database, News & Reviews | Autovaly",
@@ -28,8 +29,12 @@ export default async function SearchPage({
   searchParams: Promise<{ q?: string; tab?: string }>;
 }) {
   const params = await searchParams;
-  const initialQuery = params.q || "";
-  const initialTab = params.tab || "all";
+  const parsed = searchQuerySchema.safeParse({
+    q: typeof params.q === "string" ? params.q : undefined,
+    tab: typeof params.tab === "string" ? params.tab : undefined,
+  });
+  const initialQuery = parsed.success ? parsed.data.q : "";
+  const initialTab = parsed.success ? parsed.data.tab : "all";
 
   const allArticles = getAllArticles();
   const allVehicles = getAllVehicles();

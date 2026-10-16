@@ -173,9 +173,8 @@ export default function Hero() {
             </div>
 
             {/* Carousel Story Tabs */}
-            <div className="grid grid-cols-3 gap-2 pt-4 border-t border-border-custom/60">
-              {articles.slice(1, 4).map((art, idx) => {
-                const targetIdx = idx + 1;
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-2 pt-4 border-t border-border-custom/60">
+              {articles.slice(0, 4).map((art, targetIdx) => {
                 const isSelected = targetIdx === currentIndex;
                 return (
                   <button
@@ -187,7 +186,7 @@ export default function Hero() {
                         : "bg-surface hover:bg-surface-hover border-border-custom text-text-muted"
                     }`}
                   >
-                    <span className="text-[9px] font-extrabold uppercase block text-accent mb-0.5">#{targetIdx + 1} NEXT</span>
+                    <span className="text-[9px] font-extrabold uppercase block text-accent mb-0.5">#{targetIdx + 1}</span>
                     <span className="text-[11px] font-bold line-clamp-1 block text-text-light">{art.title}</span>
                   </button>
                 );

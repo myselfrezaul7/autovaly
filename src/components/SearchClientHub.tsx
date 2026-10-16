@@ -187,7 +187,7 @@ export default function SearchClientHub({
 
       {/* Results View */}
       <div id={`tabpanel-${activeTab}`} role="tabpanel" aria-labelledby={`tab-${activeTab}`}>
-        {totalResults === 0 ? (
+        {(tabs.find((t) => t.id === activeTab)?.count ?? 0) === 0 ? (
           <div className="py-20 text-center bg-surface border border-border-custom rounded-3xl p-8">
             <div className="text-4xl mb-4" aria-hidden="true">🔍</div>
             <h3 className="text-xl font-bold font-heading mb-2">No Matching Results</h3>

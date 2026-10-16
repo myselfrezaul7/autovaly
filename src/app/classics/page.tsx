@@ -12,6 +12,7 @@ export const metadata: Metadata = {
     title: "Classic Cars & Heritage Archive | Autovaly",
     description: "Explore the greatest classic cars in automotive history with in-depth specs, historical context, and photography.",
     url: "https://autovaly.com/classics",
+    images: [{ url: "/og-image.png", width: 1200, height: 630, alt: "Autovaly" }],
   },
   alternates: { canonical: "/classics" },
 };
@@ -29,11 +30,11 @@ export default function ClassicsPage() {
   }));
 
   return (
-    <div className="min-h-screen bg-background text-text-light py-12 md:py-16">
+    <main id="main-content" className="min-h-screen bg-background text-text-light py-12 md:py-16">
       <BreadcrumbJsonLd crumbs={crumbs} />
       <ItemListJsonLd items={itemList} />
 
-      <main className="container mx-auto px-4 md:px-6">
+      <div className="container mx-auto px-4 md:px-6">
         <Breadcrumbs crumbs={crumbs} />
 
         {/* Hero Header */}
@@ -53,7 +54,7 @@ export default function ClassicsPage() {
 
         {/* Interactive Filterable Fleet */}
         <ClassicsClientHub initialItems={classicSpotlightItems} />
-      </main>
-    </div>
+      </div>
+    </main>
   );
 }

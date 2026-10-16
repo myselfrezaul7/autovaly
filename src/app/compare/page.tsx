@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import CompareBuilder from "@/components/CompareBuilder";
 import { Metadata } from "next";
 import { getAllVehicles } from "@/lib/content";
@@ -55,35 +56,58 @@ export default async function CompareIndexPage({
       <div className="max-w-5xl mx-auto">
         <h2 className="text-3xl font-heading font-bold mb-8 text-text-light">Popular Matchups</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {comparisons.map((comp) => (
-            <Link
-              key={comp.id}
-              href={`/compare/${comp.slug}`}
-              className="group flex flex-col bg-surface border border-border-custom rounded-xl overflow-hidden hover:border-accent transition-colors"
-            >
-              <div className="flex h-32 w-full">
-                <div
-                  className="flex-1 flex items-center justify-center p-4 relative overflow-hidden"
-                  style={{ background: `linear-gradient(135deg, ${comp.carA.gradient.from}, ${comp.carA.gradient.to})` }}
-                >
-                  <span className="relative z-10 font-bold text-white text-center shadow-black drop-shadow-md">{comp.carA.name}</span>
+          {comparisons.map((comp) => {
+            const vehicleA = vehicles.find((v) => v.slug === comp.carA.slug);
+            const vehicleB = vehicles.find((v) => v.slug === comp.carB.slug);
+
+            return (
+              <Link
+                key={comp.id}
+                href={`/compare/${comp.slug}`}
+                className="group flex flex-col bg-surface border border-border-custom rounded-xl overflow-hidden hover:border-accent transition-colors"
+              >
+                <div className="flex h-32 w-full relative">
+                  <div
+                    className="flex-1 flex items-center justify-center p-4 relative overflow-hidden"
+                    style={{ background: `linear-gradient(135deg, ${comp.carA.gradient.from}, ${comp.carA.gradient.to})` }}
+                  >
+                    {vehicleA?.coverImage && (
+                      <Image
+                        src={vehicleA.coverImage}
+                        alt={comp.carA.name}
+                        fill
+                        sizes="(max-width: 768px) 50vw, 25vw"
+                        className="object-cover opacity-80 group-hover:scale-105 transition-transform duration-500"
+                      />
+                    )}
+                    <span className="relative z-10 font-bold text-white text-center shadow-black drop-shadow-md">{comp.carA.name}</span>
+                  </div>
+                  <div className="w-12 bg-background flex items-center justify-center z-10 -mx-6 transform skew-x-[-15deg] border-x border-border-custom" aria-hidden="true">
+                    <span className="transform skew-x-[15deg] font-heading font-black text-accent text-xl italic">VS</span>
+                  </div>
+                  <div
+                    className="flex-1 flex items-center justify-center p-4 relative overflow-hidden"
+                    style={{ background: `linear-gradient(135deg, ${comp.carB.gradient.from}, ${comp.carB.gradient.to})` }}
+                  >
+                    {vehicleB?.coverImage && (
+                      <Image
+                        src={vehicleB.coverImage}
+                        alt={comp.carB.name}
+                        fill
+                        sizes="(max-width: 768px) 50vw, 25vw"
+                        className="object-cover opacity-80 group-hover:scale-105 transition-transform duration-500"
+                      />
+                    )}
+                    <span className="relative z-10 font-bold text-white text-center shadow-black drop-shadow-md">{comp.carB.name}</span>
+                  </div>
                 </div>
-                <div className="w-12 bg-background flex items-center justify-center z-10 -mx-6 transform skew-x-[-15deg] border-x border-border-custom" aria-hidden="true">
-                  <span className="transform skew-x-[15deg] font-heading font-black text-accent text-xl italic">VS</span>
+                <div className="p-6 text-center">
+                  <h3 className="font-bold text-lg mb-2 group-hover:text-accent transition-colors">{comp.carA.name} vs {comp.carB.name}</h3>
+                  <p className="text-text-muted text-sm italic">&ldquo;{comp.tagline}&rdquo;</p>
                 </div>
-                <div
-                  className="flex-1 flex items-center justify-center p-4 relative overflow-hidden"
-                  style={{ background: `linear-gradient(135deg, ${comp.carB.gradient.from}, ${comp.carB.gradient.to})` }}
-                >
-                  <span className="relative z-10 font-bold text-white text-center shadow-black drop-shadow-md">{comp.carB.name}</span>
-                </div>
-              </div>
-              <div className="p-6 text-center">
-                <h3 className="font-bold text-lg mb-2 group-hover:text-accent transition-colors">{comp.carA.name} vs {comp.carB.name}</h3>
-                <p className="text-text-muted text-sm italic">&ldquo;{comp.tagline}&rdquo;</p>
-              </div>
-            </Link>
-          ))}
+              </Link>
+            );
+          })}
         </div>
       </div>
     </main>

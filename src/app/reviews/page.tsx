@@ -13,6 +13,7 @@ export const metadata: Metadata = {
     title: "Expert Car Reviews 2026 — In-Depth Tests & Ratings",
     description: "Honest, in-depth car reviews from professional automotive journalists. Performance tests, interior analysis, and final verdicts for every major model.",
     url: "https://autovaly.com/reviews",
+    images: [{ url: "/og-image.png", width: 1200, height: 630, alt: "Autovaly" }],
   },
   alternates: { canonical: "/reviews" }
 };
@@ -32,10 +33,10 @@ export default function ReviewsPage() {
   }));
 
   return (
-    <div className="min-h-screen bg-background text-text-light">
+    <main id="main-content" className="min-h-screen bg-background text-text-light">
       <BreadcrumbJsonLd crumbs={crumbs} />
       <ItemListJsonLd items={itemList} />
-      <main className="container mx-auto px-4 md:px-6 py-12">
+      <div className="container mx-auto px-4 md:px-6 py-12">
         <Breadcrumbs crumbs={crumbs} />
         <h1 className="font-heading text-4xl md:text-5xl font-bold uppercase tracking-wider pl-4 border-l-4 border-accent mb-10">
           In-Depth Reviews
@@ -60,7 +61,7 @@ export default function ReviewsPage() {
           ))}
         </div>
         {articles.length === 0 && <p className="text-muted text-lg text-center py-20">No reviews yet.</p>}
-      </main>
-    </div>
+      </div>
+    </main>
   );
 }

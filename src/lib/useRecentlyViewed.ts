@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Vehicle } from "./types";
 
 export function useRecentlyViewed() {
@@ -11,35 +11,31 @@ export function useRecentlyViewed() {
       const stored = localStorage.getItem("autovaly_recent_vehicles");
       if (stored) {
         const parsed = JSON.parse(stored);
-        setTimeout(() => setRecentlyViewed(parsed), 0);
+        if (Array.isArray(parsed)) {
+          setTimeout(() => setRecentlyViewed(parsed), 0);
+        }
       }
     } catch (e) {
       console.error("Failed to parse recently viewed", e);
     }
   }, []);
 
-  const addVehicle = (vehicle: Vehicle) => {
+  const addVehicle = useCallback((vehicle: Vehicle) => {
     try {
-      const stored = localStorage.getItem("autovaly_recent_vehicles");
-      let current: Vehicle[] = stored ? JSON.parse(stored) : [];
-      
-      // Remove if already exists to move to top
-      current = current.filter(v => v.id !== vehicle.id);
-      
-      // Add to beginning
-      current.unshift(vehicle);
-      
-      // Keep only last 6
-      if (current.length > 6) {
-        current = current.slice(0, 6);
-      }
-      
-      localStorage.setItem("autovaly_recent_vehicles", JSON.stringify(current));
-      setRecentlyViewed(current);
+      setRecentlyViewed((prev) => {
+        const current = Array.isArray(prev) ? prev.filter((v) => v.id !== vehicle.id) : [];
+        const updated = [vehicle, ...current].slice(0, 6);
+        try {
+          localStorage.setItem("autovaly_recent_vehicles", JSON.stringify(updated));
+        } catch (e) {
+          console.error("Failed to save recently viewed", e);
+        }
+        return updated;
+      });
     } catch (e) {
       console.error("Failed to save recently viewed", e);
     }
-  };
+  }, []);
 
   return { recentlyViewed, addVehicle };
 }

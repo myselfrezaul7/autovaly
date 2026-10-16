@@ -50,7 +50,7 @@ export default function ScrollEnhancements() {
             exit={{ opacity: 0, scale: 0.8, y: 10 }}
             transition={{ duration: 0.2 }}
             onClick={goToTop}
-            className="fixed bottom-[calc(76px+env(safe-area-inset-bottom,0px))] md:bottom-8 right-4 md:right-8 z-40 p-3 md:p-3.5 rounded-full bg-accent text-white shadow-xl shadow-accent/30 hover:bg-accent-dark transition-all touch-press cursor-pointer border border-white/20 active:scale-95"
+            className="fixed bottom-20 lg:bottom-8 right-4 lg:right-8 z-40 p-3 md:p-3.5 rounded-full bg-accent text-white shadow-xl shadow-accent/30 hover:bg-accent-dark transition-all touch-press cursor-pointer border border-white/20 active:scale-95"
             aria-label="Back to top"
           >
             <svg

@@ -20,7 +20,12 @@ export const metadata: Metadata = {
   alternates: { canonical: "/contact" },
 };
 
-export default function ContactPage() {
+export default async function ContactPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ type?: string }>;
+}) {
+  const params = await searchParams;
   const crumbs = [
     { name: "Home", url: "/" },
     { name: "Contact & Tips", url: "/contact" },
@@ -53,7 +58,7 @@ export default function ContactPage() {
             <h2 className="font-heading font-bold text-xl uppercase tracking-wider mb-6 flex items-center gap-2 text-text-light">
               <span className="text-accent" aria-hidden="true">✉️</span> Send a Direct Message
             </h2>
-            <ContactForm />
+            <ContactForm initialSubject={params.type} />
           </div>
 
           {/* Right Column: Direct Contact Details & Guidelines */}

@@ -4,7 +4,7 @@ import Breadcrumbs from "@/components/ui/Breadcrumbs";
 import BreadcrumbJsonLd from "@/components/BreadcrumbJsonLd";
 
 export const metadata: Metadata = {
-  title: "Terms of Service — Autovaly",
+  title: "Terms of Service",
   description: "Review Autovaly's Terms of Service, editorial disclaimers, specification accuracy notes, and intellectual property terms.",
   openGraph: {
     title: "Terms of Service | Autovaly",

@@ -11,23 +11,23 @@ export default function ComparisonBanner() {
       <div className="absolute inset-0 opacity-15 pointer-events-none animate-[pattern-drift_20s_linear_infinite]" style={{ backgroundImage: "repeating-linear-gradient(45deg, var(--surface) 0, var(--surface) 1px, transparent 0, transparent 50%)", backgroundSize: "20px 20px" }} />
       <div className="container mx-auto px-4 md:px-6 relative z-10">
         <div className="flex flex-col lg:flex-row items-center justify-between gap-10 lg:gap-8">
-          <div className="w-full lg:w-[48%] flex items-center justify-center gap-4 md:gap-8">
-            <m.div initial={{ opacity: 0, x: -30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} className="flex flex-col items-center gap-3">
-              <div className="w-36 sm:w-44 md:w-52 h-24 sm:h-28 md:h-32 rounded-2xl shadow-[0_0_30px_rgba(232,35,42,0.2)] border border-border-custom overflow-hidden flex items-center justify-center p-3 text-center" style={{ background: `linear-gradient(135deg, ${c.carA.gradient.from}, ${c.carA.gradient.to})` }}>
-                <span className="font-heading font-bold text-sm sm:text-base tracking-wider uppercase text-white drop-shadow-md">{c.carA.name}</span>
+          <div className="w-full lg:w-[48%] flex items-center justify-center gap-2 sm:gap-4 md:gap-8">
+            <m.div initial={{ opacity: 0, x: -30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} className="flex flex-col items-center gap-3 flex-1 min-w-0 sm:flex-none sm:w-[200px]">
+              <div className="w-full h-24 sm:h-28 md:h-32 rounded-2xl shadow-[0_0_30px_rgba(232,35,42,0.2)] border border-border-custom overflow-hidden flex items-center justify-center p-3 text-center" style={{ background: `linear-gradient(135deg, ${c.carA.gradient.from}, ${c.carA.gradient.to})` }}>
+                <span className="font-heading font-bold text-sm sm:text-base tracking-wider uppercase text-white drop-shadow-md truncate">{c.carA.name}</span>
               </div>
-              <span className="font-heading font-bold text-base sm:text-lg tracking-wide uppercase text-text-light">{c.carA.name}</span>
+              <span className="font-heading font-bold text-sm sm:text-base md:text-lg tracking-wide uppercase text-text-light truncate max-w-full">{c.carA.name}</span>
             </m.div>
             
-            <div className="font-heading text-4xl sm:text-6xl md:text-7xl font-extrabold text-accent/40 italic drop-shadow-md select-none">
+            <div className="font-heading text-3xl sm:text-5xl md:text-7xl font-extrabold text-accent/40 italic drop-shadow-md select-none shrink-0 px-1">
               VS
             </div>
 
-            <m.div initial={{ opacity: 0, x: 30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} className="flex flex-col items-center gap-3">
-              <div className="w-36 sm:w-44 md:w-52 h-24 sm:h-28 md:h-32 rounded-2xl shadow-[0_0_30px_rgba(255,255,255,0.1)] border border-border-custom overflow-hidden flex items-center justify-center p-3 text-center" style={{ background: `linear-gradient(135deg, ${c.carB.gradient.from}, ${c.carB.gradient.to})` }}>
-                <span className="font-heading font-bold text-sm sm:text-base tracking-wider uppercase text-white drop-shadow-md">{c.carB.name}</span>
+            <m.div initial={{ opacity: 0, x: 30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} className="flex flex-col items-center gap-3 flex-1 min-w-0 sm:flex-none sm:w-[200px]">
+              <div className="w-full h-24 sm:h-28 md:h-32 rounded-2xl shadow-[0_0_30px_rgba(255,255,255,0.1)] border border-border-custom overflow-hidden flex items-center justify-center p-3 text-center" style={{ background: `linear-gradient(135deg, ${c.carB.gradient.from}, ${c.carB.gradient.to})` }}>
+                <span className="font-heading font-bold text-sm sm:text-base tracking-wider uppercase text-white drop-shadow-md truncate">{c.carB.name}</span>
               </div>
-              <span className="font-heading font-bold text-base sm:text-lg tracking-wide uppercase text-text-light">{c.carB.name}</span>
+              <span className="font-heading font-bold text-sm sm:text-base md:text-lg tracking-wide uppercase text-text-light truncate max-w-full">{c.carB.name}</span>
             </m.div>
           </div>
 

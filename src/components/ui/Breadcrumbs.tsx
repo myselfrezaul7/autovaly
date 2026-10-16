@@ -4,7 +4,7 @@ import { BreadcrumbItem } from "@/components/BreadcrumbJsonLd";
 export default function Breadcrumbs({ crumbs }: { crumbs: BreadcrumbItem[] }) {
   return (
     <nav aria-label="Breadcrumb" className="mb-6">
-      <ol className="flex items-center space-x-2 text-sm text-muted">
+      <ol className="flex flex-wrap items-center gap-y-1 space-x-2 text-sm text-muted">
         {crumbs.map((crumb, index) => {
           const isLast = index === crumbs.length - 1;
           return (

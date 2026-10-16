@@ -8,15 +8,28 @@ export default function KeyboardShortcuts() {
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      // Ignore if user is typing in an input or textarea
+      // Never intercept browser/OS shortcuts like Ctrl+C, Cmd+C, Alt+Left, etc.
+      if (e.metaKey || e.ctrlKey || e.altKey) {
+        return;
+      }
+
+      // Handle active input, select, or editable elements
+      const activeEl = document.activeElement as HTMLElement | null;
       if (
-        document.activeElement?.tagName === "INPUT" ||
-        document.activeElement?.tagName === "TEXTAREA"
+        activeEl?.tagName === "INPUT" ||
+        activeEl?.tagName === "TEXTAREA" ||
+        activeEl?.tagName === "SELECT" ||
+        activeEl?.isContentEditable
       ) {
         // Only allow Escape to blur inputs
         if (e.key === "Escape") {
-          (document.activeElement as HTMLElement).blur();
+          activeEl.blur();
         }
+        return;
+      }
+
+      // Ignore if any modal dialog is open (e.g. SearchModal, DomainSaleModal)
+      if (document.querySelector('[role="dialog"]')) {
         return;
       }
 

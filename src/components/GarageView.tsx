@@ -93,9 +93,9 @@ export default function GarageView() {
           <span className="text-xs font-bold uppercase tracking-widest text-accent bg-accent/10 px-3 py-1 rounded border border-accent/20 mb-2 inline-block">
             Shortlist & Dream Fleet
           </span>
-          <h1 className="text-3xl sm:text-4xl font-heading font-extrabold text-text-light">
+          <h2 className="text-3xl sm:text-4xl font-heading font-extrabold text-text-light">
             My Saved Garage ({garage.length})
-          </h1>
+          </h2>
           <p className="text-xs text-text-muted mt-1">
             Toggle between the interactive 3D Hypercar Vault or traditional grid fleet overview.
           </p>

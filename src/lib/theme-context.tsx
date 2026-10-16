@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState, useCallback, useMemo } from "react";
 
 type Theme = "dark" | "light";
 
@@ -19,11 +19,11 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     setTimeout(() => setMounted(true), 0);
     try {
-      const stored = localStorage.getItem("theme") as Theme;
-      if (stored) {
-        setTimeout(() => setTheme(stored), 0);
+      const saved = localStorage.getItem("theme");
+      if (saved === "dark" || saved === "light") {
+        setTimeout(() => setTheme(saved), 0);
         document.documentElement.classList.remove("dark", "light");
-        document.documentElement.classList.add(stored);
+        document.documentElement.classList.add(saved);
       } else {
         const prefersLight = window.matchMedia("(prefers-color-scheme: light)").matches;
         const initialTheme = prefersLight ? "light" : "dark";
@@ -47,21 +47,28 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     return () => window.removeEventListener("storage", handleStorage);
   }, []);
 
-  const toggleTheme = () => {
-    const newTheme = theme === "dark" ? "light" : "dark";
-    setTheme(newTheme);
-    try {
-      localStorage.setItem("theme", newTheme);
-    } catch (e) {
-      console.error("Failed to save theme in localStorage", e);
-    }
-    
-    document.documentElement.classList.remove("dark", "light");
-    document.documentElement.classList.add(newTheme);
-  };
+  const toggleTheme = useCallback(() => {
+    setTheme((prevTheme) => {
+      const newTheme = prevTheme === "dark" ? "light" : "dark";
+      try {
+        localStorage.setItem("theme", newTheme);
+      } catch (e) {
+        console.error("Failed to save theme in localStorage", e);
+      }
+      
+      document.documentElement.classList.remove("dark", "light");
+      document.documentElement.classList.add(newTheme);
+      return newTheme;
+    });
+  }, []);
+
+  const contextValue = useMemo(
+    () => ({ theme, toggleTheme, mounted }),
+    [theme, toggleTheme, mounted]
+  );
 
   return (
-    <ThemeContext.Provider value={{ theme, toggleTheme, mounted }}>
+    <ThemeContext.Provider value={contextValue}>
       {children}
     </ThemeContext.Provider>
   );

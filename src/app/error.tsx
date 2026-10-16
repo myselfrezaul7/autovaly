@@ -16,7 +16,7 @@ export default function Error({
   }, [error]);
 
   return (
-    <div className="min-h-[70vh] flex items-center justify-center bg-background px-4">
+    <main id="main-content" className="min-h-[70vh] flex items-center justify-center bg-background px-4">
       <div className="bg-surface border border-border-custom p-8 md:p-12 rounded-xl text-center max-w-lg w-full">
         <div className="w-16 h-16 bg-red-500/10 text-accent rounded-full flex items-center justify-center mx-auto mb-6">
           <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -44,6 +44,6 @@ export default function Error({
           </Link>
         </div>
       </div>
-    </div>
+    </main>
   );
 }

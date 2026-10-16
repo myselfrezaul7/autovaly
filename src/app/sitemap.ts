@@ -5,7 +5,9 @@ import { comparisons } from '@/lib/data/comparisons'
 export default function sitemap(): MetadataRoute.Sitemap {
   const articles = getAllArticles()
   const vehicles = getAllVehicles()
-  const baseUrl = 'https://autovaly.com'
+  const BASE_URL = 'https://autovaly.com'
+  const toAbsoluteUrl = (path: string) => path.startsWith("http") ? path : `${BASE_URL}${path}`;
+  const baseUrl = BASE_URL
 
   const staticPages = [
     '',
@@ -32,7 +34,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     lastModified: new Date(article.publishedAt),
     changeFrequency: 'weekly' as const,
     priority: 0.8,
-    ...(article.coverImage ? { images: [article.coverImage] } : {}),
+    ...(article.coverImage ? { images: [toAbsoluteUrl(article.coverImage)] } : {}),
   }))
 
   const vehicleUrls = vehicles.map((vehicle) => ({
@@ -40,7 +42,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     lastModified: new Date("2026-06-01"),
     changeFrequency: 'weekly' as const,
     priority: 0.8,
-    ...(vehicle.coverImage ? { images: [vehicle.coverImage] } : {}),
+    ...(vehicle.coverImage ? { images: [toAbsoluteUrl(vehicle.coverImage)] } : {}),
   }))
 
   const comparisonUrls = comparisons.map((comp) => ({

@@ -1,38 +1,38 @@
 import { NextResponse } from "next/server";
-import { getAllArticles } from "@/services/article.service";
+import { getAllArticles } from "@/lib/content";
 import { logger } from "@/lib/logger";
+
+const SITE_URL = "https://autovaly.com";
 
 export async function GET() {
   try {
-    const articles = await getAllArticles();
+    const articles = getAllArticles();
 
     const rssFeed = `<?xml version="1.0" encoding="UTF-8" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:media="http://search.yahoo.com/mrss/">
   <channel>
     <title>Autovaly — Drive the Story</title>
-    <link>https://autovaly.com</link>
+    <link>${SITE_URL}</link>
     <description>Your definitive source for car news, EV reviews, comparisons, and automotive industry trends.</description>
     <language>en-us</language>
     <lastBuildDate>${new Date().toUTCString()}</lastBuildDate>
-    <atom:link href="https://autovaly.com/feed.xml" rel="self" type="application/rss+xml"/>
+    <atom:link href="${SITE_URL}/feed.xml" rel="self" type="application/rss+xml"/>
     ${articles
       .map((article) => {
         const imageUrl = article.coverImage
-          ? article.coverImage.startsWith("http")
-            ? article.coverImage
-            : `https://autovaly.com${article.coverImage}`
-          : "https://autovaly.com/og-image.png";
+          ? (article.coverImage.startsWith("http") ? article.coverImage : `${SITE_URL}${article.coverImage}`).replace(/&/g, "&amp;")
+          : `${SITE_URL}/og-image.png`;
 
         return `
     <item>
       <title><![CDATA[${article.title}]]></title>
-      <link>https://autovaly.com/articles/${article.slug}</link>
-      <guid isPermaLink="true">https://autovaly.com/articles/${article.slug}</guid>
+      <link>${SITE_URL}/articles/${article.slug}</link>
+      <guid isPermaLink="true">${SITE_URL}/articles/${article.slug}</guid>
       <pubDate>${new Date(article.publishedAt).toUTCString()}</pubDate>
       <description><![CDATA[${article.excerpt}]]></description>
       <dc:creator><![CDATA[${article.author?.name || "Autovaly Editorial"}]]></dc:creator>
       <category>${article.category}</category>
-      <enclosure url="${imageUrl}" type="image/jpeg" length="0" />
+      ${article.coverImage ? `<enclosure url="${(article.coverImage.startsWith("http") ? article.coverImage : `${SITE_URL}${article.coverImage}`).replace(/&/g, "&amp;")}" length="0" type="image/jpeg" />` : ""}
       <media:content url="${imageUrl}" medium="image" />
     </item>`;
       })

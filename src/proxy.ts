@@ -55,76 +55,42 @@ const REDIRECT_KEYS = new Set([
 ]);
 
 /**
- * Safely generates decoded variants of a URL string to catch obfuscated/encoded attack vectors.
+ * Safely decodes a URL string, handling single or double encoding and falling back gracefully.
  */
-function getDecodedVariants(input: string): string[] {
-  const variants = [input];
+function safeDecode(input: string): string {
+  let decoded = input;
   try {
-    const once = decodeURIComponent(input);
-    if (once !== input) {
-      variants.push(once);
-      try {
-        const twice = decodeURIComponent(once);
-        if (twice !== once) {
-          variants.push(twice);
-        }
-      } catch {
-        // Ignore secondary decode error
-      }
+    decoded = decodeURIComponent(input);
+    try {
+      decoded = decodeURIComponent(decoded);
+    } catch {
+      // Ignore secondary decode error
     }
   } catch {
     // Ignore primary decode error
   }
-  return variants;
+  return decoded.toLowerCase();
 }
 
 /**
- * Checks if a target string matches malicious scanner, traversal, or injection patterns.
+ * Checks if target string contains any pattern from the provided list.
  */
-function isMaliciousPattern(rawUrlStr: string, pathname: string, search: string): boolean {
-  // Disallow double slash path prefixes (protocol-relative evasion or traversal residue)
-  if (pathname.startsWith("//")) {
-    return true;
-  }
+function matchesAny(target: string, patterns: string[]): boolean {
+  const lower = target.toLowerCase();
+  return patterns.some((pattern) => lower.includes(pattern.toLowerCase()));
+}
 
-  const combined = `${pathname}${search}`;
-  const targets = [
-    ...getDecodedVariants(combined),
-    ...getDecodedVariants(rawUrlStr),
-    ...getDecodedVariants(pathname),
-    ...getDecodedVariants(search),
-  ];
-
-  for (const target of targets) {
-    const lower = target.toLowerCase();
-
-    // 1. Path traversal checks
-    for (const pattern of PATH_TRAVERSAL_PATTERNS) {
-      if (lower.includes(pattern)) {
-        return true;
-      }
-    }
-
-    // 2. Sensitive file & probe path checks
-    for (const pattern of SENSITIVE_PROBE_PATTERNS) {
-      if (lower.includes(pattern)) {
-        return true;
-      }
-      // Also catch etc/passwd without leading slash if requested in query
-      if (pattern === "/etc/passwd" && lower.includes("etc/passwd")) {
-        return true;
-      }
-    }
-
-    // 3. Injection attack checks
-    for (const pattern of INJECTION_PATTERNS) {
-      if (lower.includes(pattern)) {
-        return true;
-      }
-    }
-  }
-
-  return false;
+/**
+ * Checks if a target pathname and search query match malicious scanner, traversal, or injection patterns.
+ */
+function isMaliciousPattern(pathname: string, search: string): boolean {
+  const decodedPath = safeDecode(pathname);
+  const decodedFull = safeDecode(pathname + search);
+  return (
+    matchesAny(decodedPath, SENSITIVE_PROBE_PATTERNS) ||
+    matchesAny(decodedFull, PATH_TRAVERSAL_PATTERNS) ||
+    matchesAny(decodedFull, INJECTION_PATTERNS)
+  );
 }
 
 /**
@@ -241,9 +207,8 @@ export function proxy(request: NextRequest) {
   // 2. Exploit, Traversal & Sensitive File Probe Blocking (WAF Layer)
   const pathname = request.nextUrl.pathname;
   const search = request.nextUrl.search;
-  const rawUrl = request.url;
 
-  if (isMaliciousPattern(rawUrl, pathname, search)) {
+  if (isMaliciousPattern(pathname, search)) {
     return new NextResponse("Access Denied: Malicious request blocked by Autovaly Shield", {
       status: 403,
       headers: {

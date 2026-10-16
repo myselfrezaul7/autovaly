@@ -59,7 +59,7 @@ export default function EditorsPicks() {
         {picks.map((pick, index) => (
           <div
             key={pick.id}
-            className="relative group snap-center flex-shrink-0 min-w-[280px] sm:min-w-[320px] lg:min-w-[340px] w-[280px] sm:w-[320px] lg:w-[340px]"
+            className="relative group snap-center flex-shrink-0 w-[280px]"
           >
             <ScrollReveal delay={index * 0.07}>
               {/* Gold Ribbon Badge */}

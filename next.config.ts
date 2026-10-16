@@ -14,7 +14,7 @@ const nextConfig: NextConfig = {
   reactStrictMode: true,
   compiler: {
     removeConsole:
-      process.env.NODE_ENV === "production" ? { exclude: ["error", "warn"] } : false,
+      process.env.NODE_ENV === "production" ? { exclude: ["error", "warn", "info"] } : false,
   },
   experimental: {
     optimizePackageImports: ["framer-motion", "clsx"],

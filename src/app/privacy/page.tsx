@@ -5,7 +5,7 @@ import Breadcrumbs from "@/components/ui/Breadcrumbs";
 import BreadcrumbJsonLd from "@/components/BreadcrumbJsonLd";
 
 export const metadata: Metadata = {
-  title: "Privacy Policy & Data Rights — Autovaly",
+  title: "Privacy Policy",
   description: "Learn how Autovaly protects reader privacy, manages local telemetry, and complies with GDPR and CCPA data standards.",
   openGraph: {
     title: "Privacy Policy & Data Rights | Autovaly",

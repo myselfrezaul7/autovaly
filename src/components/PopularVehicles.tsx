@@ -14,7 +14,7 @@ export default function PopularVehicles() {
     <section className="py-12 md:py-20 border-b border-border-custom bg-background">
       <div className="container mx-auto px-4 md:px-6">
         <ScrollReveal>
-          <div className="flex flex-col md:flex-row items-end justify-between mb-10 gap-4">
+          <div className="flex flex-col md:flex-row items-start sm:items-end justify-between mb-10 gap-4">
             <div>
               <h2 className="text-3xl md:text-4xl font-heading font-extrabold mb-3">Popular Vehicles</h2>
               <p className="text-muted max-w-xl">
@@ -28,7 +28,7 @@ export default function PopularVehicles() {
           </div>
         </ScrollReveal>
 
-        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {vehicles.map((vehicle, idx) => (
             <ScrollReveal key={vehicle.id} delay={idx * 0.1}>
               <Link href={`/vehicles/${vehicle.slug}`} className="block h-full group touch-press">

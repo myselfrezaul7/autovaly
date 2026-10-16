@@ -32,30 +32,30 @@ export const getAllArticles = cache((): Article[] => {
 });
 
 export function getHeroArticle(): Article {
-  return articles.find((a) => a.heroArticle) || articles[0];
+  return sortedArticles.find((a) => a.heroArticle) || sortedArticles[0];
 }
 
 export function getHeroArticles(limit = 4): Article[] {
-  const hero = articles.find((a) => a.heroArticle) || articles[0];
-  const others = articles.filter((a) => a.id !== hero.id && a.featured).slice(0, limit - 1);
+  const hero = sortedArticles.find((a) => a.heroArticle) || sortedArticles[0];
+  const others = sortedArticles.filter((a) => a.id !== hero.id && a.featured).slice(0, limit - 1);
   return [hero, ...others];
 }
 
 export function getTopStories(limit = 4): Article[] {
-  return articles.filter((a) => a.featured).slice(0, limit);
+  return sortedArticles.filter((a) => a.featured).slice(0, limit);
 }
 
 export function getArticlesBySegment(segment: VehicleSegment | "All"): Article[] {
   if (segment === "All") return getAllArticles();
-  return articles.filter((a) => a.segments.includes(segment));
+  return sortedArticles.filter((a) => a.segments.includes(segment));
 }
 
 export function getArticlesByCategory(category: ArticleCategory): Article[] {
-  return articles.filter((a) => a.category === category).sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime());
+  return sortedArticles.filter((a) => a.category === category);
 }
 
 export function getEditorsPicks(): Article[] {
-  return articles.filter((a) => a.editorsPick);
+  return sortedArticles.filter((a) => a.editorsPick);
 }
 
 export const getArticleBySlug = cache((slug: string): Article | undefined => {
@@ -63,9 +63,9 @@ export const getArticleBySlug = cache((slug: string): Article | undefined => {
 });
 
 export function getRelatedArticles(articleId: string, limit = 3): Article[] {
-  const article = articles.find((a) => a.id === articleId);
+  const article = sortedArticles.find((a) => a.id === articleId);
   if (!article) return [];
-  return articles
+  return sortedArticles
     .filter((a) => a.id !== articleId && (a.category === article.category || a.segments.some((s) => article.segments.includes(s))))
     .slice(0, limit);
 }
@@ -81,7 +81,7 @@ export function formatDate(isoDate: string): string {
 export function searchArticles(query: string): Article[] {
   const q = query.toLowerCase().trim();
   if (!q) return [];
-  return articles.filter(
+  return sortedArticles.filter(
     (a) =>
       a.title.toLowerCase().includes(q) ||
       a.excerpt.toLowerCase().includes(q) ||

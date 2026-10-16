@@ -14,7 +14,8 @@ export default function VehicleCatalog({ initialVehicles }: { initialVehicles: V
   const [fuelTypes, setFuelTypes] = useState<string[]>([]);
   const [bodyStyles, setBodyStyles] = useState<string[]>([]);
   const [sortBy, setSortBy] = useState<string>("Newest First");
-  const [visibleCount, setVisibleCount] = useState(24);
+  const INITIAL_COUNT = 24;
+  const [visibleCount, setVisibleCount] = useState(INITIAL_COUNT);
   const { recentlyViewed } = useRecentlyViewed();
   const { garage, addToGarage, removeFromGarage } = useGarage();
 
@@ -91,7 +92,7 @@ export default function VehicleCatalog({ initialVehicles }: { initialVehicles: V
     <div className="flex flex-col lg:flex-row gap-8">
       {/* Sidebar Filters */}
       <aside className="w-full lg:w-72 flex-shrink-0">
-        <div className="bg-surface border border-border-custom rounded-3xl p-6 sticky top-24 z-30 shadow-xl">
+        <div className="bg-surface border border-border-custom rounded-3xl p-6 lg:sticky lg:top-24 z-30 shadow-xl">
           <div className="flex items-center justify-between mb-6 border-b border-border-custom pb-4">
             <h3 className="font-heading font-extrabold uppercase tracking-wider text-sm text-text-light">
               Catalog Filters
@@ -109,7 +110,10 @@ export default function VehicleCatalog({ initialVehicles }: { initialVehicles: V
             <input
               type="text"
               value={searchKeyword}
-              onChange={(e) => setSearchKeyword(e.target.value)}
+              onChange={(e) => {
+                setSearchKeyword(e.target.value);
+                setVisibleCount(INITIAL_COUNT);
+              }}
               placeholder="e.g. Taycan, Tesla, M3..."
               className="w-full bg-background border border-border-custom rounded-xl px-3 py-2 text-xs text-text-light placeholder:text-text-muted outline-none focus:border-accent"
             />

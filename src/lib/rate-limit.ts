@@ -14,7 +14,7 @@ if (typeof setInterval !== "undefined") {
         memoryStore.delete(key);
       }
     }
-  }, 5 * 60 * 1000);
+  }, 5 * 60 * 1000).unref?.();
 }
 
 export interface RateLimitResult {
@@ -37,6 +37,11 @@ export function rateLimit(
         memoryStore.delete(key);
       }
     }
+  }
+
+  if (memoryStore.size >= MAX_ENTRIES) {
+    const oldestKey = memoryStore.keys().next().value;
+    if (oldestKey) memoryStore.delete(oldestKey);
   }
 
   const record = memoryStore.get(identifier);

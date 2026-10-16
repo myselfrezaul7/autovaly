@@ -9,11 +9,17 @@ import { useEffect } from "react";
 export function Providers({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     if (typeof window !== "undefined" && "serviceWorker" in navigator && process.env.NODE_ENV === "production") {
-      window.addEventListener("load", () => {
+      const registerSw = () => {
         navigator.serviceWorker.register("/sw.js").catch((err) => {
           console.error("Service worker registration failed:", err);
         });
-      });
+      };
+      if (document.readyState === "complete") {
+        registerSw();
+      } else {
+        window.addEventListener("load", registerSw, { once: true });
+        return () => window.removeEventListener("load", registerSw);
+      }
     }
   }, []);
 

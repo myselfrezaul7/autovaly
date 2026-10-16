@@ -22,16 +22,17 @@ export default function CookieConsent() {
   });
 
   useEffect(() => {
-    const saved = localStorage.getItem(STORAGE_KEY);
-    if (!saved) {
+    try {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (!saved) {
+        const timer = setTimeout(() => setIsOpen(true), 1200);
+        return () => clearTimeout(timer);
+      } else {
+        setPreferences(JSON.parse(saved));
+      }
+    } catch {
       const timer = setTimeout(() => setIsOpen(true), 1200);
       return () => clearTimeout(timer);
-    } else {
-      try {
-        setPreferences(JSON.parse(saved));
-      } catch {
-        // ignore parse error
-      }
     }
   }, []);
 
@@ -48,19 +49,31 @@ export default function CookieConsent() {
   const handleAcceptAll = () => {
     const allAccepted: CookiePreferences = { essential: true, analytics: true, marketing: true };
     setPreferences(allAccepted);
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(allAccepted));
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(allAccepted));
+    } catch {
+      // ignore storage errors
+    }
     setIsOpen(false);
   };
 
   const handleRejectAll = () => {
     const allRejected: CookiePreferences = { essential: true, analytics: false, marketing: false };
     setPreferences(allRejected);
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(allRejected));
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(allRejected));
+    } catch {
+      // ignore storage errors
+    }
     setIsOpen(false);
   };
 
   const handleSavePreferences = () => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(preferences));
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(preferences));
+    } catch {
+      // ignore storage errors
+    }
     setIsOpen(false);
   };
 
@@ -74,7 +87,7 @@ export default function CookieConsent() {
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, y: 30, scale: 0.95 }}
           transition={{ type: "spring", damping: 28, stiffness: 260 }}
-          className="fixed bottom-[calc(68px+env(safe-area-inset-bottom,0px))] md:bottom-6 left-4 right-4 md:left-auto md:right-6 md:max-w-md z-50 pointer-events-auto"
+          className="fixed bottom-20 lg:bottom-6 left-4 right-4 md:left-auto md:right-6 md:max-w-md z-50 pointer-events-auto"
         >
           <div className="relative overflow-hidden rounded-2xl border border-white/20 dark:border-white/10 bg-surface/85 dark:bg-black/80 backdrop-blur-2xl p-5 md:p-6 shadow-[0_20px_50px_rgba(0,0,0,0.45)] ring-1 ring-white/10 text-text-light">
             <div className="absolute -top-12 -right-12 w-32 h-32 bg-accent/20 rounded-full blur-2xl pointer-events-none" />

@@ -3,7 +3,18 @@
 import { useState } from "react";
 import { submitContactForm } from "@/app/actions/contact";
 
-export default function ContactForm() {
+const SUBJECT_MAP: Record<string, string> = {
+  advertising: "Advertising & Partnerships",
+  partnerships: "Advertising & Partnerships",
+  correction: "Vehicle Spec Correction",
+  press: "Editorial Pitch",
+  tips: "Editorial Tips / Leaks",
+  bug: "Bug Report",
+  general: "General Inquiry",
+};
+
+export default function ContactForm({ initialSubject }: { initialSubject?: string }) {
+  const resolvedSubject = (initialSubject && SUBJECT_MAP[initialSubject.toLowerCase()]) || "General Inquiry";
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [errorMessage, setErrorMessage] = useState("");
 
@@ -102,6 +113,7 @@ export default function ContactForm() {
         <select
           id="subject"
           name="subject"
+          defaultValue={resolvedSubject}
           className="w-full bg-background border border-border-custom rounded-xl px-4 py-3 text-sm text-text-light focus:border-accent focus-visible:ring-2 focus-visible:ring-accent/40 focus-visible:outline-none transition-colors"
         >
           <option value="General Inquiry">General Inquiry & Feedback</option>

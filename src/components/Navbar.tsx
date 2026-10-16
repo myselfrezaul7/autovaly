@@ -27,7 +27,7 @@ export default function Navbar() {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
 
   const { theme, toggleTheme, mounted } = useTheme();
-  const { currency, toggleCurrency } = useCurrency();
+  const { currency, toggleCurrency, setCurrency } = useCurrency();
   const { garageCount } = useGarage();
   const pathname = usePathname();
   const lastScrollY = useRef(0);
@@ -268,26 +268,26 @@ export default function Navbar() {
                   <span className="text-xs font-bold uppercase text-text-muted">Currency</span>
                   <div className="flex items-center gap-1 bg-background p-1 rounded-lg border border-border-custom">
                     <button
-                      onClick={() => {
-                        toggleCurrency();
-                        setIsMobileMenuOpen(false);
-                      }}
-                      className={`px-2.5 py-0.5 text-xs font-bold rounded ${
-                        currency === "EUR" ? "bg-accent text-white" : "text-text-muted"
+                      onClick={() => setCurrency("EUR")}
+                      aria-pressed={currency === "EUR"}
+                      className={`px-3 py-1 rounded-full text-xs font-bold transition-all cursor-pointer ${
+                        currency === "EUR"
+                          ? "bg-accent text-white shadow-sm"
+                          : "text-text-muted hover:text-text-light"
                       }`}
                     >
-                      EUR
+                      EUR (€)
                     </button>
                     <button
-                      onClick={() => {
-                        toggleCurrency();
-                        setIsMobileMenuOpen(false);
-                      }}
-                      className={`px-2.5 py-0.5 text-xs font-bold rounded ${
-                        currency === "USD" ? "bg-accent text-white" : "text-text-muted"
+                      onClick={() => setCurrency("USD")}
+                      aria-pressed={currency === "USD"}
+                      className={`px-3 py-1 rounded-full text-xs font-bold transition-all cursor-pointer ${
+                        currency === "USD"
+                          ? "bg-accent text-white shadow-sm"
+                          : "text-text-muted hover:text-text-light"
                       }`}
                     >
-                      USD
+                      USD ($)
                     </button>
                   </div>
                 </div>

@@ -14,9 +14,10 @@ interface CompareSpecsProps {
 }
 
 // Determines which value is "better" for highlighting
-type Winner = "A" | "B" | "TIE" | "NONE";
+type Winner = "A" | "B" | "TIE" | null;
 
-function getWinner(valA: number, valB: number, lowerIsBetter = false): Winner {
+function getWinner(valA?: number, valB?: number, lowerIsBetter = false): "A" | "B" | "TIE" | null {
+  if (valA === undefined || valB === undefined || valA <= 0 || valB <= 0) return null;
   if (valA === valB) return "TIE";
   if (lowerIsBetter) return valA < valB ? "A" : "B";
   return valA > valB ? "A" : "B";
@@ -158,7 +159,7 @@ function CategoryHeader({ title }: { title: string }) {
 function SpecRow({ label, children, isHoverable = true }: { label: string; children: ReactNode; isHoverable?: boolean }) {
   return (
     <div className={clsx("grid grid-cols-3 items-center border-b border-border-custom last:border-b-0 transition-colors group", isHoverable && "hover:bg-accent/5")}>
-      <div className="p-4 md:p-6 font-medium text-xs md:text-sm text-text-muted flex items-center justify-center bg-background/30 border-r border-border-custom h-full uppercase tracking-widest group-hover:text-text-light transition-colors">
+      <div className="p-2.5 sm:p-4 md:p-6 font-medium text-[11px] sm:text-xs md:text-sm text-text-muted flex items-center justify-center bg-background/30 border-r border-border-custom h-full uppercase tracking-widest group-hover:text-text-light transition-colors break-words text-center">
         {label}
       </div>
       {children}
@@ -170,8 +171,8 @@ function SpecRow({ label, children, isHoverable = true }: { label: string; child
 function TextSpecRow({ label, valA, valB }: { label: string; valA: string | ReactNode; valB: string | ReactNode }) {
   return (
     <SpecRow label={label}>
-      <div className="p-4 md:p-6 text-center font-bold text-lg text-text-light">{valA}</div>
-      <div className="p-4 md:p-6 text-center font-bold text-lg text-text-light border-l border-border-custom">{valB}</div>
+      <div className="p-2.5 sm:p-4 md:p-6 text-center font-heading font-bold text-sm sm:text-lg md:text-xl text-text-light break-words">{valA}</div>
+      <div className="p-2.5 sm:p-4 md:p-6 text-center font-heading font-bold text-sm sm:text-lg md:text-xl text-text-light border-l border-border-custom break-words">{valB}</div>
     </SpecRow>
   );
 }
@@ -185,13 +186,13 @@ export default function CompareSpecs({ comparison }: CompareSpecsProps) {
   const hasEVSpecs = carA.evSpecs || carB.evSpecs;
 
   return (
-    <div className="max-w-5xl mx-auto bg-surface/40 backdrop-blur-sm border border-border-custom rounded-2xl overflow-hidden shadow-[0_8px_32px_rgba(0,0,0,0.2)]">
+    <div className="max-w-5xl mx-auto bg-surface/40 backdrop-blur-sm border border-border-custom rounded-2xl overflow-clip shadow-[0_8px_32px_rgba(0,0,0,0.2)]">
       
       {/* Sticky Header Row */}
-      <div className="grid grid-cols-3 border-b-2 border-accent/30 bg-surface/90 backdrop-blur-lg sticky top-0 z-20 shadow-md">
-        <div className="p-4 md:p-6 flex items-center justify-center font-bold text-accent uppercase tracking-widest text-xs">Spec Matrix</div>
-        <div className="p-4 md:p-6 text-center font-heading font-black text-base md:text-2xl border-l border-border-custom">{carA.model}</div>
-        <div className="p-4 md:p-6 text-center font-heading font-black text-base md:text-2xl border-l border-border-custom">{carB.model}</div>
+      <div className="grid grid-cols-3 border-b-2 border-accent/30 bg-surface/90 backdrop-blur-lg sticky top-16 z-20 shadow-md">
+        <div className="p-2.5 sm:p-4 md:p-6 flex items-center justify-center font-bold text-accent uppercase tracking-widest text-[10px] sm:text-xs">Spec Matrix</div>
+        <div className="p-2.5 sm:p-4 md:p-6 text-center font-heading font-black text-sm sm:text-base md:text-2xl border-l border-border-custom break-words">{carA.model}</div>
+        <div className="p-2.5 sm:p-4 md:p-6 text-center font-heading font-black text-sm sm:text-base md:text-2xl border-l border-border-custom break-words">{carB.model}</div>
       </div>
 
       <div className="flex flex-col">
@@ -199,12 +200,12 @@ export default function CompareSpecs({ comparison }: CompareSpecsProps) {
         <CategoryHeader title="Powertrain & Performance" />
         
         <SpecRow label="Starting Price">
-          <div className="p-4 md:p-6 text-center font-bold text-xl"><Price eurAmount={carA.priceEur} usdAmount={carA.priceUsd} /></div>
-          <div className="p-4 md:p-6 text-center font-bold text-xl border-l border-border-custom"><Price eurAmount={carB.priceEur} usdAmount={carB.priceUsd} /></div>
+          <div className="p-2.5 sm:p-4 md:p-6 text-center font-heading font-bold text-sm sm:text-lg md:text-xl break-words"><Price eurAmount={carA.priceEur} usdAmount={carA.priceUsd} /></div>
+          <div className="p-2.5 sm:p-4 md:p-6 text-center font-heading font-bold text-sm sm:text-lg md:text-xl border-l border-border-custom break-words"><Price eurAmount={carB.priceEur} usdAmount={carB.priceUsd} /></div>
         </SpecRow>
 
         <SpecRow label="Horsepower">
-          <div className="col-span-2 p-4 md:p-6">
+          <div className="col-span-2 p-2.5 sm:p-4 md:p-6">
             <SpecBar 
               valueA={carA.specs.powerHp || 0} 
               valueB={carB.specs.powerHp || 0} 
@@ -215,7 +216,7 @@ export default function CompareSpecs({ comparison }: CompareSpecsProps) {
         </SpecRow>
 
         <SpecRow label="Torque">
-          <div className="col-span-2 p-4 md:p-6">
+          <div className="col-span-2 p-2.5 sm:p-4 md:p-6">
             <SpecBar 
               valueA={carA.specs.torqueNm || 0} 
               valueB={carB.specs.torqueNm || 0} 
@@ -226,7 +227,7 @@ export default function CompareSpecs({ comparison }: CompareSpecsProps) {
         </SpecRow>
 
         <SpecRow label="0-100 km/h">
-          <div className="col-span-2 p-4 md:p-6">
+          <div className="col-span-2 p-2.5 sm:p-4 md:p-6">
             <SpecBarReverse 
               valueA={carA.specs.acceleration060 || 0} 
               valueB={carB.specs.acceleration060 || 0} 
@@ -237,7 +238,7 @@ export default function CompareSpecs({ comparison }: CompareSpecsProps) {
         </SpecRow>
 
         <SpecRow label="Top Speed">
-          <div className="col-span-2 p-4 md:p-6">
+          <div className="col-span-2 p-2.5 sm:p-4 md:p-6">
             <SpecBar 
               valueA={carA.specs.topSpeedKmh || 0} 
               valueB={carB.specs.topSpeedKmh || 0} 
@@ -253,7 +254,7 @@ export default function CompareSpecs({ comparison }: CompareSpecsProps) {
         <CategoryHeader title="Dimensions & Capacity" />
 
         <SpecRow label="Weight (kg)">
-          <div className="col-span-2 p-4 md:p-6">
+          <div className="col-span-2 p-2.5 sm:p-4 md:p-6">
             <SpecBarReverse 
               valueA={carA.specs.weightKg || 0} 
               valueB={carB.specs.weightKg || 0} 
@@ -276,7 +277,7 @@ export default function CompareSpecs({ comparison }: CompareSpecsProps) {
         />
 
         <SpecRow label="Cargo Volume">
-          <div className="col-span-2 p-4 md:p-6">
+          <div className="col-span-2 p-2.5 sm:p-4 md:p-6">
             <SpecBar 
               valueA={carA.specs.cargoLiters || 0} 
               valueB={carB.specs.cargoLiters || 0} 
@@ -298,7 +299,7 @@ export default function CompareSpecs({ comparison }: CompareSpecsProps) {
             <CategoryHeader title="Battery Matrix" />
             
             <SpecRow label="WLTP Range">
-              <div className="col-span-2 p-4 md:p-6">
+              <div className="col-span-2 p-2.5 sm:p-4 md:p-6">
                 <SpecBar 
                   valueA={carA.evSpecs?.rangeKm || 0} 
                   valueB={carB.evSpecs?.rangeKm || 0} 
@@ -309,7 +310,7 @@ export default function CompareSpecs({ comparison }: CompareSpecsProps) {
             </SpecRow>
 
             <SpecRow label="Battery Capacity">
-              <div className="col-span-2 p-4 md:p-6">
+              <div className="col-span-2 p-2.5 sm:p-4 md:p-6">
                 <SpecBar 
                   valueA={carA.evSpecs?.batteryKwh || 0} 
                   valueB={carB.evSpecs?.batteryKwh || 0} 
@@ -320,7 +321,7 @@ export default function CompareSpecs({ comparison }: CompareSpecsProps) {
             </SpecRow>
 
             <SpecRow label="Peak Charging">
-              <div className="col-span-2 p-4 md:p-6">
+              <div className="col-span-2 p-2.5 sm:p-4 md:p-6">
                 <SpecBar 
                   valueA={carA.evSpecs?.chargingSpeedKw || 0} 
                   valueB={carB.evSpecs?.chargingSpeedKw || 0} 
@@ -346,15 +347,15 @@ export default function CompareSpecs({ comparison }: CompareSpecsProps) {
 
         {/* Action Links */}
         <div className="grid grid-cols-3 bg-surface/90 backdrop-blur-md items-center border-t-2 border-accent/30 mt-4">
-          <div className="p-4 md:p-6 border-r border-border-custom h-full flex items-center justify-center">
+          <div className="p-2.5 sm:p-4 md:p-6 border-r border-border-custom h-full flex items-center justify-center">
             <span className="text-muted text-xs uppercase tracking-widest font-bold">Discover More</span>
           </div>
-          <div className="p-4 md:p-6 text-center">
+          <div className="p-2.5 sm:p-4 md:p-6 text-center">
             <Link href={`/vehicles/${carA.slug}`} className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-white/5 hover:bg-accent/20 text-accent font-bold rounded-xl transition-all border border-accent/20 hover:border-accent shadow-lg shadow-accent/10 hover:shadow-xl hover:shadow-accent/40 uppercase tracking-widest text-sm">
               View {carA.make}
             </Link>
           </div>
-          <div className="p-4 md:p-6 text-center border-l border-border-custom">
+          <div className="p-2.5 sm:p-4 md:p-6 text-center border-l border-border-custom">
             <Link href={`/vehicles/${carB.slug}`} className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-white/5 hover:bg-accent/20 text-accent font-bold rounded-xl transition-all border border-accent/20 hover:border-accent shadow-lg shadow-accent/10 hover:shadow-xl hover:shadow-accent/40 uppercase tracking-widest text-sm">
               View {carB.make}
             </Link>

@@ -9,7 +9,7 @@ export const evSpotlightItems: EVSpotlightItem[] = [
     headline: "Porsche Taycan vs Audi e-tron GT: Electric GT Showdown",
     excerpt: "Same platform, different philosophy. We pit Porsche's precision against Audi's grand touring comfort in a 1,000 km showdown.",
     gradient: { from: "#0abde3", to: "#222f3e" },
-    coverImage: "https://images.unsplash.com/photo-1614162692292-7ac56d7f7f1e?auto=format&fit=crop&w=1200&q=80",
+    coverImage: "/images/vehicles/porsche-taycan-4s.jpg",
   },
   {
     id: "ev2",
@@ -19,7 +19,7 @@ export const evSpotlightItems: EVSpotlightItem[] = [
     headline: "Solid-State Batteries: The 1,000 km EV Revolution",
     excerpt: "Everything you need to know about energy density, charging speeds, and when solid-state EVs will actually hit the road.",
     gradient: { from: "#feca57", to: "#222f3e" },
-    coverImage: "https://images.unsplash.com/photo-1511919884226-fd3cad34687c?auto=format&fit=crop&w=1200&q=80",
+    coverImage: "/images/vehicles/audi-etron-gt.jpg",
   },
   {
     id: "ev3",
@@ -29,11 +29,11 @@ export const evSpotlightItems: EVSpotlightItem[] = [
     headline: "Xiaomi SU7 Ultra: China's 1,548 HP Electric Hyper-Sedan",
     excerpt: "Can a smartphone company really beat Porsche at the Nürburgring? We drove the SU7 Ultra to find out.",
     gradient: { from: "#10ac84", to: "#222f3e" },
-    coverImage: "https://images.unsplash.com/photo-1617814076367-b759c7d7e738?auto=format&fit=crop&w=1200&q=80",
+    coverImage: "/images/vehicles/xiaomi-su7-ultra.jpg",
   },
   {
     id: "ev4",
-    slug: "lucid-air-sapphire",
+    slug: "lucid-air-sapphire-vs-tesla-model-s-plaid",
     range: "687 km (WLTP)",
     chargingSpeed: "10-80% in 15m (300 kW)",
     headline: "Lucid Air Sapphire: The 1,234 HP Tri-Motor Benchmark",
@@ -43,7 +43,7 @@ export const evSpotlightItems: EVSpotlightItem[] = [
   },
   {
     id: "ev5",
-    slug: "rimac-nevera",
+    slug: "nurburgring-2026-production-lap-records",
     range: "490 km (WLTP)",
     chargingSpeed: "10-80% in 19m (500 kW)",
     headline: "Rimac Nevera: 1,914 HP Croatian Electric Hypercar Titan",
@@ -53,7 +53,7 @@ export const evSpotlightItems: EVSpotlightItem[] = [
   },
   {
     id: "ev6",
-    slug: "rivian-r1s-quad",
+    slug: "best-electric-suvs-2026",
     range: "645 km (EPA)",
     chargingSpeed: "10-80% in 30m (220 kW)",
     headline: "Rivian R1S Quad-Motor: 1,025 HP Electric Adventure Royalty",
@@ -63,7 +63,7 @@ export const evSpotlightItems: EVSpotlightItem[] = [
   },
   {
     id: "ev7",
-    slug: "porsche-taycan-turbo-gt",
+    slug: "solid-state-battery-breakthrough-2026",
     range: "555 km (WLTP)",
     chargingSpeed: "10-80% in 18m (320 kW)",
     headline: "Porsche Taycan Turbo GT: 1,019 HP Track-Focused Electric Weapon",

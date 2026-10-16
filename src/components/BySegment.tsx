@@ -14,16 +14,21 @@ export default function BySegment() {
   const [activeTab, setActiveTab] = useState<"All" | VehicleSegment>("All");
   const filtered = getArticlesBySegment(activeTab);
   const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
+  const isFirstRender = useRef(true);
 
-  // Auto-scroll active tab into view on mobile
+  // Auto-scroll active tab horizontally inside its container on change (skipping initial mount)
   useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
     const activeIndex = tabs.indexOf(activeTab);
-    if (tabRefs.current[activeIndex]) {
-      tabRefs.current[activeIndex]?.scrollIntoView({
-        behavior: "smooth",
-        inline: "center",
-        block: "nearest",
-      });
+    const activeTabEl = tabRefs.current[activeIndex];
+    const container = activeTabEl?.parentElement;
+    if (activeTabEl && container) {
+      const targetLeft =
+        activeTabEl.offsetLeft - container.clientWidth / 2 + activeTabEl.clientWidth / 2;
+      container.scrollTo({ left: targetLeft, behavior: "smooth" });
     }
   }, [activeTab]);
 

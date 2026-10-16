@@ -40,7 +40,7 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
 
   // Debounced search
   useEffect(() => {
-    if (searchQuery.trim().length > 1) {
+    if (searchQuery.trim().length > 0) {
       setIsTyping(true);
       if (searchTimeout.current) clearTimeout(searchTimeout.current);
 
@@ -145,7 +145,7 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
               <p className="mt-4 text-xs text-text-muted">Press Enter to view all results in Universal Hub or Esc to close</p>
             </form>
 
-            {(articleResults.length > 0 || vehicleResults.length > 0) && searchQuery.length > 1 && (
+            {searchQuery.trim().length > 0 && (
               <SearchResults
                 articles={articleResults}
                 vehicles={vehicleResults}

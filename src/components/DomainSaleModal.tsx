@@ -153,10 +153,11 @@ export default function DomainSaleModal() {
             exit={{ opacity: 0, y: 20, scale: 0.9 }}
             transition={{ duration: 0.25 }}
             aria-label="Open domain and platform sale acquisition modal"
-            className="fixed bottom-20 md:bottom-6 left-4 md:left-6 z-40 flex items-center gap-2.5 px-4 py-2.5 rounded-full bg-surface/90 dark:bg-black/85 backdrop-blur-xl border border-accent-gold/40 shadow-xl hover:border-accent-gold hover:scale-105 transition-all cursor-pointer text-xs font-heading font-bold uppercase tracking-wider text-text-light group"
+            className="fixed bottom-20 lg:bottom-6 left-4 lg:left-6 z-40 flex items-center gap-2 px-3.5 py-2.5 rounded-full bg-surface/90 dark:bg-black/85 backdrop-blur-xl border border-accent-gold/40 shadow-xl hover:border-accent-gold hover:scale-105 transition-all cursor-pointer text-[11px] sm:text-xs font-heading font-bold uppercase tracking-wider text-text-light group"
           >
-            <span className="w-2 h-2 rounded-full bg-accent-gold animate-pulse group-hover:scale-125 transition-transform" />
-            <span>Domain & Site For Sale • Make Offer</span>
+            <span className="w-2 h-2 rounded-full bg-accent-gold animate-pulse group-hover:scale-125 transition-transform shrink-0" />
+            <span className="truncate sm:hidden">For Sale • Make Offer</span>
+            <span className="hidden sm:inline">Domain & Site For Sale • Make Offer</span>
           </m.button>
         )}
       </AnimatePresence>
@@ -194,7 +195,7 @@ export default function DomainSaleModal() {
                 type="button"
                 onClick={handleDismiss}
                 aria-label="Close modal"
-                className="absolute top-5 right-5 w-9 h-9 rounded-full bg-white/5 hover:bg-white/10 flex items-center justify-center transition-all cursor-pointer text-text-muted hover:text-text-light"
+                className="absolute top-5 right-5 w-9 h-9 rounded-full bg-background/80 dark:bg-white/5 border border-border-custom hover:bg-border-custom/50 flex items-center justify-center transition-all cursor-pointer text-text-muted hover:text-text-light"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -233,19 +234,19 @@ export default function DomainSaleModal() {
 
               {/* Value Proposition Chips */}
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 mb-6">
-                <div className="flex items-center gap-2 px-3 py-2 rounded-xl bg-white/5 dark:bg-white/[0.03] border border-white/10 text-[11px] leading-tight">
+                <div className="flex items-center gap-2 px-3 py-2 rounded-xl bg-background/80 dark:bg-white/5 border border-border-custom text-[11px] leading-tight">
                   <span className="text-base flex-shrink-0">🌐</span>
                   <span>
                     Exact-Match <strong className="font-semibold block text-text-light">autovaly.com</strong>
                   </span>
                 </div>
-                <div className="flex items-center gap-2 px-3 py-2 rounded-xl bg-white/5 dark:bg-white/[0.03] border border-white/10 text-[11px] leading-tight">
+                <div className="flex items-center gap-2 px-3 py-2 rounded-xl bg-background/80 dark:bg-white/5 border border-border-custom text-[11px] leading-tight">
                   <span className="text-base flex-shrink-0">⚡</span>
                   <span>
                     Next.js 16 + WebGL <strong className="font-semibold block text-text-light">167+ SSG Pages</strong>
                   </span>
                 </div>
-                <div className="flex items-center gap-2 px-3 py-2 rounded-xl bg-white/5 dark:bg-white/[0.03] border border-white/10 text-[11px] leading-tight">
+                <div className="flex items-center gap-2 px-3 py-2 rounded-xl bg-background/80 dark:bg-white/5 border border-border-custom text-[11px] leading-tight">
                   <span className="text-base flex-shrink-0">🏎️</span>
                   <span>
                     Catalog & Reviews <strong className="font-semibold block text-text-light">74 Cars • 35+ Reviews</strong>
@@ -254,7 +255,7 @@ export default function DomainSaleModal() {
               </div>
 
               {/* Tab Selector */}
-              <div className="grid grid-cols-2 p-1 rounded-2xl bg-white/5 dark:bg-black/40 border border-white/10 mb-6">
+              <div className="grid grid-cols-2 p-1 rounded-2xl bg-background/80 dark:bg-white/5 border border-border-custom mb-6">
                 <button
                   type="button"
                   onClick={() => {
@@ -289,7 +290,7 @@ export default function DomainSaleModal() {
               {activeTab === "offer" && (
                 <div>
                   {status === "success" ? (
-                    <div className="text-center py-6 px-4 rounded-2xl bg-white/5 border border-white/10">
+                    <div className="text-center py-6 px-4 rounded-2xl bg-background/80 dark:bg-white/5 border border-border-custom">
                       <div className="w-14 h-14 rounded-full bg-emerald-500/15 border border-emerald-500/40 text-emerald-400 flex items-center justify-center mx-auto mb-4 text-2xl font-bold">
                         ✓
                       </div>
@@ -339,7 +340,7 @@ export default function DomainSaleModal() {
                                 className={`py-2 px-1 text-center rounded-xl font-heading text-xs font-bold uppercase tracking-wider border transition-all cursor-pointer ${
                                   isSelected
                                     ? "bg-accent-gold/20 border-accent-gold text-accent-gold shadow-sm"
-                                    : "bg-white/5 dark:bg-white/[0.03] border-white/10 text-text-secondary hover:text-text-light hover:border-white/20"
+                                    : "bg-background/80 dark:bg-white/5 border border-border-custom text-text-secondary hover:text-text-light hover:border-accent/40"
                                 }`}
                               >
                                 {preset}
@@ -364,7 +365,7 @@ export default function DomainSaleModal() {
                             type="text"
                             required
                             placeholder="e.g. Alex Morgan or Apex Media"
-                            className="w-full px-3.5 py-2.5 rounded-xl bg-white/5 dark:bg-white/[0.04] border border-white/10 text-text-light placeholder:text-text-muted/60 text-xs focus:outline-none focus:border-accent transition-colors"
+                            className="w-full px-3.5 py-2.5 rounded-xl bg-background/80 dark:bg-white/5 border border-border-custom text-text-light placeholder:text-text-muted/60 text-xs focus:outline-none focus:border-accent transition-colors"
                           />
                         </div>
                         <div>
@@ -380,7 +381,7 @@ export default function DomainSaleModal() {
                             type="email"
                             required
                             placeholder="investor@domain.com"
-                            className="w-full px-3.5 py-2.5 rounded-xl bg-white/5 dark:bg-white/[0.04] border border-white/10 text-text-light placeholder:text-text-muted/60 text-xs focus:outline-none focus:border-accent transition-colors"
+                            className="w-full px-3.5 py-2.5 rounded-xl bg-background/80 dark:bg-white/5 border border-border-custom text-text-light placeholder:text-text-muted/60 text-xs focus:outline-none focus:border-accent transition-colors"
                           />
                         </div>
                       </div>
@@ -402,7 +403,7 @@ export default function DomainSaleModal() {
                             value={offerAmount}
                             onChange={(e) => setOfferAmount(e.target.value)}
                             placeholder="$10,000"
-                            className="w-full px-3.5 py-2.5 rounded-xl bg-white/5 dark:bg-white/[0.04] border border-white/10 text-text-light font-bold text-xs focus:outline-none focus:border-accent transition-colors"
+                            className="w-full px-3.5 py-2.5 rounded-xl bg-background/80 dark:bg-white/5 border border-border-custom text-text-light font-bold text-xs focus:outline-none focus:border-accent transition-colors"
                           />
                         </div>
                         <div>
@@ -417,7 +418,7 @@ export default function DomainSaleModal() {
                             name="phone"
                             type="tel"
                             placeholder="+1 (555) 012-3456"
-                            className="w-full px-3.5 py-2.5 rounded-xl bg-white/5 dark:bg-white/[0.04] border border-white/10 text-text-light placeholder:text-text-muted/60 text-xs focus:outline-none focus:border-accent transition-colors"
+                            className="w-full px-3.5 py-2.5 rounded-xl bg-background/80 dark:bg-white/5 border border-border-custom text-text-light placeholder:text-text-muted/60 text-xs focus:outline-none focus:border-accent transition-colors"
                           />
                         </div>
                       </div>
@@ -435,7 +436,7 @@ export default function DomainSaleModal() {
                           name="message"
                           rows={2}
                           placeholder="Include terms, escrow preference, or acquisition timeline..."
-                          className="w-full px-3.5 py-2.5 rounded-xl bg-white/5 dark:bg-white/[0.04] border border-white/10 text-text-light placeholder:text-text-muted/60 text-xs focus:outline-none focus:border-accent transition-colors resize-none"
+                          className="w-full px-3.5 py-2.5 rounded-xl bg-background/80 dark:bg-white/5 border border-border-custom text-text-light placeholder:text-text-muted/60 text-xs focus:outline-none focus:border-accent transition-colors resize-none"
                         />
                       </div>
 
@@ -489,7 +490,7 @@ export default function DomainSaleModal() {
               {/* Tab Content 2: Direct Email Inquiry */}
               {activeTab === "direct" && (
                 <div className="space-y-4 py-2">
-                  <div className="p-4 rounded-2xl bg-white/5 dark:bg-white/[0.03] border border-white/10">
+                  <div className="p-4 rounded-2xl bg-background/80 dark:bg-white/5 border border-border-custom">
                     <h3 className="font-heading text-sm font-bold uppercase tracking-wider text-text-light mb-1">
                       Direct Principal Communication
                     </h3>
@@ -498,7 +499,7 @@ export default function DomainSaleModal() {
                     </p>
 
                     {/* Email Display & Actions */}
-                    <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 p-3 rounded-xl bg-black/40 border border-white/10">
+                    <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 p-3 rounded-xl bg-background/80 dark:bg-white/5 border border-border-custom">
                       <div className="flex items-center gap-2.5 overflow-hidden">
                         <span className="text-accent text-lg flex-shrink-0">✉️</span>
                         <span className="font-mono text-xs md:text-sm text-text-light select-all truncate font-semibold">
@@ -535,11 +536,11 @@ export default function DomainSaleModal() {
                   </div>
 
                   <div className="grid grid-cols-2 gap-2 text-[11px] text-text-muted">
-                    <div className="p-2.5 rounded-xl bg-white/5 border border-white/5 flex items-center gap-2">
+                    <div className="p-2.5 rounded-xl bg-background/80 dark:bg-white/5 border border-border-custom flex items-center gap-2">
                       <span className="text-accent-gold text-sm">🔒</span>
                       <span>Verified Buyer Escrow Available</span>
                     </div>
-                    <div className="p-2.5 rounded-xl bg-white/5 border border-white/5 flex items-center gap-2">
+                    <div className="p-2.5 rounded-xl bg-background/80 dark:bg-white/5 border border-border-custom flex items-center gap-2">
                       <span className="text-accent-cyan text-sm">⚡</span>
                       <span>24-Hour Confidential Response</span>
                     </div>

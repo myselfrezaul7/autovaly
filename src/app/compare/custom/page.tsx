@@ -83,7 +83,7 @@ export default async function CustomComparisonPage({
             <span className="text-accent font-bold uppercase tracking-widest text-xs mb-2 block">
               Head-to-Head Comparison Builder
             </span>
-            <h1 className="text-3xl md:text-5xl font-heading font-extrabold text-white mb-4">
+            <h1 className="text-3xl md:text-5xl font-heading font-extrabold text-text-light mb-4">
               Compare Any Two Vehicles
             </h1>
             <p className="text-text-muted text-base md:text-lg max-w-2xl mx-auto mb-6">
@@ -172,6 +172,7 @@ export default async function CustomComparisonPage({
 
   return (
     <main id="main-content" className="min-h-screen pb-20 bg-background text-text-light">
+      <h1 className="sr-only">{carA.make} {carA.model} vs {carB.make} {carB.model} Head-to-Head Comparison</h1>
       <BreadcrumbJsonLd crumbs={crumbs} />
       <div className="container mx-auto px-4 md:px-6 pt-6">
         <Breadcrumbs crumbs={crumbs} />
@@ -181,10 +182,10 @@ export default async function CustomComparisonPage({
       <div className="flex flex-col md:flex-row min-h-[40vh] border-b border-border-custom relative overflow-hidden">
         {/* VS Badge */}
         <div
-          className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-16 h-16 bg-surface border-4 border-background rounded-full z-20 flex items-center justify-center shadow-2xl hidden md:flex"
+          className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-12 h-12 md:w-16 md:h-16 bg-surface border-4 border-background rounded-full z-20 flex items-center justify-center shadow-2xl"
           aria-hidden="true"
         >
-          <span className="font-heading font-black text-accent text-2xl italic">VS</span>
+          <span className="font-heading font-black text-accent text-lg md:text-2xl italic">VS</span>
         </div>
 
         {/* Car A Hero */}
@@ -194,13 +195,13 @@ export default async function CustomComparisonPage({
         >
           {carA.coverImage && (
             <div className="absolute inset-0 z-0 overflow-hidden mix-blend-overlay opacity-40">
-              <Image src={carA.coverImage} alt={`${carA.make} ${carA.model}`} fill priority sizes="50vw" className="object-cover" />
+              <Image src={carA.coverImage} alt={`${carA.make} ${carA.model}`} fill priority sizes="(max-width: 768px) 100vw, 50vw" className="object-cover" />
             </div>
           )}
           <div className="absolute inset-0 bg-gradient-to-t from-background via-background/60 to-transparent z-0" aria-hidden="true" />
           <div className="relative z-10 md:text-right">
             <span className="text-accent font-bold uppercase tracking-widest text-xs mb-2 block">{carA.make}</span>
-            <h1 className="text-3xl md:text-5xl font-heading font-extrabold text-white drop-shadow-lg">{carA.model}</h1>
+            <h2 className="text-3xl md:text-5xl font-heading font-extrabold text-white drop-shadow-lg">{carA.model}</h2>
           </div>
         </div>
 
@@ -211,7 +212,7 @@ export default async function CustomComparisonPage({
         >
           {carB.coverImage && (
             <div className="absolute inset-0 z-0 overflow-hidden mix-blend-overlay opacity-40">
-              <Image src={carB.coverImage} alt={`${carB.make} ${carB.model}`} fill priority sizes="50vw" className="object-cover" />
+              <Image src={carB.coverImage} alt={`${carB.make} ${carB.model}`} fill priority sizes="(max-width: 768px) 100vw, 50vw" className="object-cover" />
             </div>
           )}
           <div className="absolute inset-0 bg-gradient-to-t from-background via-background/60 to-transparent z-0" aria-hidden="true" />

@@ -58,7 +58,7 @@ export default function ReadingProgress({ articleRef, readTime }: ReadingProgres
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: isVisible ? 1 : 0, y: isVisible ? 0 : 20 }}
         transition={{ duration: 0.3 }}
-        className="fixed bottom-24 right-6 z-40 pointer-events-none"
+        className="hidden sm:flex fixed bottom-36 lg:bottom-24 right-4 lg:right-8 z-30 pointer-events-none"
       >
         <div className="bg-surface/80 backdrop-blur-md border border-border-custom shadow-lg rounded-full px-4 py-2 text-xs font-bold uppercase tracking-widest flex items-center gap-2">
           {isFinished ? (

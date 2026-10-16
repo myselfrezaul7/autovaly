@@ -86,7 +86,7 @@ export default async function VehicleDetailPage({ params }: { params: Promise<{ 
   ];
 
   return (
-    <article className="min-h-screen">
+    <main id="main-content" className="min-h-screen">
       <BreadcrumbJsonLd crumbs={crumbs} />
       <VehicleJsonLd vehicle={vehicle} />
       <FAQJsonLd faqs={faqs} />
@@ -130,7 +130,7 @@ export default async function VehicleDetailPage({ params }: { params: Promise<{ 
               {vehicle.trim}
             </p>
 
-            <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6 fixed sm:static bottom-[60px] lg:bottom-auto left-0 right-0 z-40 bg-surface/90 sm:bg-transparent backdrop-blur-xl sm:backdrop-blur-none p-4 sm:p-0 border-t border-border-custom sm:border-0 pb-[max(1rem,env(safe-area-inset-bottom))] sm:pb-0 shadow-[0_-10px_40px_rgba(0,0,0,0.3)] sm:shadow-none transition-all">
+            <div className="mt-6 flex flex-col sm:flex-row flex-wrap gap-3">
               <Price eurAmount={vehicle.priceEur} usdAmount={vehicle.priceUsd} className="text-2xl sm:text-3xl font-bold font-heading tabular-nums" />
               
               <GarageButton vehicle={vehicle} />
@@ -272,7 +272,17 @@ export default async function VehicleDetailPage({ params }: { params: Promise<{ 
             {relatedArticles.map((a) => (
               <Link key={a.id} href={`/articles/${a.slug}`} className="group bg-surface border border-border-custom rounded-md overflow-hidden transition-all duration-300 hover:-translate-y-1">
                 <div className="h-40 relative overflow-hidden">
-                  <div className="absolute inset-0 transition-transform duration-500 group-hover:scale-105" style={{ backgroundImage: `linear-gradient(135deg, ${a.coverGradient.from}, ${a.coverGradient.to})` }} />
+                  {a.coverImage ? (
+                    <Image
+                      src={a.coverImage}
+                      alt={a.title}
+                      fill
+                      sizes="(max-width: 768px) 100vw, 33vw"
+                      className="object-cover group-hover:scale-105 transition-transform duration-500"
+                    />
+                  ) : (
+                    <div className="absolute inset-0 transition-transform duration-500 group-hover:scale-105" style={{ backgroundImage: `linear-gradient(135deg, ${a.coverGradient.from}, ${a.coverGradient.to})` }} />
+                  )}
                 </div>
                 <div className="p-5">
                   <span className={`inline-block text-[10px] font-bold uppercase tracking-widest rounded-sm mb-2 text-white px-2 py-0.5 ${getCategoryTagColor(a.category)}`}>{a.category}</span>
@@ -283,6 +293,6 @@ export default async function VehicleDetailPage({ params }: { params: Promise<{ 
           </div>
         </section>
       )}
-    </article>
+    </main>
   );
 }

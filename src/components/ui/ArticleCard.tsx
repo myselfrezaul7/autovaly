@@ -121,7 +121,7 @@ export default function ArticleCard({
         )}
         <div className={clsx("flex items-center gap-2 text-[13px] mt-auto flex-wrap", isPortrait ? "text-gray-300" : "text-text-muted")}>
           {!isCompact && !isPortrait && <div className="w-6 h-6 rounded-full bg-gradient-to-br from-accent to-red-400 flex-shrink-0" aria-hidden="true" />}
-          <span className="font-medium text-text-light">{finalAuthor}</span>
+          <span className={clsx("font-medium", isPortrait ? "text-white" : "text-text-light")}>{finalAuthor}</span>
           <span className="opacity-50" aria-hidden="true">·</span>
           <span>{finalDate}</span>
           {finalReadTime && (
