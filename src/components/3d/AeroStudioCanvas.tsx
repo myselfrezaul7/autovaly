@@ -1322,6 +1322,23 @@ export default function AeroStudioCanvas({ vehicle }: AeroStudioCanvasProps) {
           </div>
         </div>
 
+        {/* Hotspot Quick-Select Pills (Hidden on Mobile) */}
+        <div className="hidden sm:flex flex-wrap items-center gap-1.5 p-1.5 bg-surface/85 backdrop-blur-md border border-border-custom rounded-xl pointer-events-auto shadow-xl">
+          {HOTSPOTS.map((hs) => (
+            <button
+              key={hs.id}
+              onClick={() => setActiveHotspotId((prev) => (prev === hs.id ? null : hs.id))}
+              className={`px-2.5 py-1 rounded-lg text-[11px] font-bold uppercase tracking-wider transition-all cursor-pointer ${
+                activeHotspotId === hs.id
+                  ? "bg-accent text-white shadow-sm"
+                  : "text-text-muted hover:text-text-primary hover:bg-white/5"
+              }`}
+            >
+              {hs.tag}
+            </button>
+          ))}
+        </div>
+
         {/* Orbit Helper Tip */}
         <div className="hidden md:flex items-center gap-2 px-3 py-1.5 bg-black/60 backdrop-blur-md rounded-lg text-[11px] text-text-muted border border-white/5 pointer-events-auto">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">

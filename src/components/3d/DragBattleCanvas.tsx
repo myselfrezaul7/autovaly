@@ -1199,7 +1199,7 @@ export default function DragBattleCanvas({ carA, carB, onViewSpecs }: DragBattle
       {/* Bottom Live Speedometer & Instrumented Telemetry Pods */}
       <div className="relative z-20 p-4 md:p-6 grid grid-cols-2 gap-4 md:gap-6 bg-gradient-to-t from-[#07090e] via-[#07090e]/85 to-transparent">
         {/* Left Telemetry Pod: Car A */}
-        <div className="bg-surface/85 backdrop-blur-xl border border-border-custom/90 rounded-2xl p-3 md:p-4 shadow-xl relative overflow-hidden">
+        <div className="bg-surface/85 backdrop-blur-xl border border-border-custom/90 rounded-2xl p-2 sm:p-3 md:p-4 shadow-xl relative overflow-hidden">
           <div className="absolute top-0 left-0 w-1.5 h-full bg-accent" />
           <div className="flex items-center justify-between mb-1 pl-2">
             <span className="text-accent text-[11px] font-mono uppercase font-bold tracking-widest truncate">
@@ -1218,14 +1218,14 @@ export default function DragBattleCanvas({ carA, carB, onViewSpecs }: DragBattle
               <span className="text-[10px] text-text-muted uppercase font-mono block">Velocity</span>
               <span
                 ref={speedRefA}
-                className="text-lg md:text-2xl font-mono font-black text-white tracking-tight drop-shadow-sm"
+                className="text-lg sm:text-2xl md:text-3xl font-mono font-black text-white tracking-tight drop-shadow-sm"
               >
                 0 {speedUnit.toUpperCase()}
               </span>
             </div>
             <div>
               <span className="text-[10px] text-text-muted uppercase font-mono block">Elapsed Time</span>
-              <span ref={timeRefA} className="text-lg md:text-2xl font-mono font-black text-accent tracking-tight">
+              <span ref={timeRefA} className="text-lg sm:text-2xl md:text-3xl font-mono font-black text-accent tracking-tight">
                 0.000 s
               </span>
             </div>
@@ -1245,7 +1245,7 @@ export default function DragBattleCanvas({ carA, carB, onViewSpecs }: DragBattle
         </div>
 
         {/* Right Telemetry Pod: Car B */}
-        <div className="bg-surface/85 backdrop-blur-xl border border-border-custom/90 rounded-2xl p-3 md:p-4 shadow-xl relative overflow-hidden">
+        <div className="bg-surface/85 backdrop-blur-xl border border-border-custom/90 rounded-2xl p-2 sm:p-3 md:p-4 shadow-xl relative overflow-hidden">
           <div className="absolute top-0 right-0 w-1.5 h-full bg-[#00d2d3]" />
           <div className="flex items-center justify-between mb-1 pr-2">
             <span className="text-[#00d2d3] text-[11px] font-mono uppercase font-bold tracking-widest truncate">
@@ -1264,14 +1264,14 @@ export default function DragBattleCanvas({ carA, carB, onViewSpecs }: DragBattle
               <span className="text-[10px] text-text-muted uppercase font-mono block">Velocity</span>
               <span
                 ref={speedRefB}
-                className="text-lg md:text-2xl font-mono font-black text-white tracking-tight drop-shadow-sm"
+                className="text-lg sm:text-2xl md:text-3xl font-mono font-black text-white tracking-tight drop-shadow-sm"
               >
                 0 {speedUnit.toUpperCase()}
               </span>
             </div>
             <div>
               <span className="text-[10px] text-text-muted uppercase font-mono block">Elapsed Time</span>
-              <span ref={timeRefB} className="text-lg md:text-2xl font-mono font-black text-[#00d2d3] tracking-tight">
+              <span ref={timeRefB} className="text-lg sm:text-2xl md:text-3xl font-mono font-black text-[#00d2d3] tracking-tight">
                 0.000 s
               </span>
             </div>
