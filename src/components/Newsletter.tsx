@@ -19,18 +19,37 @@ export default function Newsletter() {
     try {
       const result = await subscribeNewsletter(formData);
 
-      if (result.success) {
-        setStatus("success");
-        try {
-          localStorage.setItem("autovaly_newsletter_subscribed", "true");
-        } catch {
-          // ignore localStorage error
-        }
-        form.reset();
-      } else {
+      if (!result.success) {
         setStatus("error");
         setErrorMessage(result.error || "Failed to subscribe. Please try again.");
+        return;
       }
+
+      if ("web3Payload" in result && result.web3Payload) {
+        const response = await fetch("https://api.web3forms.com/submit", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify(result.web3Payload),
+        });
+
+        const data = await response.json();
+        if (!response.ok || !data.success) {
+          setStatus("error");
+          setErrorMessage(data.message || "Failed to subscribe. Please try again.");
+          return;
+        }
+      }
+
+      setStatus("success");
+      try {
+        localStorage.setItem("autovaly_newsletter_subscribed", "true");
+      } catch {
+        // ignore localStorage error
+      }
+      form.reset();
     } catch {
       setStatus("error");
       setErrorMessage("Something went wrong. Please check your internet connection.");

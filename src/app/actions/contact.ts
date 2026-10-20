@@ -6,15 +6,17 @@ import { logger } from "@/lib/logger";
 import { formatErrorResponse, ValidationError, RateLimitError } from "@/lib/errors";
 import { headers } from "next/headers";
 
-const WEB3FORMS_API = "https://api.web3forms.com/submit";
-const WEB3FORMS_KEY = process.env.WEB3FORMS_KEY || "3281e53d-d6de-433b-ac48-98dc9f829145";
+const WEB3FORMS_KEY =
+  process.env.NEXT_PUBLIC_WEB3FORMS_KEY ||
+  process.env.WEB3FORMS_KEY ||
+  "3281e53d-d6de-433b-ac48-98dc9f829145";
 
 export async function submitContactForm(formData: FormData) {
   try {
     const honeypot = formData.get("_hp_company")?.toString();
     if (honeypot && honeypot.trim().length > 0) {
       logger.warn("Security warning: Bot detected via contact form honeypot (_hp_company)", { honeypot });
-      return { success: true };
+      return { success: true as const, botBlocked: true as const };
     }
 
     const rawData = {
@@ -42,35 +44,19 @@ export async function submitContactForm(formData: FormData) {
 
     const { name, email, subject, message } = result.data;
 
-    // Forward to Web3Forms
-    const web3FormData = new FormData();
-    web3FormData.append("access_key", WEB3FORMS_KEY);
-    web3FormData.append("name", name);
-    web3FormData.append("email", email);
-    web3FormData.append("from_name", `Autovaly Reader: ${name}`);
-    web3FormData.append("subject", `[Autovaly ${subject}] Message from ${name}`);
-    web3FormData.append("message", `Name: ${name}\nEmail: ${email}\nTopic: ${subject}\n\nMessage:\n${message}\n\nSent: ${new Date().toISOString()}`);
-    web3FormData.append("botcheck", "");
-
-    const response = await fetch(WEB3FORMS_API, {
-      method: "POST",
-      body: web3FormData,
-    });
-
-    const data = await response.json();
-
-    if (!response.ok || !data.success) {
-      logger.warn("Web3Forms contact form submission failed", { status: response.status, data });
-      return {
-        success: false as const,
-        error: data.message || "Failed to deliver message. Please try again later.",
-      };
-    }
-
-    logger.info("Contact form submitted successfully", { name, email, subject });
+    logger.info("Contact form validated for Web3Forms dispatch", { name, email, subject });
 
     return {
       success: true as const,
+      web3Payload: {
+        access_key: WEB3FORMS_KEY,
+        name,
+        email,
+        from_name: `Autovaly Reader: ${name}`,
+        subject: `[Autovaly ${subject}] Message from ${name}`,
+        message: `Name: ${name}\nEmail: ${email}\nTopic: ${subject}\n\nMessage:\n${message}\n\nSent: ${new Date().toISOString()}`,
+        botcheck: "",
+      },
       message: "Message delivered successfully! Our team will review your inquiry shortly.",
     };
   } catch (error) {

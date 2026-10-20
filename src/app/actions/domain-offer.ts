@@ -6,15 +6,17 @@ import { logger } from "@/lib/logger";
 import { formatErrorResponse, RateLimitError } from "@/lib/errors";
 import { headers } from "next/headers";
 
-const WEB3FORMS_API = "https://api.web3forms.com/submit";
-const WEB3FORMS_KEY = process.env.WEB3FORMS_KEY || "3281e53d-d6de-433b-ac48-98dc9f829145";
+const WEB3FORMS_KEY =
+  process.env.NEXT_PUBLIC_WEB3FORMS_KEY ||
+  process.env.WEB3FORMS_KEY ||
+  "3281e53d-d6de-433b-ac48-98dc9f829145";
 
 export async function submitDomainOffer(formData: FormData) {
   try {
     const honeypot = formData.get("_hp_domain_offer")?.toString();
     if (honeypot && honeypot.trim().length > 0) {
       logger.warn("Security warning: Bot detected via domain offer honeypot (_hp_domain_offer)", { honeypot });
-      return { success: true };
+      return { success: true as const, botBlocked: true as const };
     }
 
     const rawData = {
@@ -49,14 +51,6 @@ export async function submitDomainOffer(formData: FormData) {
 
     const { name, email, offerAmount, phone, message } = result.data;
 
-    // Forward to Web3Forms API
-    const web3FormData = new FormData();
-    web3FormData.append("access_key", WEB3FORMS_KEY);
-    web3FormData.append("name", name);
-    web3FormData.append("email", email);
-    web3FormData.append("from_name", `Autovaly Domain Acquisition: ${name}`);
-    web3FormData.append("subject", `[Autovaly Domain Acquisition] Offer: ${offerAmount} from ${name}`);
-
     const formattedMessage = [
       "Autovaly Domain Acquisition Proposal",
       "==================================",
@@ -70,28 +64,19 @@ export async function submitDomainOffer(formData: FormData) {
       message || "No additional notes provided.",
     ].join("\n");
 
-    web3FormData.append("message", formattedMessage);
-    web3FormData.append("botcheck", "");
-
-    const response = await fetch(WEB3FORMS_API, {
-      method: "POST",
-      body: web3FormData,
-    });
-
-    const data = await response.json();
-
-    if (!response.ok || !data.success) {
-      logger.warn("Web3Forms domain offer submission failed", { status: response.status, data });
-      return {
-        success: false as const,
-        error: data.message || "Failed to submit domain offer. Please try again later.",
-      };
-    }
-
-    logger.info("Domain offer submitted successfully", { name, email, offerAmount });
+    logger.info("Domain offer validated for Web3Forms dispatch", { name, email, offerAmount });
 
     return {
       success: true as const,
+      web3Payload: {
+        access_key: WEB3FORMS_KEY,
+        name,
+        email,
+        from_name: `Autovaly Domain Acquisition: ${name}`,
+        subject: `[Autovaly Domain Acquisition] Offer: ${offerAmount} from ${name}`,
+        message: formattedMessage,
+        botcheck: "",
+      },
       message: "Your domain acquisition offer has been submitted successfully. Our team will review your proposal and respond promptly.",
     };
   } catch (error) {

@@ -29,13 +29,32 @@ export default function ContactForm({ initialSubject }: { initialSubject?: strin
     try {
       const result = await submitContactForm(formData);
 
-      if (result.success) {
-        setStatus("success");
-        form.reset();
-      } else {
+      if (!result.success) {
         setStatus("error");
         setErrorMessage(result.error || "Failed to deliver message. Please try again.");
+        return;
       }
+
+      if ("web3Payload" in result && result.web3Payload) {
+        const response = await fetch("https://api.web3forms.com/submit", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify(result.web3Payload),
+        });
+
+        const data = await response.json();
+        if (!response.ok || !data.success) {
+          setStatus("error");
+          setErrorMessage(data.message || "Failed to deliver message. Please try again.");
+          return;
+        }
+      }
+
+      setStatus("success");
+      form.reset();
     } catch {
       setStatus("error");
       setErrorMessage("Something went wrong. Please check your internet connection or email us directly at itsautovaly@gmail.com.");

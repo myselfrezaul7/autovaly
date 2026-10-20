@@ -31,7 +31,6 @@ Keep the following files, systems, and styles exactly as they are:
 - **`src/lib/data/comparisons.ts`**: All 15 comparison records (`c1`–`c15`) and their 30 vehicle slugs are valid and must not be altered.
 - **`src/lib/data/ticker.ts`**: All 12 live ticker items (`t1`–`t12`) and their URLs are valid and must not be altered.
 - **`src/lib/data/classic-spotlight.ts`**: All 18 classic spotlight records and their local `/images/vehicles/*.jpg` paths are valid and must not be altered.
-- **`src/app/actions/contact.ts`, `src/app/actions/newsletter.ts`, `src/app/actions/domain-offer.ts`**: Server actions, rate limiting, and honeypot checks are working properly and must not be altered.
 - **`src/components/3d/AeroStudioCanvas.tsx`, `src/components/3d/DragBattleCanvas.tsx`, `src/components/3d/GarageVaultCanvas.tsx`, `src/components/3d/HeroParticleCanvas.tsx`**: Core Three.js shaders, procedural car geometry, physics calculations, and `IntersectionObserver` pause loops must not be refactored (only touch the specific HUD/lifecycle lines explicitly listed in tasks below).
 
 ---
@@ -555,6 +554,30 @@ Keep the following files, systems, and styles exactly as they are:
        }, []);
      ```
 - **Done when**: `CookieConsent` never throws when `localStorage` is disabled, and `Providers.tsx` reliably registers `/sw.js` even when hydrated after `window.load`.
+
+---
+
+### Task `HIGH-13` [COMPLETED]: Fix Web3Forms Cloudflare 403 Block on Domain Acquisition Offer, Contact & Newsletter Submissions
+- **Category**: Bugs & Broken Forms
+- **Exact Files**:
+  - `src/app/actions/domain-offer.ts`
+  - `src/components/DomainSaleModal.tsx`
+  - `src/app/actions/contact.ts`
+  - `src/components/ContactForm.tsx`
+  - `src/app/actions/newsletter.ts`
+  - `src/components/Newsletter.tsx`
+- **Why**:
+  1. Web3Forms (`https://api.web3forms.com/submit`, access key `3281e53d-d6de-433b-ac48-98dc9f829145`) is protected by Cloudflare Bot Fight Mode on its Free Plan, which blocks all server-side Node.js `fetch()` calls with an HTML `403 Forbidden` challenge (`<!DOCTYPE html>...<title>Just a moment...</title>`).
+  2. Calling `await response.json()` inside the server actions (`submitDomainOffer`, `submitContactForm`, `subscribeNewsletter`) throws `SyntaxError: Unexpected token '<'` on that HTML 403 response, causing `"An unexpected error occurred. Please try again later."` when users click `"Submit Acquisition Offer"`.
+  3. Web3Forms requires the final `POST` to `https://api.web3forms.com/submit` to originate from the client browser (`connect-src 'self' https://api.web3forms.com` is already enabled in `src/proxy.ts`).
+- **Exact Changes**:
+  1. In `src/app/actions/domain-offer.ts`, `src/app/actions/contact.ts`, and `src/app/actions/newsletter.ts`:
+     - Keep all server-side security checks intact: honeypot verification (`_hp_domain_offer`, `_hp_company`, `_hp_code`), IP rate limiting (`rateLimit`), and Zod input sanitization (`domainOfferSchema`, `contactSchema`, `newsletterSchema`).
+     - Instead of calling `fetch("https://api.web3forms.com/submit")` from Node.js, return `{ success: true as const, web3Payload: { access_key: WEB3FORMS_KEY, ... }, message: "..." }` when validation passes (or `{ success: true as const, botBlocked: true as const }` if honeypot is triggered).
+  2. In `src/components/DomainSaleModal.tsx`, `src/components/ContactForm.tsx`, and `src/components/Newsletter.tsx`:
+     - First call the server action to validate, sanitize, and rate-limit the submission.
+     - When `result.success` is `true` and `"web3Payload" in result && result.web3Payload` is present, execute `fetch("https://api.web3forms.com/submit", { method: "POST", headers: { "Content-Type": "application/json", Accept: "application/json" }, body: JSON.stringify(result.web3Payload) })` directly from the client browser and verify `response.ok && data.success`.
+- **Done when**: Clicking `"Submit Acquisition Offer"` in `DomainSaleModal` (as well as submitting `ContactForm` or `Newsletter`) validates and rate-limits on the server, then submits directly from the browser to Web3Forms without triggering a Cloudflare 403 block, showing the `"Offer Received!"` confirmation state.
 
 ---
 

@@ -120,13 +120,34 @@ export default function DomainSaleModal() {
 
     try {
       const result = await submitDomainOffer(formData);
-      if (result.success) {
-        setSubmittedEmail(emailValue);
-        setStatus("success");
-      } else {
+      if (!result.success) {
         setStatus("error");
         setErrorMessage(result.error || "Unable to submit your proposal. Please try again.");
+        return;
       }
+
+      if ("web3Payload" in result && result.web3Payload) {
+        const response = await fetch("https://api.web3forms.com/submit", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify(result.web3Payload),
+        });
+
+        const data = await response.json();
+        if (!response.ok || !data.success) {
+          setStatus("error");
+          setErrorMessage(
+            data.message || "Unable to submit your proposal. Please try again or use direct email."
+          );
+          return;
+        }
+      }
+
+      setSubmittedEmail(emailValue);
+      setStatus("success");
     } catch (err: unknown) {
       setStatus("error");
       setErrorMessage(

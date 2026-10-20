@@ -6,15 +6,17 @@ import { logger } from "@/lib/logger";
 import { formatErrorResponse, ValidationError, RateLimitError } from "@/lib/errors";
 import { headers } from "next/headers";
 
-const WEB3FORMS_API = "https://api.web3forms.com/submit";
-const WEB3FORMS_KEY = process.env.WEB3FORMS_KEY || "3281e53d-d6de-433b-ac48-98dc9f829145";
+const WEB3FORMS_KEY =
+  process.env.NEXT_PUBLIC_WEB3FORMS_KEY ||
+  process.env.WEB3FORMS_KEY ||
+  "3281e53d-d6de-433b-ac48-98dc9f829145";
 
 export async function subscribeNewsletter(formData: FormData) {
   try {
     const honeypot = formData.get("_hp_code")?.toString();
     if (honeypot && honeypot.trim().length > 0) {
       logger.warn("Security warning: Bot detected via newsletter honeypot (_hp_code)", { honeypot });
-      return { success: true };
+      return { success: true as const, botBlocked: true as const };
     }
 
     const rawEmail = formData.get("email")?.toString() || "";
@@ -37,35 +39,18 @@ export async function subscribeNewsletter(formData: FormData) {
 
     const { email } = result.data;
 
-    // Submit to Web3Forms so you get the subscriber email in your inbox
-    const web3FormData = new FormData();
-    web3FormData.append("access_key", WEB3FORMS_KEY);
-    web3FormData.append("email", email);
-    web3FormData.append("from_name", "Autovaly Newsletter");
-    web3FormData.append("subject", `New Newsletter Subscriber: ${email}`);
-    web3FormData.append("message", `A new subscriber has joined the Autovaly newsletter.\n\nEmail: ${email}\nTimestamp: ${new Date().toISOString()}`);
-    // Anti-bot honeypot
-    web3FormData.append("botcheck", "");
-
-    const response = await fetch(WEB3FORMS_API, {
-      method: "POST",
-      body: web3FormData,
-    });
-
-    const data = await response.json();
-
-    if (!response.ok || !data.success) {
-      logger.warn("Web3Forms newsletter submission failed", { email, status: response.status, data });
-      return {
-        success: false as const,
-        error: data.message || "Subscription failed. Please try again.",
-      };
-    }
-
-    logger.info("Newsletter subscription successful", { email });
+    logger.info("Newsletter subscription validated for Web3Forms dispatch", { email });
 
     return {
       success: true as const,
+      web3Payload: {
+        access_key: WEB3FORMS_KEY,
+        email,
+        from_name: "Autovaly Newsletter",
+        subject: `New Newsletter Subscriber: ${email}`,
+        message: `A new subscriber has joined the Autovaly newsletter.\n\nEmail: ${email}\nTimestamp: ${new Date().toISOString()}`,
+        botcheck: "",
+      },
       message: "You're in! Welcome to the fast lane.",
     };
   } catch (error) {
