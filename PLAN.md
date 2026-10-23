@@ -581,6 +581,34 @@ Keep the following files, systems, and styles exactly as they are:
 
 ---
 
+### Task `CONTENT-01` [COMPLETED]: Comprehensive Vehicle, Autonomous Services & Editorial Expansion (Tesla, Porsche, Zeekr, Rivian, Waymo, Lucid, Polestar, XPeng)
+- **Category**: Content & Editorial Expansion / High-Resolution Local Assets
+- **Exact Files**:
+  - `public/images/vehicles/tesla-roadster.jpg`
+  - `public/images/vehicles/porsche-mission-x.jpg`
+  - `public/images/vehicles/zeekr-001-fr.jpg`
+  - `public/images/vehicles/rivian-r3x.jpg`
+  - `public/images/vehicles/waymo-zeekr-robotaxi.jpg`
+  - `public/images/vehicles/lucid-gravity.jpg`
+  - `public/images/vehicles/polestar-5.jpg`
+  - `public/images/vehicles/xpeng-p7-plus.jpg`
+  - `src/lib/data/vehicles-modern.ts`
+  - `src/lib/data/articles.ts`
+  - `src/lib/data/comparisons.ts`
+  - `src/lib/data/ev-spotlight.ts`
+  - `src/lib/data/ticker.ts`
+- **Why**:
+  User requested latest breakthrough content: Tesla Roadster, Porsche Mission X, Zeekr, Rivian, Waymo services, Lucid, Polestar, and XPeng, using only high-resolution manufacturer photography saved locally with zero external image dependencies.
+- **Exact Changes**:
+  1. Downloaded and converted official press/manufacturer unveiling photography into 1600x900 local JPEGs (~158KB-268KB) in `public/images/vehicles/`.
+  2. Added 8 new comprehensive vehicle records (`v75`–`v82`) to `src/lib/data/vehicles-modern.ts`.
+  3. Added 8 in-depth feature articles (`a38`–`a45`) to `src/lib/data/articles.ts` with telemetry specs, quotes, and image embeds.
+  4. Added 4 head-to-head comparisons (`c16`–`c19`) to `src/lib/data/comparisons.ts`.
+  5. Updated `src/lib/data/ev-spotlight.ts` (`ev8`–`ev11`) and `src/lib/data/ticker.ts` (`t13`–`t19`).
+- **Done when**: All 8 vehicles, 8 articles, and 4 comparisons render cleanly across `/vehicles`, `/articles`, `/compare`, `/evs`, and home, passing `npm run typecheck`, `npm run lint`, and `npm run build` with 0 errors.
+
+---
+
 ## Priority 2: Medium Priority Tasks (SEO, 360px/768px Responsiveness, Local Images & Accessibility)
 
 ---

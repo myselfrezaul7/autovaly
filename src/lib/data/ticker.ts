@@ -13,4 +13,11 @@ export const tickerHeadlines: TickerHeadline[] = [
   { id: "t10", text: "Ferrari begins customer deliveries of the 1,030 HP SF90 XX Stradale in Maranello", url: "/articles/ferrari-sf90-xx-stradale-review" },
   { id: "t11", text: "Rimac Nevera clocks 256 mph top-speed run with bespoke Michelin Cup 2R rubber", url: "/vehicles/rimac-nevera" },
   { id: "t12", text: "EU greenlights ultra-fast 400kW charging corridor across 12 European nations", url: "/articles/global-ev-tariffs-and-solid-state-shift" },
+  { id: "t13", text: "Tesla confirms next-gen Roadster target specifications with aerospace thruster technology", url: "/articles/tesla-roadster-spacex-package-hypercar-future", isLive: true },
+  { id: "t14", text: "Porsche Mission X electric hypercar concept targets all-time Nürburgring production record", url: "/articles/porsche-mission-x-hypercar-nurburgring-benchmark", isLive: true },
+  { id: "t15", text: "Waymo expands commercial driverless operations with purpose-built Zeekr SEA-M robotaxi fleet", url: "/articles/waymo-zeekr-ojai-commercial-robotaxi-service", isLive: true },
+  { id: "t16", text: "Zeekr 001 FR delivers 1,265 HP quad-motor torque vectoring with zero-radius tank turn", url: "/articles/zeekr-001-fr-quad-motor-hyper-ev-test" },
+  { id: "t17", text: "Rivian R3X tri-motor rally crossover captivates enthusiasts with sub-3s acceleration", url: "/articles/rivian-r3x-hot-hatch-rally-revolution" },
+  { id: "t18", text: "Polestar 5 reveals 884 HP bonded-aluminum monocoque chassis developed by UK motorsport team", url: "/articles/polestar-5-bonded-aluminum-super-gt" },
+  { id: "t19", text: "XPeng P7+ launches world's first AI-defined 800V fastback with 11.6 kWh benchmark efficiency", url: "/articles/xpeng-p7-plus-ai-defined-autonomous-sedan" },
 ];
