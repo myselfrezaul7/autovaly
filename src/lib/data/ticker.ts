@@ -20,4 +20,5 @@ export const tickerHeadlines: TickerHeadline[] = [
   { id: "t17", text: "Rivian R3X tri-motor rally crossover captivates enthusiasts with sub-3s acceleration", url: "/articles/rivian-r3x-hot-hatch-rally-revolution" },
   { id: "t18", text: "Polestar 5 reveals 884 HP bonded-aluminum monocoque chassis developed by UK motorsport team", url: "/articles/polestar-5-bonded-aluminum-super-gt" },
   { id: "t19", text: "XPeng P7+ launches world's first AI-defined 800V fastback with 11.6 kWh benchmark efficiency", url: "/articles/xpeng-p7-plus-ai-defined-autonomous-sedan" },
+  { id: "t20", text: "Porsche reveals Mission S mid-engine super sports car in Queens, NY honoring the 550 Spyder", url: "/articles/porsche-mission-s-super-sports-car-debut", isLive: true },
 ];

@@ -111,4 +111,14 @@ export const evSpotlightItems: EVSpotlightItem[] = [
     gradient: { from: "#334155", to: "#0f172a" },
     coverImage: "/images/vehicles/lucid-gravity.jpg",
   },
+  {
+    id: "ev12",
+    slug: "porsche-mission-s-super-sports-car-debut",
+    range: "Hybrid e-AWD",
+    chargingSpeed: "10-80% in 15m (150 kW)",
+    headline: "Porsche Mission S: Permanent Mid-Engine Flagship Revealed",
+    excerpt: "Channeling the 550 Spyder and Le Mans 917 with torpedo fenders, 1,088 hp hybrid power, and an analog purist cockpit.",
+    gradient: { from: "#c2410c", to: "#431407" },
+    coverImage: "/images/vehicles/porsche-mission-s.jpg",
+  },
 ];

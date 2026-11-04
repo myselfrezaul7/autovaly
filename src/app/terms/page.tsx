@@ -100,7 +100,7 @@ export default function TermsPage() {
               5. Contact Information
             </h2>
             <p>
-              For legal inquiries, copyright notices (DMCA), or syndication licensing, please contact our team at <a href="mailto:itsautovaly@gmail.com" className="text-accent underline font-bold">itsautovaly@gmail.com</a>.
+              For legal inquiries, copyright notices (DMCA), or syndication licensing, please contact our team at <a href="mailto:info@autovaly.com" className="text-accent underline font-bold">info@autovaly.com</a>.
             </p>
           </section>
         </div>

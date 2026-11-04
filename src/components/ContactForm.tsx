@@ -57,7 +57,7 @@ export default function ContactForm({ initialSubject }: { initialSubject?: strin
       form.reset();
     } catch {
       setStatus("error");
-      setErrorMessage("Something went wrong. Please check your internet connection or email us directly at itsautovaly@gmail.com.");
+      setErrorMessage("Something went wrong. Please check your internet connection or email us directly at info@autovaly.com.");
     }
   };
 
@@ -69,7 +69,7 @@ export default function ContactForm({ initialSubject }: { initialSubject?: strin
         </div>
         <h3 className="text-2xl font-bold font-heading mb-2 text-text-light">Message Delivered!</h3>
         <p className="text-sm text-text-muted mb-6 max-w-md">
-          Thank you for reaching out. Your message has been routed to our team at <strong className="text-text-light">itsautovaly@gmail.com</strong>. We will review your inquiry shortly.
+          Thank you for reaching out. Your message has been routed to our team at <strong className="text-text-light">info@autovaly.com</strong>. We will review your inquiry shortly.
         </p>
         <button
           type="button"

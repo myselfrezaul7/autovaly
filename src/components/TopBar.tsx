@@ -31,7 +31,7 @@ export default function TopBar() {
       {/* Marquee ticker */}
       <div
         className={`flex items-center whitespace-nowrap ticker-track will-change-transform motion-reduce:animate-none focus-within:[animation-play-state:paused] ${
-          isPaused ? "[animation-play-state:paused]" : "animate-[ticker_32s_linear_infinite]"
+          isPaused ? "[animation-play-state:paused]" : "animate-[ticker_75s_linear_infinite]"
         }`}
         onMouseEnter={() => setIsPaused(true)}
         onMouseLeave={() => setIsPaused(false)}

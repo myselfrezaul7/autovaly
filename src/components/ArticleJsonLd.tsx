@@ -29,7 +29,7 @@ export default function ArticleJsonLd({ article }: { article: Article }) {
       "@type": "Organization",
       name: "Autovaly",
       url: "https://autovaly.com",
-      email: "itsautovaly@gmail.com",
+      email: "info@autovaly.com",
       logo: {
         "@type": "ImageObject",
         url: "https://autovaly.com/og-image.png",

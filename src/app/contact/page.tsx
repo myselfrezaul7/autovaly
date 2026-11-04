@@ -5,17 +5,17 @@ import BreadcrumbJsonLd from "@/components/BreadcrumbJsonLd";
 
 export const metadata: Metadata = {
   title: "Contact Autovaly — Direct Inquiries & News Tips",
-  description: "Get in touch with the Autovaly team, submit automotive news tips, or discuss advertising and partnership opportunities at itsautovaly@gmail.com.",
+  description: "Get in touch with the Autovaly team, submit automotive news tips, or discuss advertising and partnership opportunities at info@autovaly.com.",
   openGraph: {
     title: "Contact Autovaly | Direct Inquiries & News Tips",
-    description: "Get in touch with the Autovaly team at itsautovaly@gmail.com.",
+    description: "Get in touch with the Autovaly team at info@autovaly.com.",
     url: "https://autovaly.com/contact",
     images: [{ url: "https://autovaly.com/og-image.png", width: 1200, height: 630, alt: "Contact Autovaly" }],
   },
   twitter: {
     card: "summary_large_image",
     title: "Contact Autovaly | Direct Inquiries & News Tips",
-    description: "Get in touch with the Autovaly team at itsautovaly@gmail.com.",
+    description: "Get in touch with the Autovaly team at info@autovaly.com.",
   },
   alternates: { canonical: "/contact" },
 };
@@ -48,7 +48,7 @@ export default async function ContactPage({
             Get In Touch
           </h1>
           <p className="text-base sm:text-lg text-text-muted max-w-2xl leading-relaxed">
-            Have an editorial tip, scoop, spy photo, partnership proposal, or vehicle spec correction? Send us a direct message below or email us directly at <strong className="text-text-light">itsautovaly@gmail.com</strong>.
+            Have an editorial tip, scoop, spy photo, partnership proposal, or vehicle spec correction? Send us a direct message below or email us directly at <strong className="text-text-light">info@autovaly.com</strong>.
           </p>
         </div>
 
@@ -72,11 +72,11 @@ export default async function ContactPage({
                 For general queries, business inquiries, editorial scoops, and corrections:
               </p>
               <a
-                href="mailto:itsautovaly@gmail.com"
-                aria-label="Send email to itsautovaly@gmail.com"
+                href="mailto:info@autovaly.com"
+                aria-label="Send email to info@autovaly.com"
                 className="text-base sm:text-lg font-bold text-accent hover:underline break-all block p-3 rounded-xl bg-accent/10 border border-accent/25 text-center"
               >
-                itsautovaly@gmail.com
+                info@autovaly.com
               </a>
             </div>
 

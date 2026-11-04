@@ -4,13 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import { m, AnimatePresence, useReducedMotion } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
-import dynamic from "next/dynamic";
 import { getHeroArticles, getCategoryTagColor, formatDate } from "@/lib/content";
-
-const HeroParticleCanvas = dynamic(
-  () => import("./3d/HeroParticleCanvas"),
-  { ssr: false }
-);
 
 export default function Hero() {
   const articles = getHeroArticles(4);
@@ -44,11 +38,6 @@ export default function Hero() {
       <div className="flex flex-col lg:flex-row w-full min-h-[540px] lg:min-h-[620px] relative">
         {/* Left Column: Visual Vehicle Showcase with Cyber Ambient Horizon & Telemetry */}
         <div className="relative flex-shrink-0 lg:w-[60%] min-h-[320px] sm:min-h-[380px] lg:min-h-[620px] overflow-hidden bg-gradient-to-br from-[#0c0e13] via-[#141822] to-[#0c0e13]">
-          {/* Cybernetic Velocity Ambient Particle Canvas */}
-          <div className="absolute inset-0 z-0 pointer-events-none opacity-40 mix-blend-screen">
-            <HeroParticleCanvas />
-          </div>
-
           <AnimatePresence mode="wait" initial={false}>
             <m.div
               key={currentArticle.id}

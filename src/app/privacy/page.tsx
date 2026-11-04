@@ -108,7 +108,7 @@ export default function PrivacyPage() {
               4. Contact Our Data Protection Officer
             </h2>
             <p>
-              If you have questions regarding this Privacy Policy or wish to exercise your data rights, please contact our team directly at <a href="mailto:itsautovaly@gmail.com" className="text-accent underline font-bold">itsautovaly@gmail.com</a>.
+              If you have questions regarding this Privacy Policy or wish to exercise your data rights, please contact our team directly at <a href="mailto:info@autovaly.com" className="text-accent underline font-bold">info@autovaly.com</a>.
             </p>
           </section>
         </div>

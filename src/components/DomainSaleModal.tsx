@@ -6,7 +6,7 @@ import { submitDomainOffer } from "@/app/actions/domain-offer";
 
 const STORAGE_KEY = "autovaly_domain_sale_dismissed";
 const PRESET_OFFERS = ["$5,000", "$10,000", "$25,000", "$50,000+"];
-const OFFICIAL_EMAIL = "itsautovaly@gmail.com";
+const OFFICIAL_EMAIL = "info@autovaly.com";
 
 export default function DomainSaleModal() {
   const [isOpen, setIsOpen] = useState(false);
