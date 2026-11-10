@@ -168,22 +168,22 @@ export default async function VehicleDetailPage({ params }: { params: Promise<{ 
               </ul>
             </section>
 
-            {/* Interactive 3D Aero Studio & Wind Tunnel */}
+            {/* Interactive Aero Studio & Wind Tunnel Telemetry */}
             <section>
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6">
                 <div>
                   <h2 className="text-2xl font-bold flex items-center gap-3">
                     <span className="w-8 h-1 bg-accent rounded-full inline-block"></span>
-                    Interactive 3D Aero Studio & Wind Tunnel
+                    Interactive Aero Studio & Wind Tunnel
                   </h2>
                   <p className="text-sm text-muted mt-1">
-                    Rotate 360°, customize paint finishes, inspect active hotspots, or run aerodynamic wind tunnel simulation.
+                    Simulate active aerodynamics, calculate high-speed downforce, inspect airflow channels, and test finish aerodynamics in real time.
                   </p>
                 </div>
                 <div className="flex items-center gap-2 self-start sm:self-center">
                   <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-accent/10 border border-accent/30 text-accent text-xs font-bold uppercase tracking-wider rounded-full">
                     <span className="w-2 h-2 rounded-full bg-accent animate-pulse"></span>
-                    WebGL 3D
+                    120Hz Telemetry
                   </span>
                 </div>
               </div>

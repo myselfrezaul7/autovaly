@@ -1,5 +1,4 @@
 import type { Metadata, Viewport } from "next";
-import { Barlow_Condensed, Inter } from "next/font/google";
 import "./globals.css";
 import Providers from "@/components/Providers";
 import JsonLd from "@/components/JsonLd";
@@ -12,20 +11,6 @@ import { ThemeScript } from "@/components/ThemeScript";
 import MobileNav from "@/components/ui/MobileNav";
 import CookieConsent from "@/components/ui/CookieConsent";
 import DomainSaleModal from "@/components/DomainSaleModal";
-
-const barlow = Barlow_Condensed({
-  variable: "--font-barlow",
-  subsets: ["latin"],
-  weight: ["600", "700", "800"],
-  display: "swap",
-});
-
-const inter = Inter({
-  variable: "--font-inter",
-  subsets: ["latin"],
-  weight: ["400", "500", "600"],
-  display: "swap",
-});
 
 export const viewport: Viewport = {
   themeColor: "#E82B2B",
@@ -89,7 +74,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${barlow.variable} ${inter.variable}`} suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning>
       <head>
         <ThemeScript />
       </head>

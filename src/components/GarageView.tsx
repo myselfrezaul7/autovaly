@@ -97,7 +97,7 @@ export default function GarageView() {
             My Saved Garage ({garage.length})
           </h2>
           <p className="text-xs text-text-muted mt-1">
-            Toggle between the interactive 3D Hypercar Vault or traditional grid fleet overview.
+            Toggle between the executive Hypercar Showcase or traditional fleet grid overview.
           </p>
         </div>
 
@@ -113,7 +113,7 @@ export default function GarageView() {
                   : "text-text-muted hover:text-text-light"
               }`}
             >
-              🏛️ 3D Vault
+              🏛️ Showcase
             </button>
             <button
               type="button"
