@@ -1,4 +1,6 @@
-import { getVehicleBySlug, getAllVehicles, getAllArticles, getCategoryTagColor } from "@/lib/content";
+import { getVehicleBySlug, getAllVehicles, getAllArticles, getCategoryTagColor, formatDate } from "@/lib/content";
+import { classicSpotlightItems } from "@/lib/data/classic-spotlight";
+import { getRelatedArticlesForVehicle } from "@/lib/dossier-links";
 import { notFound } from "next/navigation";
 import Price from "@/components/ui/Price";
 import Link from "next/link";
@@ -58,7 +60,7 @@ export default async function VehicleDetailPage({ params }: { params: Promise<{ 
   }
 
   const allArticles = getAllArticles();
-  const relatedArticles = allArticles.filter(a => a.segments.some(s => vehicle.segments.includes(s))).slice(0, 3);
+  const relatedArticles = getRelatedArticlesForVehicle(vehicle, allArticles, classicSpotlightItems, 3);
 
   const crumbs = [
     { name: "Home", url: "/" },
@@ -267,26 +269,80 @@ export default async function VehicleDetailPage({ params }: { params: Promise<{ 
 
       {relatedArticles.length > 0 && (
         <section className="container mx-auto px-4 md:px-6 py-16 border-t border-border-custom">
-          <h2 className="font-heading text-2xl uppercase tracking-wider pl-4 border-l-[5px] border-accent mb-8">Read More About This Segment</h2>
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
+            <div>
+              <div className="flex items-center gap-2 mb-2">
+                <span className="w-2 h-2 rounded-full bg-accent animate-pulse" />
+                <span className="text-[11px] font-extrabold uppercase tracking-widest text-accent">
+                  Autovaly Instrumented Road Tests & Coverage
+                </span>
+              </div>
+              <h2 className="font-heading text-2xl sm:text-3xl font-extrabold uppercase tracking-wider pl-4 border-l-[5px] border-accent text-text-light">
+                Featured Road Tests & Editorial Analysis
+              </h2>
+            </div>
+            <Link
+              href="/articles"
+              className="text-xs font-bold uppercase tracking-wider text-text-muted hover:text-accent transition-colors self-start sm:self-center"
+            >
+              All Editorial Stories →
+            </Link>
+          </div>
+
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {relatedArticles.map((a) => (
-              <Link key={a.id} href={`/articles/${a.slug}`} className="group bg-surface border border-border-custom rounded-md overflow-hidden transition-all duration-300 hover:-translate-y-1">
-                <div className="h-40 relative overflow-hidden">
+              <Link
+                key={a.id}
+                href={`/articles/${a.slug}`}
+                className="group bg-surface border border-border-custom rounded-2xl overflow-hidden transition-all duration-300 hover:-translate-y-1.5 hover:border-accent/60 hover:shadow-2xl shadow-lg flex flex-col will-change-transform"
+              >
+                <div className="h-48 relative overflow-hidden bg-black/40">
                   {a.coverImage ? (
                     <Image
                       src={a.coverImage}
                       alt={a.title}
                       fill
                       sizes="(max-width: 768px) 100vw, 33vw"
-                      className="object-cover group-hover:scale-105 transition-transform duration-500"
+                      className="object-cover group-hover:scale-105 transition-transform duration-500 will-change-transform"
                     />
                   ) : (
-                    <div className="absolute inset-0 transition-transform duration-500 group-hover:scale-105" style={{ backgroundImage: `linear-gradient(135deg, ${a.coverGradient.from}, ${a.coverGradient.to})` }} />
+                    <div
+                      className="absolute inset-0 transition-transform duration-500 group-hover:scale-105 will-change-transform"
+                      style={{ backgroundImage: `linear-gradient(135deg, ${a.coverGradient.from}, ${a.coverGradient.to})` }}
+                    />
                   )}
+                  <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-transparent to-transparent opacity-60" />
+                  <div className="absolute top-3 left-3">
+                    <span className={`inline-block text-[9px] font-extrabold uppercase tracking-widest rounded px-2.5 py-0.5 text-white ${getCategoryTagColor(a.category)}`}>
+                      {a.category}
+                    </span>
+                  </div>
                 </div>
-                <div className="p-5">
-                  <span className={`inline-block text-[10px] font-bold uppercase tracking-widest rounded-sm mb-2 text-white px-2 py-0.5 ${getCategoryTagColor(a.category)}`}>{a.category}</span>
-                  <h3 className="font-heading text-lg font-bold leading-tight group-hover:text-accent transition-colors">{a.title}</h3>
+
+                <div className="p-6 flex flex-col flex-1">
+                  <div className="flex items-center gap-2 text-xs text-text-muted mb-2.5 flex-wrap">
+                    <time dateTime={a.publishedAt}>{formatDate(a.publishedAt)}</time>
+                    <span>·</span>
+                    <span className="inline-flex items-center gap-1 text-accent font-semibold">
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                        <circle cx="12" cy="12" r="10" />
+                        <polyline points="12 6 12 12 16 14" />
+                      </svg>
+                      {a.readTime} read
+                    </span>
+                  </div>
+
+                  <h3 className="font-heading text-lg font-bold leading-snug group-hover:text-accent transition-colors line-clamp-2 mb-2">
+                    {a.title}
+                  </h3>
+                  <p className="text-xs text-text-muted line-clamp-2 mt-auto">
+                    {a.excerpt}
+                  </p>
+
+                  <div className="mt-4 pt-3 border-t border-border-custom/50 flex items-center justify-between text-xs font-bold text-accent group-hover:translate-x-1 transition-transform will-change-transform">
+                    <span>Read Road Test</span>
+                    <span>→</span>
+                  </div>
                 </div>
               </Link>
             ))}

@@ -1,66 +1,112 @@
-import { getArticlesByCategory, getCategoryTagColor, formatDate } from "@/lib/content";
+import { getArticlesByCategory, getAllVehicles } from "@/lib/content";
+import { evSpotlightItems } from "@/lib/data/ev-spotlight";
 import type { Metadata } from "next";
 import Breadcrumbs from "@/components/ui/Breadcrumbs";
 import BreadcrumbJsonLd from "@/components/BreadcrumbJsonLd";
 import ItemListJsonLd from "@/components/ItemListJsonLd";
-import ArticleCard from "@/components/ui/ArticleCard";
-import ScrollReveal from "@/components/ui/ScrollReveal";
+import EVClientHub from "@/components/EVClientHub";
 
-export const metadata: Metadata = { 
-  title: "Best Electric Vehicles 2026 — EV News, Reviews & Specs", 
-  description: "Discover the best electric vehicles of 2026. Expert EV reviews, range comparisons, charging guides, and breaking electric car news from Autovaly.",
+export const metadata: Metadata = {
+  title: "Electric Vehicles (EV) Hub 2026 — Range & Fast-Charging Command Center",
+  description: "Explore the ultimate 2026 EV Command Center. Compare range, 800V ultra-fast charging speeds, hypercar acceleration, and in-depth electric vehicle reviews.",
   openGraph: {
-    title: "Best Electric Vehicles 2026 — EV News, Reviews & Specs",
-    description: "Discover the best electric vehicles of 2026. Expert EV reviews, range comparisons, charging guides, and breaking electric car news from Autovaly.",
+    title: "Electric Vehicles (EV) Hub 2026 — Range & Fast-Charging Command Center | Autovaly",
+    description: "Compare range, 800V ultra-fast charging speeds, hypercar acceleration, and in-depth EV reviews from Autovaly.",
     url: "https://autovaly.com/evs",
-    images: [{ url: "/og-image.png", width: 1200, height: 630, alt: "Autovaly" }],
+    images: [{ url: "/og-image.png", width: 1200, height: 630, alt: "Autovaly EV Command Center" }],
   },
-  alternates: { canonical: "/evs" }
+  twitter: {
+    card: "summary_large_image",
+    title: "Electric Vehicles (EV) Hub 2026 — Range & Fast-Charging Command Center",
+    description: "Compare range, 800V ultra-fast charging speeds, hypercar acceleration, and in-depth electric vehicle reviews.",
+    images: ["/og-image.png"],
+  },
+  alternates: { canonical: "/evs" },
 };
 
 export default function EVsPage() {
   const articles = getArticlesByCategory("EV");
+  const allVehicles = getAllVehicles();
   
+  // Filter for pure electric and high-capacity EV fleet
+  const evVehicles = allVehicles.filter(
+    (v) => v.fuelType === "BEV" || (v.evSpecs && v.evSpecs.rangeKm >= 150) || v.segments.includes("EVs")
+  );
+
   const crumbs = [
     { name: "Home", url: "/" },
-    { name: "Electric Vehicles", url: "/evs" }
+    { name: "Electric Vehicles", url: "/evs" },
   ];
 
-  const itemList = articles.map((a, i) => ({
-    position: i + 1,
-    name: a.title,
-    url: `https://autovaly.com/articles/${a.slug}`,
-  }));
+  const itemList = [
+    ...evVehicles.slice(0, 15).map((v, i) => ({
+      position: i + 1,
+      name: `${v.year} ${v.make} ${v.model} ${v.trim}`,
+      url: `/vehicles/${v.slug}`,
+    })),
+    ...articles.slice(0, 10).map((a, i) => ({
+      position: 16 + i,
+      name: a.title,
+      url: `/articles/${a.slug}`,
+    })),
+  ];
+
+  const collectionPageSchema = {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    name: "Electric Vehicle (EV) Command Center 2026",
+    description: "Explore the comprehensive 2026 EV fleet, real-time range & 800V fast-charging comparison matrix, and in-depth electric automotive journalism.",
+    url: "https://autovaly.com/evs",
+    about: {
+      "@type": "Thing",
+      name: "Electric Vehicles",
+      description: "Battery electric vehicles (BEV), 800V fast-charging architecture, electric hypercars, and electric SUVs.",
+    },
+    mainEntity: {
+      "@type": "ItemList",
+      itemListElement: evVehicles.slice(0, 12).map((v, i) => ({
+        "@type": "ListItem",
+        position: i + 1,
+        name: `${v.year} ${v.make} ${v.model}`,
+        url: `https://autovaly.com/vehicles/${v.slug}`,
+      })),
+    },
+  };
 
   return (
-    <main id="main-content" className="min-h-screen bg-background text-text-light">
+    <main id="main-content" className="min-h-screen bg-background text-text-light py-10 md:py-14">
+      {/* JSON-LD Schemas */}
       <BreadcrumbJsonLd crumbs={crumbs} />
       <ItemListJsonLd items={itemList} />
-      <div className="container mx-auto px-4 md:px-6 py-12">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(collectionPageSchema) }}
+      />
+
+      <div className="container mx-auto px-4 md:px-6">
         <Breadcrumbs crumbs={crumbs} />
-        <h1 className="font-heading text-4xl md:text-5xl font-bold uppercase tracking-wider pl-4 border-l-4 border-accent mb-10">
-          ⚡ Electric Vehicles
-        </h1>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {articles.map((article, idx) => (
-            <ScrollReveal key={article.id} delay={0.08 * Math.min(idx, 6)}>
-              <ArticleCard 
-                slug={article.slug}
-                tag={article.category}
-                tagColorClass={getCategoryTagColor(article.category)}
-                headline={article.title}
-                excerpt={article.excerpt}
-                author={article.author.name}
-                date={formatDate(article.publishedAt)}
-                readTime={article.readTime}
-                gradientFrom={article.coverGradient.from}
-                gradientTo={article.coverGradient.to}
-                coverImage={article.coverImage}
-              />
-            </ScrollReveal>
-          ))}
-        </div>
-        {articles.length === 0 && <p className="text-muted text-lg text-center py-20">No EV articles yet.</p>}
+
+        {/* Page Hero Header */}
+        <header className="mb-10 pb-6 border-b border-border-custom">
+          <div className="flex items-center gap-2 mb-3">
+            <span className="text-xs font-extrabold uppercase tracking-widest text-[#00D2D3] bg-[#00D2D3]/10 px-3 py-1 rounded-full border border-[#00D2D3]/25 inline-flex items-center gap-1.5">
+              <span>⚡</span> Zero-Emissions Propulsion & 800V Architecture
+            </span>
+          </div>
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-heading font-extrabold tracking-tight leading-tight mb-4">
+            Electric Vehicles <span className="text-[#00D2D3]">Command Center</span>
+          </h1>
+          <p className="text-base sm:text-lg text-text-muted max-w-3xl leading-relaxed">
+            The definitive 2026 EV telemetry guide: benchmarking WLTP range endurance, 800V ultra-fast charging curves, and sub-2s hypercar engineering across the global electric vehicle fleet.
+          </p>
+        </header>
+
+        {/* Interactive 120Hz EV Client Hub */}
+        <EVClientHub
+          vehicles={evVehicles}
+          spotlightItems={evSpotlightItems}
+          articles={articles}
+        />
       </div>
     </main>
   );

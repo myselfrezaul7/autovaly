@@ -1,9 +1,11 @@
-import { getArticleBySlug, getAllArticles, getRelatedArticles, getCategoryTagColor, formatDate } from "@/lib/content";
+import { getArticleBySlug, getAllArticles, getRelatedArticles, getCategoryTagColor, formatDate, getAllVehicles } from "@/lib/content";
 import { classicSpotlightItems } from "@/lib/data/classic-spotlight";
+import { getMatchingVehicleForArticle } from "@/lib/dossier-links";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import ArticleBody from "@/components/ArticleBody";
+import ArticleVehicleDossier from "@/components/ArticleVehicleDossier";
 import SocialShare from "@/components/ui/SocialShare";
 import Breadcrumbs from "@/components/ui/Breadcrumbs";
 import BreadcrumbJsonLd from "@/components/BreadcrumbJsonLd";
@@ -68,6 +70,8 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
   const related = getRelatedArticles(article.id);
   const tagColor = getCategoryTagColor(article.category);
   const isClassic = classicSpotlightItems.some((c) => c.slug === article.slug);
+  const allVehicles = getAllVehicles();
+  const matchingVehicle = getMatchingVehicleForArticle(article, allVehicles);
 
   const crumbs = [
     { name: "Home", url: "/" },
@@ -131,12 +135,23 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
               </div>
 
               <ArticleBody content={article.body} readTime={article.readTime} />
+
+              {/* In-Article Featured Vehicle Dossier & 120Hz Telemetry */}
+              {matchingVehicle && (
+                <ArticleVehicleDossier vehicle={matchingVehicle} variant="body" />
+              )}
+
               <SocialShare url={`https://autovaly.com/articles/${article.slug}`} title={article.title} />
             </div>
 
             {/* Sidebar Column: Table of Contents & Quick Meta */}
             <aside className="hidden lg:block lg:col-span-4 sticky top-24 space-y-6">
               <TableOfContents content={article.body} />
+
+              {/* Sidebar Featured Vehicle Dossier & 120Hz Telemetry Card */}
+              {matchingVehicle && (
+                <ArticleVehicleDossier vehicle={matchingVehicle} variant="sidebar" />
+              )}
 
               {/* Author Credibility Card */}
               <div className="p-6 rounded-2xl bg-surface border border-border-custom shadow-lg text-xs">
